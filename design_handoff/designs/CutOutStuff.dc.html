@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+*{caret-color:transparent}
+input,textarea,select,[contenteditable="true"]{caret-color:#17191C}
+html{scroll-behavior:smooth}
+body{margin:0;background:#F5F6F7;color:#17191C;font-family:'Schibsted Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:#345B6B;color:#fff}
+summary{list-style:none;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+input,select,textarea,button{font-family:inherit}
+@keyframes fadeUp{from{transform:translateY(10px)}to{transform:none}}
+@keyframes cosBlink{0%,55%{opacity:1}56%,100%{opacity:0}}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible,summary:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #345B6B;outline-offset:3px;border-radius:2px}
+.cos-burger{display:none;align-items:center;justify-content:center}
+@media (max-width:760px){
+  .cos-desktop-nav{display:none !important}
+  .cos-burger{display:flex !important}
+}
+</style>
+</helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#EEF1F2"/><rect x="30" y="22" width="40" height="56" rx="2" fill="#345B6B"/><text x="50" y="92" font-family="monospace" font-size="9" fill="#17191C" text-anchor="middle">CutOut</text></svg></template>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+<header style="position:sticky;top:0;z-index:60;background:rgba(245,246,247,0.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(23,25,28,0.08)">
+  <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);height:70px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <a onClick="{{ nav.home }}" tabindex="0" aria-label="CutOutStuff home" style="cursor:pointer;text-decoration:none;font-weight:600;letter-spacing:-0.025em;font-size:20px;color:#17191C;white-space:nowrap">CutOutStuff<span style="color:#345B6B">.</span></a>
+    <nav class="cos-desktop-nav" aria-label="Primary" style="display:flex;align-items:center;gap:clamp(14px,2.4vw,30px);flex-wrap:wrap;justify-content:flex-end">
+      <sc-for list="{{ topnav }}" as="item" hint-placeholder-count="5">
+        <a onClick="{{ item.onClick }}" tabindex="0" style="{{ item.style }}">{{ item.label }}</a>
+      </sc-for>
+      <sc-if value="{{ cartHasItems }}" hint-placeholder-val="{{ false }}"><a onClick="{{ nav.cart }}" tabindex="0" style="cursor:pointer;text-decoration:none;font-size:14px;color:#17191C;padding-bottom:3px;border-bottom:1px solid transparent">Cart ({{ cartCount }})</a></sc-if>
+      <a onClick="{{ nav.contact }}" tabindex="0" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:11px 20px;border-radius:2px;font-size:14px;font-weight:500;white-space:nowrap">Start a Project</a>
+    </nav>
+    <button onClick="{{ toggleMenu }}" class="cos-burger" aria-label="Open menu" aria-expanded="{{ menuOpen }}" style="width:42px;height:42px;background:transparent;border:1px solid rgba(23,25,28,0.16);border-radius:2px;cursor:pointer;flex-direction:column;gap:4px;padding:0">
+      <span style="display:block;width:18px;height:1.5px;background:#17191C"></span>
+      <span style="display:block;width:18px;height:1.5px;background:#17191C"></span>
+      <span style="display:block;width:18px;height:1.5px;background:#17191C"></span>
+    </button>
+  </div>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <nav aria-label="Mobile" style="border-top:1px solid rgba(23,25,28,0.08);background:#F5F6F7;padding:12px clamp(20px,5vw,40px) 20px;display:flex;flex-direction:column;gap:4px">
+    <sc-for list="{{ mobileNav }}" as="item" hint-placeholder-count="5">
+      <a onClick="{{ item.onClick }}" tabindex="0" style="cursor:pointer;text-decoration:none;font-size:16px;color:#17191C;padding:12px 4px;border-bottom:1px solid rgba(23,25,28,0.06)">{{ item.label }}</a>
+    </sc-for>
+    <sc-if value="{{ cartHasItems }}" hint-placeholder-val="{{ false }}"><a onClick="{{ nav.cart }}" tabindex="0" style="cursor:pointer;text-decoration:none;font-size:16px;color:#17191C;padding:12px 4px;border-bottom:1px solid rgba(23,25,28,0.06)">Cart ({{ cartCount }})</a></sc-if>
+    <a onClick="{{ closeAndContact }}" tabindex="0" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:14px;border-radius:2px;font-size:15px;font-weight:500;text-align:center;margin-top:10px">Start a Project</a>
+  </nav>
+  </sc-if>
+</header>
+
+<main style="flex:1">
+
+<sc-if value="{{ P.home }}" hint-placeholder-val="{{ true }}">
+<div style="animation:fadeUp .5s ease both">
+
+  <section style="padding:clamp(64px,9vw,128px) 0 clamp(40px,5vw,64px)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);text-align:center">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:26px">Life-size cutouts made simple</div>
+      <h1 aria-label="Bring them into the room." style="font-size:clamp(40px,6.5vw,80px);line-height:1.05;letter-spacing:-0.03em;font-weight:500;margin:0 auto;max-width:20ch;min-height:2.1em;display:flex;align-items:center;justify-content:center"><span>{{ heroTypewriter }}</span></h1>
+      <p style="font-size:clamp(16px,1.5vw,19px);line-height:1.6;color:#71767C;max-width:60ch;margin:26px auto 0">We turn pets, people, creators, mascots, and characters into premium life-size cutouts, so anyone worth celebrating can actually be there.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:36px">
+        <a onClick="{{ nav.contact }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:15px 28px;border-radius:2px;font-size:15px;font-weight:500">Start a Project</a>
+        <a onClick="{{ nav.how }}" style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:transparent;color:#17191C;padding:15px 28px;border-radius:2px;font-size:15px;font-weight:500;border:1px solid rgba(23,25,28,0.18)">See How It Works</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:0 0 clamp(48px,6vw,80px)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(8px,1vw,14px)">
+        <div style-hover="transform:scale(1.02);border-color:rgba(23,25,28,0.28);box-shadow:0 14px 28px rgba(23,25,28,0.10)" style="transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;position:relative;aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px;min-width:0">
+          <span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// dog</span>
+        </div>
+        <div style-hover="transform:translateY(clamp(-24px,-3vw,-8px)) scale(1.02);border-color:rgba(23,25,28,0.28);box-shadow:0 14px 28px rgba(23,25,28,0.10)" style="transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;position:relative;aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px;min-width:0;transform:translateY(clamp(-24px,-3vw,-8px))">
+          <span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// grandmother</span>
+        </div>
+        <div style-hover="transform:scale(1.02);border-color:rgba(23,25,28,0.28);box-shadow:0 14px 28px rgba(23,25,28,0.10)" style="transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;position:relative;aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px;min-width:0">
+          <span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// stylish man</span>
+        </div>
+        <div style-hover="transform:translateY(clamp(-24px,-3vw,-8px)) scale(1.02);border-color:rgba(23,25,28,0.28);box-shadow:0 14px 28px rgba(23,25,28,0.10)" style="transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;position:relative;aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px;min-width:0;transform:translateY(clamp(-24px,-3vw,-8px))">
+          <span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// fashion creator</span>
+        </div>
+        <div style-hover="transform:scale(1.02);border-color:rgba(23,25,28,0.28);box-shadow:0 14px 28px rgba(23,25,28,0.10)" style="transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;position:relative;aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px;min-width:0">
+          <span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// mascot</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-top:1px solid rgba(23,25,28,0.09);border-bottom:1px solid rgba(23,25,28,0.09)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:clamp(22px,3vw,32px) clamp(20px,5vw,40px);display:flex;flex-wrap:wrap;gap:clamp(16px,3vw,44px);justify-content:space-between;align-items:center">
+      <span style="font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:0.04em;color:#4A5056">Life-size printing</span>
+      <span style="font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:0.04em;color:#4A5056">Precision cutting</span>
+      <span style="font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:0.04em;color:#4A5056">Premium materials</span>
+      <span style="font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:0.04em;color:#4A5056">Careful packaging</span>
+      <span style="font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:0.04em;color:#4A5056">Ships worldwide</span>
+    </div>
+  </section>
+
+  <section style="position:relative;overflow:hidden;padding:clamp(56px,8vw,110px) 0;background:radial-gradient(120% 90% at 12% 0%,#E7ECEE 0%,rgba(231,236,238,0) 55%),radial-gradient(90% 80% at 88% 100%,#DFE8EA 0%,rgba(223,232,234,0) 60%),linear-gradient(180deg,#EEF1F2 0%,#E9EDEF 100%)">
+    <canvas id="how-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none"></canvas>
+    <div style="position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#F5F6F7 0%,rgba(245,246,247,0) 14%,rgba(245,246,247,0) 86%,#F5F6F7 100%)"></div>
+    <div style="position:relative;z-index:1;width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:clamp(32px,5vw,56px)">
+        <div>
+          <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:16px">How It Works</div>
+          <h2 style="font-size:clamp(28px,4vw,46px);line-height:1.05;letter-spacing:-0.02em;font-weight:500;margin:0;max-width:16ch">From a single image to a finished cutout.</h2>
+        </div>
+        <a onClick="{{ nav.how }}" style-hover="color:#345B6B;border-bottom-color:#345B6B" style="transition:color .18s ease,border-color .18s ease;cursor:pointer;text-decoration:none;font-size:14px;color:#17191C;border-bottom:1px solid #17191C;padding-bottom:3px;white-space:nowrap">Full process →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(23,25,28,0.09);border:1px solid rgba(23,25,28,0.09)">
+        <div style="background:#FBFCFC;padding:clamp(24px,3vw,36px)"><div style="font-family:'Space Mono',monospace;font-size:13px;color:#345B6B;margin-bottom:20px">01</div><h3 style="font-size:19px;font-weight:600;margin:0 0 10px;letter-spacing:-0.01em">Upload or approve artwork</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">Send us the image or approve a concept. Any high-resolution photo works.</p></div>
+        <div style="background:#FBFCFC;padding:clamp(24px,3vw,36px)"><div style="font-family:'Space Mono',monospace;font-size:13px;color:#345B6B;margin-bottom:20px">02</div><h3 style="font-size:19px;font-weight:600;margin:0 0 10px;letter-spacing:-0.01em">We prepare the print file</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">Background removal, color checks, and scale set for a clean life-size result.</p></div>
+        <div style="background:#FBFCFC;padding:clamp(24px,3vw,36px)"><div style="font-family:'Space Mono',monospace;font-size:13px;color:#345B6B;margin-bottom:20px">03</div><h3 style="font-size:19px;font-weight:600;margin:0 0 10px;letter-spacing:-0.01em">Printed &amp; precision-cut</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">Produced on premium rigid material and contour-cut to the exact silhouette.</p></div>
+        <div style="background:#FBFCFC;padding:clamp(24px,3vw,36px)"><div style="font-family:'Space Mono',monospace;font-size:13px;color:#345B6B;margin-bottom:20px">04</div><h3 style="font-size:19px;font-weight:600;margin:0 0 10px;letter-spacing:-0.01em">Packed &amp; shipped</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">Carefully packed in plain, protective packaging and shipped with tracking.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#EEF0F1;padding:clamp(56px,8vw,110px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,64px);align-items:center">
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:16px">Quality</div>
+        <h2 style="font-size:clamp(28px,4vw,46px);line-height:1.05;letter-spacing:-0.02em;font-weight:500;margin:0 0 20px;max-width:18ch">Built to be displayed, not thrown away.</h2>
+        <p style="font-size:17px;line-height:1.65;color:#565C62;margin:0 0 28px;max-width:48ch">Rigid backing, color-checked printing, and precision contour cuts. Every cutout is built to stand in a real space, and stay there.</p>
+        <a onClick="{{ nav.quality }}" style-hover="color:#345B6B;border-bottom-color:#345B6B" style="transition:color .18s ease,border-color .18s ease;cursor:pointer;text-decoration:none;font-size:14px;color:#17191C;border-bottom:1px solid #17191C;padding-bottom:3px">Materials &amp; finish →</a>
+      </div>
+      <div style-hover="transform:scale(1.02);border-color:rgba(23,25,28,0.28);box-shadow:0 14px 28px rgba(23,25,28,0.10)" style="transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;position:relative;aspect-ratio:4/3;background:repeating-linear-gradient(45deg,#E1E5E7 0 10px,#E9ECEE 10px 20px);border:1px solid rgba(23,25,28,0.1);display:flex;align-items:flex-end;padding:16px">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:#7C838A;background:#EEF0F1;padding:5px 8px;border:1px solid rgba(23,25,28,0.08)">// detail shot, material edge / contour cut</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:clamp(56px,8vw,110px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:16px">Occasions</div>
+      <h2 style="font-size:clamp(28px,4vw,46px);line-height:1.05;letter-spacing:-0.02em;font-weight:500;margin:0 0 clamp(32px,5vw,52px);max-width:16ch">Made for moments.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:rgba(23,25,28,0.09);border:1px solid rgba(23,25,28,0.09)">
+        <div style="background:#FBFCFC;padding:26px 22px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Pets</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Make your dog the guest of honor.</p></div>
+        <div style="background:#FBFCFC;padding:26px 22px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Gifts</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Surprise someone with themselves.</p></div>
+        <div style="background:#FBFCFC;padding:26px 22px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Weddings &amp; events</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Bring someone who can't be there.</p></div>
+        <div style="background:#FBFCFC;padding:26px 22px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Creators</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Let fans bring you into their space.</p></div>
+        <div style="background:#FBFCFC;padding:26px 22px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Retail displays</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Stop people in their tracks.</p></div>
+        <div style="background:#FBFCFC;padding:26px 22px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Brand activations</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Put your mascot where customers are.</p></div>
+        <div style="background:#FBFCFC;padding:26px 22px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Collectibles</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Fandom you can stand next to.</p></div>
+        <div style="background:#FBFCFC;padding:26px 22px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Characters</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Make the mascot real.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:0 0 clamp(64px,9vw,120px)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="background:#17191C;color:#fff;padding:clamp(40px,6vw,80px) clamp(28px,5vw,72px);display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;align-items:center">
+        <div>
+          <h2 style="font-size:clamp(26px,3.5vw,40px);line-height:1.08;letter-spacing:-0.02em;font-weight:500;margin:0;max-width:20ch">Who deserves to be larger than life?</h2>
+          <p style="font-size:16px;color:rgba(255,255,255,0.6);margin:14px 0 0;max-width:44ch">Single cutout or a full campaign, tell us who should be in the room.</p>
+        </div>
+        <a onClick="{{ nav.contact }}" style-hover="transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,0.28)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#fff;color:#17191C;padding:15px 28px;border-radius:2px;font-size:15px;font-weight:600;white-space:nowrap">Start a Project</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ P.how }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(56px,8vw,104px) 0 clamp(32px,4vw,48px);border-bottom:1px solid rgba(23,25,28,0.09)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:18px">How It Works</div>
+      <h1 style="font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-0.025em;font-weight:500;margin:0;max-width:18ch">Send us the image. We handle everything else.</h1>
+      <p style="font-size:clamp(16px,1.4vw,19px);line-height:1.6;color:#71767C;max-width:58ch;margin:22px 0 0">Whether it's a single cutout or a full campaign shipped to hundreds of customers, the process is the same four simple steps.</p>
+    </div>
+  </section>
+
+  <section style="padding:clamp(48px,7vw,96px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(24px,3vw,40px)">
+      <div style="border:1px solid rgba(23,25,28,0.12);padding:clamp(28px,3vw,40px)">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:16px">Individual orders</div>
+        <h2 style="font-size:clamp(22px,2.4vw,28px);font-weight:500;letter-spacing:-0.015em;margin:0 0 12px;line-height:1.15">One image, one finished cutout.</h2>
+        <p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px">Send us the image. We turn it into a finished life-size cutout and ship it directly to you or to whoever it's a gift for.</p>
+        <a onClick="{{ nav.contact }}" style-hover="color:#345B6B;border-bottom-color:#345B6B" style="transition:color .18s ease,border-color .18s ease;cursor:pointer;text-decoration:none;font-size:14px;color:#17191C;border-bottom:1px solid #17191C;padding-bottom:3px">Start a single order →</a>
+      </div>
+      <div style="border:1px solid rgba(23,25,28,0.12);padding:clamp(28px,3vw,40px)">
+        <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:16px">Campaigns</div>
+        <h2 style="font-size:clamp(22px,2.4vw,28px);font-weight:500;letter-spacing:-0.015em;margin:0 0 12px;line-height:1.15">Many orders, shipped directly.</h2>
+        <p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px">Need multiple orders shipped directly to customers? We can support custom order pages and direct fulfillment, so you never touch inventory or shipping.</p>
+        <a onClick="{{ nav.program }}" style-hover="color:#345B6B;border-bottom-color:#345B6B" style="transition:color .18s ease,border-color .18s ease;cursor:pointer;text-decoration:none;font-size:14px;color:#17191C;border-bottom:1px solid #17191C;padding-bottom:3px">Explore campaigns →</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#EEF0F1;padding:clamp(56px,8vw,104px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <h2 style="font-size:clamp(24px,3vw,36px);font-weight:500;letter-spacing:-0.02em;margin:0 0 clamp(32px,4vw,52px)">The process</h2>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,56px);padding:clamp(22px,3vw,32px) 0;border-top:1px solid rgba(23,25,28,0.14);align-items:baseline">
+          <div style="font-family:'Space Mono',monospace;font-size:clamp(20px,3vw,30px);color:#345B6B">01</div>
+          <div><h3 style="font-size:clamp(19px,2vw,24px);font-weight:500;margin:0 0 8px;letter-spacing:-0.01em">Submit artwork or campaign details</h3><p style="font-size:15.5px;line-height:1.6;color:#71767C;margin:0;max-width:60ch">Upload a high-resolution image or share a link. For campaigns, tell us the concept, quantity, and launch date.</p></div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,56px);padding:clamp(22px,3vw,32px) 0;border-top:1px solid rgba(23,25,28,0.14);align-items:baseline">
+          <div style="font-family:'Space Mono',monospace;font-size:clamp(20px,3vw,30px);color:#345B6B">02</div>
+          <div><h3 style="font-size:clamp(19px,2vw,24px);font-weight:500;margin:0 0 8px;letter-spacing:-0.01em">We review print quality</h3><p style="font-size:15.5px;line-height:1.6;color:#71767C;margin:0;max-width:60ch">We check resolution, remove the background if needed, color-correct, and set scale for a clean life-size result, then send a proof.</p></div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,56px);padding:clamp(22px,3vw,32px) 0;border-top:1px solid rgba(23,25,28,0.14);align-items:baseline">
+          <div style="font-family:'Space Mono',monospace;font-size:clamp(20px,3vw,30px);color:#345B6B">03</div>
+          <div><h3 style="font-size:clamp(19px,2vw,24px);font-weight:500;margin:0 0 8px;letter-spacing:-0.01em">We produce the cutout</h3><p style="font-size:15.5px;line-height:1.6;color:#71767C;margin:0;max-width:60ch">Printed on premium rigid material and precision contour-cut to the exact silhouette, with a stand included.</p></div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,56px);padding:clamp(22px,3vw,32px) 0;border-top:1px solid rgba(23,25,28,0.14);border-bottom:1px solid rgba(23,25,28,0.14);align-items:baseline">
+          <div style="font-family:'Space Mono',monospace;font-size:clamp(20px,3vw,30px);color:#345B6B">04</div>
+          <div><h3 style="font-size:clamp(19px,2vw,24px);font-weight:500;margin:0 0 8px;letter-spacing:-0.01em">We ship directly to the customer</h3><p style="font-size:15.5px;line-height:1.6;color:#71767C;margin:0;max-width:60ch">Packed carefully in plain, protective packaging and shipped with tracking, to you, or straight to each of your customers.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:clamp(56px,8vw,104px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);text-align:center">
+      <h2 style="font-size:clamp(24px,3.2vw,40px);font-weight:500;letter-spacing:-0.02em;margin:0 auto 24px;max-width:22ch">Ready to see yours come to life?</h2>
+      <a onClick="{{ nav.contact }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:15px 28px;border-radius:2px;font-size:15px;font-weight:500;display:inline-block">Start a Project</a>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.quality }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(56px,8vw,104px) 0 clamp(32px,4vw,48px);border-bottom:1px solid rgba(23,25,28,0.09)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:18px">Quality &amp; Materials</div>
+      <h1 style="font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-0.025em;font-weight:500;margin:0;max-width:16ch">Made to be displayed, not thrown away.</h1>
+      <p style="font-size:clamp(16px,1.4vw,19px);line-height:1.6;color:#71767C;max-width:58ch;margin:22px 0 0">Every cutout is built like a display piece, the kind you'd put in a living room, a shop window, or a booth and leave standing for months.</p>
+    </div>
+  </section>
+
+  <section style="padding:clamp(48px,7vw,96px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,5vw,72px);align-items:start">
+      <div style="position:relative;aspect-ratio:4/5;background:repeating-linear-gradient(45deg,#E1E5E7 0 11px,#E9ECEE 11px 22px);border:1px solid rgba(23,25,28,0.1);display:flex;align-items:flex-end;padding:16px;position:sticky;top:100px">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:#7C838A;background:#F5F6F7;padding:5px 8px;border:1px solid rgba(23,25,28,0.08)">// material &amp; finish shot, rigid board, matte surface</span>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <div style="padding:22px 0;border-bottom:1px solid rgba(23,25,28,0.1)"><h3 style="font-size:18px;font-weight:600;margin:0 0 6px">Premium print quality</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">High-resolution printing with sharp detail and true-to-life color.</p></div>
+        <div style="padding:22px 0;border-bottom:1px solid rgba(23,25,28,0.1)"><h3 style="font-size:18px;font-weight:600;margin:0 0 6px">Rigid backing &amp; standee material</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">Thick, warp-resistant board with a folding stand that holds its shape.</p></div>
+        <div style="padding:22px 0;border-bottom:1px solid rgba(23,25,28,0.1)"><h3 style="font-size:18px;font-weight:600;margin:0 0 6px">Life-size scale options</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">From tabletop to over six feet, sized to the real subject.</p></div>
+        <div style="padding:22px 0;border-bottom:1px solid rgba(23,25,28,0.1)"><h3 style="font-size:18px;font-weight:600;margin:0 0 6px">Precision contour cutting</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">Cut to the exact silhouette, no clumsy rectangular borders.</p></div>
+        <div style="padding:22px 0;border-bottom:1px solid rgba(23,25,28,0.1)"><h3 style="font-size:18px;font-weight:600;margin:0 0 6px">Color-checked production</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">Every run is reviewed against the approved proof before it ships.</p></div>
+        <div style="padding:22px 0;border-bottom:1px solid rgba(23,25,28,0.1)"><h3 style="font-size:18px;font-weight:600;margin:0 0 6px">Protective packaging</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">Corner-protected and rigid-boxed to survive large-format shipping.</p></div>
+        <div style="padding:22px 0"><h3 style="font-size:18px;font-weight:600;margin:0 0 6px">Plain, discreet packaging available</h3><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0">Ships in unbranded protective packaging on request.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#17191C;color:#fff;padding:clamp(48px,7vw,88px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:clamp(28px,4vw,48px)">
+      <div><div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#8FB4C4;margin-bottom:10px">Scale</div><div style="font-size:clamp(22px,2.4vw,28px);font-weight:500">24 in – 7 ft</div></div>
+      <div><div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#8FB4C4;margin-bottom:10px">Finish</div><div style="font-size:clamp(22px,2.4vw,28px);font-weight:500">Matte, anti-glare</div></div>
+      <div><div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#8FB4C4;margin-bottom:10px">Stand</div><div style="font-size:clamp(22px,2.4vw,28px);font-weight:500">Included</div></div>
+      <div><div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#8FB4C4;margin-bottom:10px">Durability</div><div style="font-size:clamp(22px,2.4vw,28px);font-weight:500">Indoor, long-term</div></div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.gallery }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(56px,8vw,104px) 0 clamp(28px,3vw,40px);border-bottom:1px solid rgba(23,25,28,0.09)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:18px">Gallery</div>
+      <h1 style="font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-0.025em;font-weight:500;margin:0;max-width:14ch">A little bit of everything.</h1>
+      <p style="font-size:clamp(16px,1.4vw,19px);line-height:1.6;color:#71767C;max-width:56ch;margin:22px 0 0">Pets, people, creators, events, retail, gifts, and owned characters, a look at the range of what gets printed.</p>
+    </div>
+  </section>
+
+  <section style="padding:clamp(28px,3vw,40px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:clamp(28px,3vw,40px)">
+        <sc-for list="{{ chips }}" as="chip" hint-placeholder-count="8">
+          <button onClick="{{ chip.onClick }}" style-hover="border-color:rgba(23,25,28,0.5)" style="{{ chip.style }}">{{ chip.label }}</button>
+        </sc-for>
+      </div>
+      <div style="columns:4 220px;column-gap:clamp(10px,1.4vw,18px)">
+        <sc-for list="{{ galleryItems }}" as="g" hint-placeholder-count="12">
+          <div style="break-inside:avoid;margin-bottom:clamp(10px,1.4vw,18px);position:relative;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px;aspect-ratio:{{ g.ratio }}">
+            <span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// {{ g.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.faq }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(56px,8vw,104px) 0 clamp(24px,3vw,40px);border-bottom:1px solid rgba(23,25,28,0.09)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:18px">FAQ</div>
+      <h1 style="font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-0.025em;font-weight:500;margin:0;max-width:14ch">Questions, answered.</h1>
+    </div>
+  </section>
+  <section style="padding:clamp(24px,3vw,40px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:860px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:clamp(17px,1.8vw,20px);font-weight:500;letter-spacing:-0.01em">What size can my cutout be?<span style="font-family:'Space Mono',monospace;color:#345B6B;font-size:20px">+</span></summary><p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px;max-width:70ch">Anywhere from a 24-inch tabletop version up to a full life-size standee over six feet tall. We scale to the real subject and confirm dimensions on your proof.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:clamp(17px,1.8vw,20px);font-weight:500;letter-spacing:-0.01em">Can I order just one cutout?<span style="font-family:'Space Mono',monospace;color:#345B6B;font-size:20px">+</span></summary><p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px;max-width:70ch">Absolutely. There's no minimum, a single custom cutout is our most common order.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:clamp(17px,1.8vw,20px);font-weight:500;letter-spacing:-0.01em">Can I ship cutouts to multiple people?<span style="font-family:'Space Mono',monospace;color:#345B6B;font-size:20px">+</span></summary><p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px;max-width:70ch">Yes. For campaigns we support direct fulfillment, each order ships straight to its own recipient with tracking.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:clamp(17px,1.8vw,20px);font-weight:500;letter-spacing:-0.01em">What image quality do I need?<span style="font-family:'Space Mono',monospace;color:#345B6B;font-size:20px">+</span></summary><p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px;max-width:70ch">A sharp, well-lit, high-resolution photo is ideal. We review every image before production and will tell you if anything needs improving.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:clamp(17px,1.8vw,20px);font-weight:500;letter-spacing:-0.01em">Can you remove a background?<span style="font-family:'Space Mono',monospace;color:#345B6B;font-size:20px">+</span></summary><p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px;max-width:70ch">Yes, background removal and cleanup are part of standard file preparation, included at no extra charge.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:clamp(17px,1.8vw,20px);font-weight:500;letter-spacing:-0.01em">Do you offer discreet packaging?<span style="font-family:'Space Mono',monospace;color:#345B6B;font-size:20px">+</span></summary><p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px;max-width:70ch">Yes. Every order can ship in plain, unbranded protective packaging on request.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:clamp(17px,1.8vw,20px);font-weight:500;letter-spacing:-0.01em">Can creators sell through CutOutStuff?<span style="font-family:'Space Mono',monospace;color:#345B6B;font-size:20px">+</span></summary><p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px;max-width:70ch">Yes. Approved creators can launch a private campaign page, we handle production, fulfillment, and shipping. See the <a onClick="{{ nav.program }}" style="cursor:pointer;color:#345B6B;border-bottom:1px solid #345B6B">Creator Program</a>.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:clamp(17px,1.8vw,20px);font-weight:500;letter-spacing:-0.01em">What if my cutout arrives damaged?<span style="font-family:'Space Mono',monospace;color:#345B6B;font-size:20px">+</span></summary><p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px;max-width:70ch">Send us a photo and we'll produce a replacement. See our <a onClick="{{ nav.returns }}" style="cursor:pointer;color:#345B6B;border-bottom:1px solid #345B6B">Return &amp; Replacement Policy</a>.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-size:clamp(17px,1.8vw,20px);font-weight:500;letter-spacing:-0.01em">Do I need to own the rights to the image?<span style="font-family:'Space Mono',monospace;color:#345B6B;font-size:20px">+</span></summary><p style="font-size:15.5px;line-height:1.65;color:#71767C;margin:0 0 24px;max-width:70ch">Yes. You must own or control the rights to any image you submit. See our <a onClick="{{ nav.rights }}" style="cursor:pointer;color:#345B6B;border-bottom:1px solid #345B6B">Content &amp; Image Rights Policy</a>.</p></details>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.contact }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(56px,8vw,104px) 0 clamp(24px,3vw,40px);border-bottom:1px solid rgba(23,25,28,0.09)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:18px">Start a Project</div>
+      <h1 style="font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-0.025em;font-weight:500;margin:0;max-width:16ch">Tell us what you'd like to print.</h1>
+      <p style="font-size:clamp(16px,1.4vw,19px);line-height:1.6;color:#71767C;max-width:56ch;margin:22px 0 0">Single order or a full campaign, send us the details and we'll follow up with a quote and timeline.</p>
+    </div>
+  </section>
+  <section style="padding:clamp(40px,5vw,72px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:720px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <sc-if value="{{ contactSent }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid rgba(23,25,28,0.14);padding:clamp(36px,5vw,56px);text-align:center">
+          <div style="width:52px;height:52px;border-radius:50%;background:#345B6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 22px">✓</div>
+          <h2 style="font-size:clamp(22px,2.6vw,30px);font-weight:500;letter-spacing:-0.02em;margin:0 0 12px">Thanks, we've got it.</h2>
+          <p style="font-size:16px;line-height:1.6;color:#71767C;margin:0 auto 24px;max-width:44ch">A member of our team will review your project and reply within one business day with a quote and timeline.</p>
+          <a onClick="{{ nav.home }}" style-hover="color:#345B6B;border-bottom-color:#345B6B" style="transition:color .18s ease,border-color .18s ease;cursor:pointer;text-decoration:none;font-size:14px;color:#17191C;border-bottom:1px solid #17191C;padding-bottom:3px">Back to home →</a>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notContactSent }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Name</span><input type="text" placeholder="Your name" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Email</span><input type="email" placeholder="you@email.com" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Project type</span><select style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none;appearance:none"><option>Person</option><option>Pet</option><option>Character / mascot</option><option>Brand / retail</option><option>Event</option><option>Other</option></select></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Order type</span><select style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none;appearance:none"><option>Single order</option><option>Campaign / multiple</option></select></label>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Estimated quantity</span><input type="number" placeholder="1" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Shipping destination</span><input type="text" placeholder="City, Country" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Upload image / share link</span><input type="text" placeholder="Paste a link, or attach after we reply" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Notes</span><textarea rows="4" placeholder="Tell us about the cutout you have in mind" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none;resize:vertical"></textarea></label>
+        <button onClick="{{ submitContact }}" style="cursor:pointer;background:#17191C;color:#fff;padding:15px 28px;border:none;border-radius:2px;font-size:15px;font-weight:500;font-family:inherit;align-self:flex-start">Request a Quote</button>
+      </div>
+      </sc-if>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.program }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="background:#17191C;color:#fff;padding:clamp(64px,9vw,120px) 0 clamp(56px,7vw,96px)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8FB4C4;border:1px solid rgba(143,180,196,0.4);padding:6px 12px;border-radius:2px;margin-bottom:28px">Creator Program · By invitation</div>
+      <h1 style="font-size:clamp(36px,6vw,72px);line-height:1.0;letter-spacing:-0.03em;font-weight:500;margin:0;max-width:18ch">Let fans put you in their room.</h1>
+      <p style="font-size:clamp(16px,1.5vw,20px);line-height:1.6;color:rgba(255,255,255,0.62);max-width:60ch;margin:26px 0 0">Your most memorable image becomes a premium, creator-approved collectible. We build your private campaign page, handle secure ordering, produce each piece on demand, and ship directly to your supporters. You never touch inventory.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:36px">
+        <a onClick="{{ nav.apply }}" style-hover="transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,0.28)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#fff;color:#17191C;padding:15px 28px;border-radius:2px;font-size:15px;font-weight:600">Apply to Launch</a>
+        <a onClick="{{ nav.campaign }}" style="cursor:pointer;text-decoration:none;background:transparent;color:#fff;padding:15px 28px;border-radius:2px;font-size:15px;font-weight:500;border:1px solid rgba(255,255,255,0.28)">See an example campaign</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:clamp(56px,8vw,104px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:16px">What you get</div>
+      <h2 style="font-size:clamp(26px,3.5vw,44px);font-weight:500;letter-spacing:-0.02em;margin:0 0 clamp(32px,4vw,52px);max-width:20ch">Collector-grade merch, without the operations.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:rgba(23,25,28,0.09);border:1px solid rgba(23,25,28,0.09)">
+        <div style="background:#FBFCFC;padding:26px 24px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">No inventory</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Everything is made to order.</p></div>
+        <div style="background:#FBFCFC;padding:26px 24px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">No shipping work</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">We fulfill every order for you.</p></div>
+        <div style="background:#FBFCFC;padding:26px 24px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">No storefront setup</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">We build your campaign page.</p></div>
+        <div style="background:#FBFCFC;padding:26px 24px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Private campaign links</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Share only with your audience.</p></div>
+        <div style="background:#FBFCFC;padding:26px 24px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Made-to-order fulfillment</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">Each piece printed on demand.</p></div>
+        <div style="background:#FBFCFC;padding:26px 24px"><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">White-glove setup</h3><p style="font-size:14px;color:#71767C;margin:0;line-height:1.5">We handle the launch details.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#EEF0F1;padding:clamp(56px,8vw,104px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <h2 style="font-size:clamp(24px,3vw,36px);font-weight:500;letter-spacing:-0.02em;margin:0 0 clamp(28px,4vw,44px)">How a campaign works</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(20px,2.5vw,32px)">
+        <div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#345B6B;margin-bottom:12px">01</div><h3 style="font-size:17px;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em">Choose the image or concept</h3><p style="font-size:14.5px;color:#71767C;margin:0;line-height:1.55">Pick the shot you want to turn into a cutout.</p></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#345B6B;margin-bottom:12px">02</div><h3 style="font-size:17px;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em">We build your private page</h3><p style="font-size:14.5px;color:#71767C;margin:0;line-height:1.55">A clean, official-looking campaign page.</p></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#345B6B;margin-bottom:12px">03</div><h3 style="font-size:17px;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em">Share the link</h3><p style="font-size:14.5px;color:#71767C;margin:0;line-height:1.55">Send it to your audience and supporters.</p></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#345B6B;margin-bottom:12px">04</div><h3 style="font-size:17px;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em">Customers place orders</h3><p style="font-size:14.5px;color:#71767C;margin:0;line-height:1.55">Secure checkout, made-to-order.</p></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#345B6B;margin-bottom:12px">05</div><h3 style="font-size:17px;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em">We print, cut, pack &amp; ship</h3><p style="font-size:14.5px;color:#71767C;margin:0;line-height:1.55">Direct to each customer, with tracking.</p></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:14px;color:#345B6B;margin-bottom:12px">06</div><h3 style="font-size:17px;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em">Reporting &amp; payouts</h3><p style="font-size:14.5px;color:#71767C;margin:0;line-height:1.55">You receive campaign reporting and payouts.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:clamp(56px,8vw,104px) 0;text-align:center">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <h2 style="font-size:clamp(24px,3.2vw,40px);font-weight:500;letter-spacing:-0.02em;margin:0 auto 24px;max-width:22ch">Have an image your audience would want to own?</h2>
+      <a onClick="{{ nav.apply }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:15px 28px;border-radius:2px;font-size:15px;font-weight:500;display:inline-block">Apply to Launch</a>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.apply }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(56px,8vw,104px) 0 clamp(24px,3vw,40px);border-bottom:1px solid rgba(23,25,28,0.09)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:18px">Creator Application</div>
+      <h1 style="font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-0.025em;font-weight:500;margin:0;max-width:16ch">Apply to launch a campaign.</h1>
+      <p style="font-size:clamp(16px,1.4vw,19px);line-height:1.6;color:#71767C;max-width:56ch;margin:22px 0 0">A few details so we can review your concept and prepare a private campaign setup.</p>
+    </div>
+  </section>
+  <section style="padding:clamp(40px,5vw,72px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:720px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <sc-if value="{{ applySent }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid rgba(23,25,28,0.14);padding:clamp(36px,5vw,56px);text-align:center">
+          <div style="width:52px;height:52px;border-radius:50%;background:#345B6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 22px">✓</div>
+          <h2 style="font-size:clamp(22px,2.6vw,30px);font-weight:500;letter-spacing:-0.02em;margin:0 0 12px">Application received.</h2>
+          <p style="font-size:16px;line-height:1.6;color:#71767C;margin:0 auto 24px;max-width:46ch">We review each application by hand. If it's a fit, we'll reach out to set up your private campaign and collect assets.</p>
+          <a onClick="{{ nav.program }}" style-hover="color:#345B6B;border-bottom-color:#345B6B" style="transition:color .18s ease,border-color .18s ease;cursor:pointer;text-decoration:none;font-size:14px;color:#17191C;border-bottom:1px solid #17191C;padding-bottom:3px">Back to Creator Program →</a>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notApplySent }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Creator name</span><input type="text" placeholder="Display / brand name" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Email</span><input type="email" placeholder="you@email.com" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Social links</span><input type="text" placeholder="Links to your main channels" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Audience size</span><input type="text" placeholder="e.g. 50k" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Expected demand</span><input type="text" placeholder="Est. orders" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Type of cutout concept</span><input type="text" placeholder="Describe the image or concept" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Preferred launch date</span><input type="text" placeholder="MM / YYYY" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Country</span><input type="text" placeholder="Country" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+        </div>
+        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:4px 0"><input type="checkbox" style="margin-top:3px;width:16px;height:16px;accent-color:#345B6B" /><span style="font-size:14.5px;line-height:1.5;color:#565C62">I own or control the rights to the image I plan to use, and I have permission to sell products featuring it.</span></label>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Notes</span><textarea rows="3" placeholder="Anything else we should know" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none;resize:vertical"></textarea></label>
+        <button onClick="{{ submitApply }}" style="cursor:pointer;background:#17191C;color:#fff;padding:15px 28px;border:none;border-radius:2px;font-size:15px;font-weight:500;font-family:inherit;align-self:flex-start">Request Campaign Setup</button>
+      </div>
+      </sc-if>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.campaign }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <div style="width:100%;max-width:1200px;margin:0 auto;padding:14px clamp(20px,5vw,40px) 0"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6">cutoutstuff.com / c / ava-mercer</span></div>
+  <section style="padding:clamp(32px,4vw,56px) 0 clamp(56px,8vw,96px)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,5vw,72px);align-items:center">
+      <div style="position:relative;aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E1E5E7 0 11px,#E9ECEE 11px 22px);border:1px solid rgba(23,25,28,0.1);display:flex;align-items:flex-end;padding:16px">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:#7C838A;background:#F5F6F7;padding:5px 8px;border:1px solid rgba(23,25,28,0.08)">// hero cutout preview, creator standee on stand</span>
+      </div>
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#345B6B;border:1px solid rgba(52,91,107,0.35);padding:5px 11px;border-radius:2px;margin-bottom:22px">✓ Official creator-approved</div>
+        <h1 style="font-size:clamp(30px,4.2vw,52px);line-height:1.03;letter-spacing:-0.025em;font-weight:500;margin:0;max-width:16ch">Official life-size cutout of Ava Mercer.</h1>
+        <p style="font-size:16.5px;line-height:1.6;color:#71767C;margin:22px 0 26px;max-width:46ch">A creator-approved, made-to-order collectible. Your favorite creator, in the room. Ships in plain protective packaging with tracking.</p>
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:26px"><span style="font-size:30px;font-weight:600;letter-spacing:-0.01em">$149</span><span style="font-size:14px;color:#9AA0A6">Life-size · up to 6 ft</span></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a onClick="{{ nav.product }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:15px 30px;border-radius:2px;font-size:15px;font-weight:500">Order Now</a>
+          <a onClick="{{ nav.store }}" style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:transparent;color:#17191C;padding:15px 30px;border-radius:2px;font-size:15px;font-weight:500;border:1px solid rgba(23,25,28,0.18)">View the full collection</a>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:30px;padding-top:26px;border-top:1px solid rgba(23,25,28,0.1)">
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#565C62">✓ Secure checkout</span>
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#565C62">✓ Made to order</span>
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#565C62">✓ Plain packaging</span>
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#565C62">✓ Tracking included</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#EEF0F1;padding:clamp(48px,7vw,88px) 0">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:rgba(23,25,28,0.1);border:1px solid rgba(23,25,28,0.1)">
+      <div style="background:#EEF0F1;padding:24px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Height</div><div style="font-size:17px;font-weight:600">Up to 6 ft</div></div>
+      <div style="background:#EEF0F1;padding:24px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Material</div><div style="font-size:17px;font-weight:600">Rigid board</div></div>
+      <div style="background:#EEF0F1;padding:24px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Finish</div><div style="font-size:17px;font-weight:600">Matte</div></div>
+      <div style="background:#EEF0F1;padding:24px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Stand</div><div style="font-size:17px;font-weight:600">Included</div></div>
+      <div style="background:#EEF0F1;padding:24px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Ships in</div><div style="font-size:17px;font-weight:600">7–12 days</div></div>
+    </div>
+  </section>
+
+  <section style="padding:clamp(48px,7vw,88px) 0">
+    <div style="width:100%;max-width:860px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <h2 style="font-size:clamp(22px,2.6vw,32px);font-weight:500;letter-spacing:-0.02em;margin:0 0 clamp(20px,2vw,32px)">Good to know</h2>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;gap:20px;padding:20px 0;font-size:17px;font-weight:500">Is this official?<span style="font-family:'Space Mono',monospace;color:#345B6B">+</span></summary><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0 0 20px">Yes, this design is approved by the creator for sale as official merchandise.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;gap:20px;padding:20px 0;font-size:17px;font-weight:500">When will it ship?<span style="font-family:'Space Mono',monospace;color:#345B6B">+</span></summary><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0 0 20px">Each cutout is made to order and typically ships within 7–12 days, then arrives with tracking.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;gap:20px;padding:20px 0;font-size:17px;font-weight:500">What does the packaging look like?<span style="font-family:'Space Mono',monospace;color:#345B6B">+</span></summary><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0 0 20px">Plain, unbranded, corner-protected packaging built for large-format items.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;gap:20px;padding:20px 0;font-size:17px;font-weight:500">What if it arrives damaged?<span style="font-family:'Space Mono',monospace;color:#345B6B">+</span></summary><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0 0 20px">Send a photo and we'll produce a replacement. See our Return &amp; Replacement Policy.</p></details>
+      <details style="border-bottom:1px solid rgba(23,25,28,0.12)"><summary style="display:flex;justify-content:space-between;gap:20px;padding:20px 0;font-size:17px;font-weight:500">Can I return it?<span style="font-family:'Space Mono',monospace;color:#345B6B">+</span></summary><p style="font-size:15px;line-height:1.6;color:#71767C;margin:0 0 20px">As a custom made-to-order item, sales are final unless the piece arrives damaged or defective.</p></details>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.store }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <div style="width:100%;max-width:1200px;margin:0 auto;padding:14px clamp(20px,5vw,40px) 0"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6">cutoutstuff.com / c / ava-mercer</span></div>
+  <section style="padding:clamp(32px,4vw,56px) 0 clamp(24px,3vw,36px)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:flex-end">
+        <div>
+          <div style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#345B6B;border:1px solid rgba(52,91,107,0.35);padding:5px 11px;border-radius:2px;margin-bottom:20px">✓ Official creator storefront</div>
+          <h1 style="font-size:clamp(32px,4.6vw,56px);line-height:1.02;letter-spacing:-0.025em;font-weight:500;margin:0">Ava Mercer · The Collection</h1>
+          <p style="font-size:16.5px;line-height:1.6;color:#71767C;margin:16px 0 0;max-width:52ch">Creator-approved collectibles, made to order. Bring Ava into your space. Plain packaging, tracked worldwide.</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:14px 22px;padding-bottom:6px">
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#565C62">✓ Made to order</span>
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#565C62">✓ Plain packaging</span>
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#565C62">✓ Ships worldwide</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section style="padding:0 0 clamp(64px,9vw,110px)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <sc-if value="{{ showStoreGate }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid rgba(23,25,28,0.14);border-radius:3px;background:#FBFCFC;padding:clamp(36px,5vw,64px);text-align:center;max-width:640px;margin:0 auto">
+        <div style="display:inline-flex;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#71767C;border:1px solid rgba(23,25,28,0.16);padding:6px 12px;border-radius:2px;margin-bottom:20px">Viewer discretion</div>
+        <h2 style="font-size:clamp(20px,2.4vw,26px);font-weight:600;letter-spacing:-0.015em;margin:0 0 10px">A note before you browse</h2>
+        <p style="font-size:15px;line-height:1.6;color:#71767C;margin:0 auto 24px;max-width:46ch">A few pieces in this collection are marked sensitive. Their previews stay blurred until you choose to reveal them.</p>
+        <button onClick="{{ acceptGate }}" style="cursor:pointer;background:#17191C;color:#fff;border:none;padding:14px 28px;border-radius:2px;font-size:15px;font-weight:600">Enter the collection</button>
+      </div>
+      </sc-if>
+      <sc-if value="{{ storeGateOk }}" hint-placeholder-val="{{ true }}">
+      <div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:clamp(16px,2vw,24px)">
+        <sc-for list="{{ storeProducts }}" as="p" hint-placeholder-count="6">
+          <div onClick="{{ p.onCard }}" tabindex="0" role="button" style="cursor:pointer;background:#FBFCFC;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden" style-hover="border-color:rgba(23,25,28,0.3)">
+            <div style="position:relative;aspect-ratio:3/4;overflow:hidden;background:#E9ECEE">
+              <div style="{{ p.thumbStyle }}">
+                <span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// {{ p.label }}</span>
+              </div>
+              <sc-if value="{{ p.showOverlay }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(245,246,247,0.25)">
+                  <div style="width:40px;height:40px;border-radius:50%;background:rgba(23,25,28,0.82);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px">👁</div>
+                  <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#17191C;background:rgba(245,246,247,0.92);padding:7px 13px;border:1px solid rgba(23,25,28,0.14);border-radius:2px">Sensitive · Click to reveal</div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ p.showHide }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ p.onHide }}" aria-label="Hide image" style="position:absolute;top:10px;right:10px;cursor:pointer;font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:0.06em;background:rgba(245,246,247,0.92);border:1px solid rgba(23,25,28,0.14);color:#565C62;padding:5px 10px;border-radius:2px">HIDE</button>
+              </sc-if>
+            </div>
+            <div style="padding:16px 18px;display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+              <div><div style="font-size:15.5px;font-weight:600;letter-spacing:-0.01em">{{ p.title }}</div><div style="font-size:12.5px;color:#9AA0A6;margin-top:3px">{{ p.sub }}</div></div>
+              <div style="font-size:15.5px;font-weight:600;white-space:nowrap">{{ p.priceFmt }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <p style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;text-align:center;margin:clamp(28px,4vw,44px) 0 0">Every design is creator-approved · Secure checkout · Tracking included</p>
+      </div>
+      </sc-if>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.product }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <div style="width:100%;max-width:1200px;margin:0 auto;padding:14px clamp(20px,5vw,40px) 0"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6"><a onClick="{{ nav.store }}" style="cursor:pointer;color:#9AA0A6">c / ava-mercer</a> / product</span></div>
+  <section style="padding:clamp(28px,4vw,48px) 0 clamp(56px,8vw,96px)">
+    <div style="width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(36px,5vw,64px);align-items:start">
+      <div style="display:flex;flex-direction:column;gap:12px;position:sticky;top:100px">
+        <div style="position:relative;aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E1E5E7 0 11px,#E9ECEE 11px 22px);border:1px solid rgba(23,25,28,0.1);display:flex;align-items:flex-end;padding:16px">
+          <span style="font-family:'Space Mono',monospace;font-size:11px;color:#7C838A;background:#F5F6F7;padding:5px 8px;border:1px solid rgba(23,25,28,0.08)">// main product image</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div style="aspect-ratio:1;background:repeating-linear-gradient(45deg,#E9ECEE 0 8px,#F1F3F4 8px 16px);border:1px solid rgba(23,25,28,0.09)"></div>
+          <div style="aspect-ratio:1;background:repeating-linear-gradient(45deg,#E9ECEE 0 8px,#F1F3F4 8px 16px);border:1px solid rgba(23,25,28,0.09)"></div>
+          <div style="aspect-ratio:1;background:repeating-linear-gradient(45deg,#E9ECEE 0 8px,#F1F3F4 8px 16px);border:1px solid rgba(23,25,28,0.09)"></div>
+        </div>
+      </div>
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#345B6B;border:1px solid rgba(52,91,107,0.35);padding:5px 11px;border-radius:2px;margin-bottom:18px">✓ Creator-approved</div>
+        <h1 style="font-size:clamp(26px,3.4vw,40px);line-height:1.05;letter-spacing:-0.02em;font-weight:500;margin:0 0 12px">{{ prodTitle }}</h1>
+        <div style="font-size:26px;font-weight:600;margin-bottom:26px">{{ unitFmt }}</div>
+
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C;margin-bottom:12px">Size</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px">
+          <sc-for list="{{ sizeOptions }}" as="s" hint-placeholder-count="3">
+            <button onClick="{{ s.onClick }}" style-hover="border-color:rgba(23,25,28,0.5)" style="{{ s.style }}">
+              <div style="font-size:15px;font-weight:600;color:#17191C">{{ s.label }}</div>
+              <div style="font-size:12.5px;color:#71767C;margin-top:2px">{{ s.sub }} · {{ s.priceFmt }}</div>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C;margin-bottom:12px">Quantity</div>
+        <div style="display:flex;align-items:center;border:1px solid rgba(23,25,28,0.2);border-radius:2px;width:fit-content;margin-bottom:28px">
+          <button onClick="{{ decQty }}" style-hover="background:#EDEFF0" style="transition:background .18s ease;cursor:pointer;width:44px;height:44px;border:none;background:transparent;font-size:20px;font-family:inherit;color:#17191C">−</button>
+          <div style="min-width:48px;text-align:center;font-size:16px;font-weight:600">{{ qty }}</div>
+          <button onClick="{{ incQty }}" style-hover="background:#EDEFF0" style="transition:background .18s ease;cursor:pointer;width:44px;height:44px;border:none;background:transparent;font-size:20px;font-family:inherit;color:#17191C">+</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:26px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <button onClick="{{ addAndCart }}" style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,border-color .18s ease;cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:16px;border-radius:2px;font-size:15px;font-weight:500">Add to cart</button>
+            <button onClick="{{ addAndCheckout }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:16px;border-radius:2px;font-size:15px;font-weight:600">Buy now · {{ subtotalFmt }}</button>
+          </div>
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;text-align:center">Estimated delivery 7–12 days · ships with tracking</span>
+        </div>
+
+        <div style="border-top:1px solid rgba(23,25,28,0.1);padding-top:24px">
+          <h3 style="font-size:16px;font-weight:600;margin:0 0 10px">About this cutout</h3>
+          <p style="font-size:15px;line-height:1.65;color:#71767C;margin:0">A premium, made-to-order life-size standee printed on rigid board with a matte, anti-glare finish and precision contour cut. Includes a folding stand. Ships in plain, protective packaging.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.checkout }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(40px,5vw,72px) 0 clamp(56px,8vw,96px)">
+    <div style="width:100%;max-width:1080px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:clamp(28px,4vw,44px)">
+        <h1 style="font-size:clamp(26px,3.2vw,40px);font-weight:500;letter-spacing:-0.02em;margin:0">Checkout</h1>
+        <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">Secure · SSL</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,4vw,56px);align-items:start">
+        <div style="display:flex;flex-direction:column;gap:26px">
+          <div>
+            <h2 style="font-size:15px;font-weight:600;margin:0 0 16px;font-family:'Space Mono',monospace;letter-spacing:0.06em;text-transform:uppercase;color:#345B6B">Contact</h2>
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Email</span><input type="email" placeholder="you@email.com" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+          </div>
+          <div>
+            <h2 style="font-size:15px;font-weight:600;margin:0 0 16px;font-family:'Space Mono',monospace;letter-spacing:0.06em;text-transform:uppercase;color:#345B6B">Shipping address</h2>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <input type="text" placeholder="Full name" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" />
+              <input type="text" placeholder="Address" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" />
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <input type="text" placeholder="City" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" />
+                <input type="text" placeholder="ZIP / Postal" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" />
+              </div>
+              <input type="text" placeholder="Country" style="font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" />
+            </div>
+          </div>
+          <div>
+            <h2 style="font-size:15px;font-weight:600;margin:0 0 16px;font-family:'Space Mono',monospace;letter-spacing:0.06em;text-transform:uppercase;color:#345B6B">Shipping method</h2>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ shipOptions }}" as="o" hint-placeholder-count="2">
+                <button onClick="{{ o.onClick }}" style-hover="border-color:rgba(23,25,28,0.5)" style="{{ o.style }}">
+                  <div><div style="font-size:15px;font-weight:600">{{ o.label }}</div><div style="font-size:13px;color:#71767C">{{ o.sub }}</div></div>
+                  <div style="font-size:15px;font-weight:600">{{ o.priceFmt }}</div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <div>
+            <h2 style="font-size:15px;font-weight:600;margin:0 0 16px;font-family:'Space Mono',monospace;letter-spacing:0.06em;text-transform:uppercase;color:#345B6B">Payment</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+              <button style="cursor:pointer;background:#000;color:#fff;border:none;padding:13px;border-radius:2px;font-size:14.5px;font-weight:600;letter-spacing:-0.01em"> Pay</button>
+              <button style="cursor:pointer;background:#00D66F;color:#011E0F;border:none;padding:13px;border-radius:2px;font-size:14.5px;font-weight:700">Link</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+              <div style="flex:1;height:1px;background:rgba(23,25,28,0.1)"></div>
+              <span style="font-size:12.5px;color:#9AA0A6">Or pay with card</span>
+              <div style="flex:1;height:1px;background:rgba(23,25,28,0.1)"></div>
+            </div>
+            <div style="border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:10px;padding:0 14px;border-bottom:1px solid rgba(23,25,28,0.1)">
+                <input type="text" inputMode="numeric" autoComplete="cc-number" placeholder="1234 1234 1234 1234" aria-label="Card number" style="flex:1;min-width:0;font-size:15px;padding:13px 0;border:none;outline:none;background:transparent" />
+                <span style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:#1A1F71;border:1px solid rgba(23,25,28,0.12);border-radius:2px;padding:2px 4px">VISA</span>
+                <span style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:#EB001B;border:1px solid rgba(23,25,28,0.12);border-radius:2px;padding:2px 4px">MC</span>
+                <span style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:#006FCF;border:1px solid rgba(23,25,28,0.12);border-radius:2px;padding:2px 4px">AMEX</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr">
+                <input type="text" inputMode="numeric" autoComplete="cc-exp" placeholder="MM / YY" aria-label="Expiration date" style="font-size:15px;padding:13px 14px;border:none;border-right:1px solid rgba(23,25,28,0.1);outline:none;background:transparent" />
+                <input type="text" inputMode="numeric" autoComplete="cc-csc" placeholder="CVC" aria-label="Security code" style="font-size:15px;padding:13px 14px;border:none;outline:none;background:transparent" />
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(23,25,28,0.1)">
+                <select aria-label="Country" style="font-size:15px;padding:13px 14px;border:none;border-right:1px solid rgba(23,25,28,0.1);outline:none;background:transparent;appearance:none;color:#17191C"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option></select>
+                <input type="text" inputMode="numeric" autoComplete="postal-code" placeholder="ZIP" aria-label="ZIP code" style="font-size:15px;padding:13px 14px;border:none;outline:none;background:transparent" />
+              </div>
+            </div>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-top:14px"><input type="checkbox" style="margin-top:2px;width:16px;height:16px;accent-color:#345B6B" /><span style="font-size:13px;line-height:1.5;color:#565C62">Save my info for 1-click checkout with Link</span></label>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:14px"><span style="font-size:12px">🔒</span><span style="font-size:12.5px;color:#9AA0A6">Payments are encrypted and processed by Stripe. Card details never touch our servers.</span></div>
+          </div>
+        </div>
+
+        <div style="background:#FBFCFC;border:1px solid rgba(23,25,28,0.12);padding:clamp(24px,3vw,32px);position:sticky;top:100px">
+          <h2 style="font-size:15px;font-weight:600;margin:0 0 20px;font-family:'Space Mono',monospace;letter-spacing:0.06em;text-transform:uppercase;color:#345B6B">Order summary</h2>
+          <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="1">
+          <div style="display:flex;gap:14px;padding:10px 0;border-bottom:1px solid rgba(23,25,28,0.1)">
+            <div style="width:52px;aspect-ratio:3/4;flex:none;background:repeating-linear-gradient(45deg,#E9ECEE 0 7px,#F1F3F4 7px 14px);border:1px solid rgba(23,25,28,0.09)"></div>
+            <div style="min-width:0;flex:1"><div style="font-size:14.5px;font-weight:600;line-height:1.3">{{ ci.title }}</div><div style="font-size:12.5px;color:#71767C;margin-top:3px">{{ ci.sizeLabel }} · Qty {{ ci.qty }}</div></div>
+            <div style="font-size:14px;font-weight:600;white-space:nowrap">{{ ci.lineFmt }}</div>
+          </div>
+          </sc-for>
+          <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:14px 0;border-bottom:1px solid rgba(23,25,28,0.1);font-size:13.5px;color:#9AA0A6">Your cart is empty. <a onClick="{{ nav.store }}" style="cursor:pointer;color:#345B6B">Browse the collection →</a></div>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;gap:11px;padding:20px 0;border-bottom:1px solid rgba(23,25,28,0.1)">
+            <div style="display:flex;justify-content:space-between;font-size:14.5px;color:#565C62"><span>Subtotal</span><span>{{ cartSubtotalFmt }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:14.5px;color:#565C62"><span>Shipping</span><span>{{ shipFmt }}</span></div>
+            <div style="display:flex;gap:10px;margin-top:4px"><input type="text" placeholder="Discount code" style="flex:1;font-family:inherit;font-size:13.5px;padding:10px 12px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;background:#fff;outline:none;min-width:0" /><button style="cursor:pointer;font-family:inherit;font-size:13px;padding:0 16px;border:1px solid rgba(23,25,28,0.2);background:transparent;border-radius:2px">Apply</button></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;padding:20px 0"><span style="font-size:16px;font-weight:600">Total</span><span style="font-size:22px;font-weight:600">{{ cartTotalFmt }}</span></div>
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:16px"><input type="checkbox" checked="{{ discreet }}" onChange="{{ toggleDiscreet }}" style="margin-top:3px;width:16px;height:16px;accent-color:#345B6B" /><span style="font-size:13.5px;line-height:1.5;color:#565C62">Ship in plain, unbranded packaging</span></label>
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:20px"><input type="checkbox" style="margin-top:3px;width:16px;height:16px;accent-color:#345B6B" /><span style="font-size:13.5px;line-height:1.5;color:#565C62">This is a made-to-order item. By ordering, I confirm my shipping details are correct and agree to the <a onClick="{{ nav.terms }}" style="cursor:pointer;color:#345B6B">Terms</a>.</span></label>
+          <button onClick="{{ placeOrder }}" style="cursor:pointer;width:100%;background:#17191C;color:#fff;padding:16px;border:none;border-radius:2px;font-size:15px;font-weight:600;font-family:inherit">Place Order · {{ cartTotalFmt }}</button>
+          <p style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;text-align:center;margin:14px 0 0;line-height:1.5">Made-to-order · plain protective packaging</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.confirm }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(48px,7vw,96px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:720px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="text-align:center;margin-bottom:clamp(32px,4vw,48px)">
+        <div style="width:56px;height:56px;border-radius:50%;background:#345B6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 22px">✓</div>
+        <h1 style="font-size:clamp(26px,3.4vw,42px);font-weight:500;letter-spacing:-0.02em;margin:0 0 10px">Your cutout is being prepared.</h1>
+        <p style="font-size:16px;color:#71767C;margin:0">A confirmation has been sent to your email.</p>
+      </div>
+      <div style="border:1px solid rgba(23,25,28,0.12)">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:20px 24px;border-bottom:1px solid rgba(23,25,28,0.1)"><span style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Order number</span><span style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700">#COS-40213</span></div>
+        <div style="padding:20px 24px;border-bottom:1px solid rgba(23,25,28,0.1);display:flex;gap:14px">
+          <div style="width:56px;aspect-ratio:3/4;flex:none;background:repeating-linear-gradient(45deg,#E9ECEE 0 7px,#F1F3F4 7px 14px);border:1px solid rgba(23,25,28,0.09)"></div>
+          <div><div style="font-size:15px;font-weight:600">{{ lastOrderSummary }}</div><div style="font-size:13.5px;color:#71767C;margin-top:4px">{{ lastOrderDetail }}</div><div style="font-size:14px;font-weight:600;margin-top:6px">{{ lastOrderTotalFmt }}</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+          <div style="padding:20px 24px;border-right:1px solid rgba(23,25,28,0.1)"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Est. production</div><div style="font-size:15px;font-weight:600">4–7 days</div></div>
+          <div style="padding:20px 24px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Est. shipping</div><div style="font-size:15px;font-weight:600">3–5 days after</div></div>
+        </div>
+      </div>
+      <div style="background:#EEF0F1;padding:18px 22px;margin-top:16px;font-size:14px;color:#565C62;line-height:1.55">Next step: <a onClick="{{ nav.proof }}" style="cursor:pointer;color:#345B6B;font-weight:600">review &amp; approve your proof →</a> Production starts as soon as you approve. You'll get a tracking number by email once your order ships. Questions? <a onClick="{{ nav.contact }}" style="cursor:pointer;color:#345B6B">Contact support</a>.</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+        <a onClick="{{ nav.tracking }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:14px 26px;border-radius:2px;font-size:15px;font-weight:500">Track your order</a>
+        <a onClick="{{ nav.home }}" style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:transparent;color:#17191C;padding:14px 26px;border-radius:2px;font-size:15px;font-weight:500;border:1px solid rgba(23,25,28,0.18)">Back to home</a>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.tracking }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:760px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:18px">Order Tracking</div>
+      <h1 style="font-size:clamp(30px,4vw,52px);font-weight:500;letter-spacing:-0.025em;margin:0 0 26px">Where's my cutout?</h1>
+      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-bottom:14px">
+        <input type="text" placeholder="Order number, e.g. COS-40213" style="min-width:0;font-family:inherit;font-size:15px;padding:13px 15px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" />
+        <input type="email" placeholder="Email on the order" style="min-width:0;font-family:inherit;font-size:15px;padding:13px 15px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" />
+        <button onClick="{{ onTrack }}" style="cursor:pointer;background:#17191C;color:#fff;padding:0 26px;border:none;border-radius:2px;font-size:15px;font-weight:500;font-family:inherit">Track</button>
+      </div>
+      <p style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;margin:0 0 clamp(28px,4vw,40px)">For your privacy, order status is shown only when the order number and email match.</p>
+      <sc-if value="{{ trackVerified }}" hint-placeholder-val="{{ false }}">
+      <div>
+      <div style="border:1px solid rgba(23,25,28,0.12);padding:clamp(24px,3vw,36px)">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid rgba(23,25,28,0.1)">
+          <div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:6px">Order</div><div style="font-family:'Space Mono',monospace;font-size:15px;font-weight:700">#COS-40213</div></div>
+          <div style="text-align:right"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:6px">Status</div><div style="font-size:15px;font-weight:600;color:#345B6B">In production</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ track }}" as="t" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:14px 0">
+              <div style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;flex:none;border:1px solid rgba(23,25,28,0.2);background:{{ t.dotBg }};color:{{ t.dotColor }}">{{ t.mark }}</div>
+              <div style="font-size:16px;font-weight:{{ t.weight }};color:{{ t.textColor }}">{{ t.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <p style="font-size:14px;color:#71767C;line-height:1.6;margin:20px 0 0">You'll receive an email with a carrier tracking link as soon as your cutout ships. Large-format orders are packed with corner protection in plain packaging.</p>
+      </div>
+      </sc-if>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.privacy }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:760px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0A6;margin-bottom:14px">Last updated · July 2026</div>
+      <h1 style="font-size:clamp(30px,4.4vw,52px);font-weight:500;letter-spacing:-0.025em;margin:0 0 clamp(28px,4vw,44px)">Privacy Policy</h1>
+      <p style="font-size:16px;line-height:1.7;color:#565C62;margin:0 0 28px">This policy explains what information CutOutStuff collects, how we use it, and the choices you have. By using the site and placing an order, you agree to the practices described here.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Information we collect</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Contact details (name, email), shipping and billing addresses, order contents, uploaded images or links you provide for production, and basic device and analytics data used to operate and improve the site.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Payment handling</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Payments are processed by a third-party payment provider. We do not store full card numbers on our servers.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Shipping data</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Addresses are shared only with our production and shipping partners to fulfill and deliver your order.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Analytics &amp; email</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">We use analytics to understand site usage and send transactional emails about your order. Marketing emails are sent only with your consent, and you can opt out at any time.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Data retention</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">We keep order and image data only as long as needed to fulfill orders, provide support, and meet legal obligations, after which it is deleted or anonymized.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Contact</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Questions about privacy? Reach us via the <a onClick="{{ nav.contact }}" style="cursor:pointer;color:#345B6B;border-bottom:1px solid #345B6B">contact page</a>.</p>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.terms }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:760px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0A6;margin-bottom:14px">Last updated · July 2026</div>
+      <h1 style="font-size:clamp(30px,4.4vw,52px);font-weight:500;letter-spacing:-0.025em;margin:0 0 clamp(28px,4vw,44px)">Terms of Service</h1>
+      <p style="font-size:16px;line-height:1.7;color:#565C62;margin:0 0 28px">These terms govern your use of CutOutStuff and any orders you place. By using the site you agree to them.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Use of the site</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">You agree to use the site lawfully and not to misuse it or interfere with its operation.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Orders &amp; custom products</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Cutouts are custom, made-to-order products. Once production begins, orders cannot be changed or cancelled. You are responsible for the accuracy of the artwork and shipping details you provide.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Payment</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Full payment is due at checkout. Prices and shipping costs are shown before you place your order.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Shipping</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Delivery estimates are not guarantees. Risk passes to you on delivery. See our <a onClick="{{ nav.shipping }}" style="cursor:pointer;color:#345B6B;border-bottom:1px solid #345B6B">Shipping Policy</a>.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Limitation of liability</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">To the extent permitted by law, our liability for any order is limited to the amount you paid for it.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Prohibited use</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">You may not submit images you do not have the rights to use. See our <a onClick="{{ nav.rights }}" style="cursor:pointer;color:#345B6B;border-bottom:1px solid #345B6B">Content &amp; Image Rights Policy</a>.</p>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.shipping }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:760px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0A6;margin-bottom:14px">Last updated · July 2026</div>
+      <h1 style="font-size:clamp(30px,4.4vw,52px);font-weight:500;letter-spacing:-0.025em;margin:0 0 clamp(28px,4vw,44px)">Shipping Policy</h1>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:0 0 12px">Production timelines</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Cutouts are made to order and typically enter production within 1–2 business days of proof approval, with fabrication taking about 4–7 business days.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Shipping timelines</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Standard shipping is 5–8 business days; express is 2–3. Delivery windows are estimates, not guarantees.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Domestic &amp; international</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">We ship nationwide and to most international destinations. International customers are responsible for any customs duties or import taxes.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Large-format handling</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Life-size cutouts ship in oversized, corner-protected packaging. Some carriers may require a signature.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Tracking</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Every order ships with tracking, emailed to you when the order leaves production. You can also check status on the <a onClick="{{ nav.tracking }}" style="cursor:pointer;color:#345B6B;border-bottom:1px solid #345B6B">tracking page</a>.</p>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.returns }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:760px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0A6;margin-bottom:14px">Last updated · July 2026</div>
+      <h1 style="font-size:clamp(30px,4.4vw,52px);font-weight:500;letter-spacing:-0.025em;margin:0 0 clamp(28px,4vw,44px)">Return &amp; Replacement Policy</h1>
+      <p style="font-size:16px;line-height:1.7;color:#565C62;margin:0 0 28px">Because each cutout is custom and made to order, sales are final, but we stand behind quality and will make it right if something arrives wrong.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Made-to-order sales are final</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Custom items cannot be returned for change of mind, since each is produced specifically for your order.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Damaged or defective items</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">If your cutout arrives damaged or has a production defect, we'll produce a free replacement.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Photo evidence &amp; window</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Contact us within 14 days of delivery with photos of the item and packaging so we can process a replacement quickly.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Incorrect addresses &amp; lost packages</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Orders returned due to an incorrect address may incur a reshipping fee. For packages marked delivered but not received, we'll help open a carrier investigation.</p>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.rights }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:760px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0A6;margin-bottom:14px">Last updated · July 2026</div>
+      <h1 style="font-size:clamp(30px,4.4vw,52px);font-weight:500;letter-spacing:-0.025em;margin:0 0 clamp(28px,4vw,44px)">Content &amp; Image Rights</h1>
+      <p style="font-size:16px;line-height:1.7;color:#565C62;margin:0 0 28px">Because we produce physical goods from the images you provide, image rights matter. This policy is a condition of every order.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">You must own or control the rights</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">By submitting an image, you confirm you own it or have explicit permission to reproduce it as a physical product.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Prohibited content</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">We do not produce cutouts featuring unauthorized use of celebrities, copyrighted characters, minors in any inappropriate context, non-consensual or revenge content, impersonation, or any illegal material.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">We may reject a project</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">CutOutStuff may decline or cancel any order that we believe violates this policy or applicable law, at our sole discretion.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Responsibility for permissions</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">You are solely responsible for obtaining any permissions or releases required for the people, artwork, or brands depicted in your image.</p>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.cart }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(40px,5vw,72px) 0 clamp(56px,8vw,96px)">
+    <div style="width:100%;max-width:900px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <h1 style="font-size:clamp(26px,3.2vw,40px);font-weight:500;letter-spacing:-0.02em;margin:0 0 clamp(24px,3vw,36px)">Your cart</h1>
+      <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid rgba(23,25,28,0.12);border-radius:3px;padding:clamp(36px,5vw,56px);text-align:center">
+          <p style="font-size:16px;color:#71767C;margin:0 0 22px">Your cart is empty.</p>
+          <a onClick="{{ nav.store }}" style="cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:14px 26px;border-radius:2px;font-size:15px;font-weight:600;display:inline-block">Browse the collection</a>
+        </div>
+      </sc-if>
+      <sc-if value="{{ cartHasItems }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.12);border-radius:3px;overflow:hidden">
+          <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="2">
+            <div style="display:flex;gap:16px;align-items:center;padding:18px 20px;border-bottom:1px solid rgba(23,25,28,0.08);flex-wrap:wrap">
+              <div style="width:56px;aspect-ratio:3/4;flex:none;background:repeating-linear-gradient(45deg,#E9ECEE 0 7px,#F1F3F4 7px 14px);border:1px solid rgba(23,25,28,0.09)"></div>
+              <div style="flex:1;min-width:180px"><div style="font-size:15.5px;font-weight:600">{{ ci.title }}</div><div style="font-size:13px;color:#71767C;margin-top:3px">{{ ci.sizeLabel }} · {{ ci.unitFmt }} each</div></div>
+              <div style="display:flex;align-items:center;border:1px solid rgba(23,25,28,0.18);border-radius:2px">
+                <button onClick="{{ ci.dec }}" aria-label="Decrease quantity" style="cursor:pointer;width:36px;height:36px;border:none;background:transparent;font-size:17px">−</button>
+                <div style="min-width:36px;text-align:center;font-size:14.5px;font-weight:600">{{ ci.qty }}</div>
+                <button onClick="{{ ci.inc }}" aria-label="Increase quantity" style="cursor:pointer;width:36px;height:36px;border:none;background:transparent;font-size:17px">+</button>
+              </div>
+              <div style="font-size:15px;font-weight:600;min-width:64px;text-align:right">{{ ci.lineFmt }}</div>
+              <button onClick="{{ ci.remove }}" style="cursor:pointer;background:transparent;border:none;font-size:12.5px;color:#B4442E;padding:4px">Remove</button>
+            </div>
+          </sc-for>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;padding:18px 20px"><span style="font-size:15px;font-weight:600">Subtotal</span><span style="font-size:20px;font-weight:600">{{ cartSubtotalFmt }}</span></div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;justify-content:flex-end">
+          <a onClick="{{ nav.store }}" style="cursor:pointer;text-decoration:none;background:transparent;color:#17191C;padding:14px 26px;border-radius:2px;font-size:15px;font-weight:500;border:1px solid rgba(23,25,28,0.18)">Keep browsing</a>
+          <a onClick="{{ nav.checkout }}" style="cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:14px 26px;border-radius:2px;font-size:15px;font-weight:600">Checkout · {{ cartSubtotalFmt }}</a>
+        </div>
+        <p style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;text-align:right;margin:12px 0 0">Shipping calculated at checkout · plain packaging available</p>
+      </div>
+      </sc-if>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.proof }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(40px,5vw,72px) 0 clamp(56px,8vw,96px)">
+    <div style="width:100%;max-width:960px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:16px">Proof Approval · Order #COS-40213</div>
+      <h1 style="font-size:clamp(28px,3.8vw,48px);font-weight:500;letter-spacing:-0.025em;margin:0 0 12px">Review your proof.</h1>
+      <p style="font-size:16px;line-height:1.6;color:#71767C;max-width:56ch;margin:0 0 clamp(28px,4vw,40px)">This is exactly what we'll print, at scale, with the final contour cut shown as a line. Production starts only after you approve.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(24px,3vw,40px);align-items:start">
+        <div style="position:relative;aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E1E5E7 0 11px,#E9ECEE 11px 22px);border:1px solid rgba(23,25,28,0.1);display:flex;align-items:flex-end;padding:16px">
+          <span style="font-family:'Space Mono',monospace;font-size:11px;color:#7C838A;background:#F5F6F7;padding:5px 8px;border:1px solid rgba(23,25,28,0.08)">// proof preview with contour cut line + scale ruler</span>
+        </div>
+        <div>
+          <div style="border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden;margin-bottom:20px">
+            <div style="display:flex;justify-content:space-between;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Item</span><span style="font-size:13.5px;font-weight:600">Ava Mercer · Red Dress</span></div>
+            <div style="display:flex;justify-content:space-between;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Finished height</span><span style="font-size:13.5px;font-weight:600">5 ft 9 in</span></div>
+            <div style="display:flex;justify-content:space-between;padding:13px 18px"><span style="font-size:13.5px;color:#71767C">Finish</span><span style="font-size:13.5px;font-weight:600">Matte · contour cut · stand</span></div>
+          </div>
+          <sc-if value="{{ PR.pending }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <button onClick="{{ approveProof }}" style="cursor:pointer;background:#17191C;color:#fff;border:none;padding:15px;border-radius:2px;font-size:15px;font-weight:600">Approve proof · start production</button>
+            <button onClick="{{ openChanges }}" style="cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:14px;border-radius:2px;font-size:14.5px;font-weight:500">Request changes</button>
+            <p style="font-family:'Space Mono',monospace;font-size:11.5px;color:#9AA0A6;margin:6px 0 0;line-height:1.5">Approval is final. Once production starts, the design can't be changed.</p>
+          </div>
+          </sc-if>
+          <sc-if value="{{ PR.changesForm }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">What should we change?</span><textarea rows="4" placeholder="e.g. crop a little tighter, brighten the background" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none;resize:vertical"></textarea></label>
+            <button onClick="{{ submitChanges }}" style="cursor:pointer;background:#17191C;color:#fff;border:none;padding:14px;border-radius:2px;font-size:15px;font-weight:600">Send change request</button>
+          </div>
+          </sc-if>
+          <sc-if value="{{ PR.approved }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid rgba(46,125,91,0.3);background:#EAF4EF;border-radius:3px;padding:22px;text-align:center">
+            <div style="width:44px;height:44px;border-radius:50%;background:#2E7D5B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 14px">✓</div>
+            <div style="font-size:16px;font-weight:600;margin-bottom:6px">Proof approved</div>
+            <p style="font-size:14px;color:#3E6B57;margin:0 0 16px;line-height:1.55">Your cutout is heading into production. We'll email tracking when it ships.</p>
+            <a onClick="{{ nav.tracking }}" style="cursor:pointer;font-size:13.5px;color:#2E7D5B;border-bottom:1px solid #2E7D5B;padding-bottom:2px">Track your order →</a>
+          </div>
+          </sc-if>
+          <sc-if value="{{ PR.changes }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid rgba(176,121,31,0.3);background:#F6EFE0;border-radius:3px;padding:22px;text-align:center">
+            <div style="font-size:16px;font-weight:600;margin-bottom:6px">Change request received</div>
+            <p style="font-size:14px;color:#7A5A22;margin:0;line-height:1.55">Our team will revise the proof and send a new one within 1 business day.</p>
+          </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.claim }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(40px,5vw,72px) 0 clamp(56px,8vw,96px)">
+    <div style="width:100%;max-width:680px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:16px">Damage &amp; Replacement</div>
+      <h1 style="font-size:clamp(28px,3.8vw,48px);font-weight:500;letter-spacing:-0.025em;margin:0 0 12px">Something arrive wrong?</h1>
+      <p style="font-size:16px;line-height:1.6;color:#71767C;margin:0 0 clamp(28px,4vw,40px)">Tell us what happened and we'll make it right. Damaged or defective cutouts are replaced free, no return shipping needed.</p>
+      <sc-if value="{{ claimSent }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid rgba(23,25,28,0.14);border-radius:3px;padding:clamp(36px,5vw,56px);text-align:center">
+          <div style="width:52px;height:52px;border-radius:50%;background:#345B6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 20px">✓</div>
+          <h2 style="font-size:22px;font-weight:500;letter-spacing:-0.02em;margin:0 0 10px">Claim received.</h2>
+          <p style="font-size:15px;line-height:1.6;color:#71767C;margin:0 auto;max-width:44ch">We review claims within 1 business day. If approved, a replacement goes straight into production, on us.</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notClaimSent }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px">
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Order number</span><input type="text" placeholder="COS-40213" style="font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Email on the order</span><input type="email" placeholder="you@email.com" style="font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none" /></label>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">What happened?</span><select style="font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none;appearance:none"><option>Arrived damaged</option><option>Print defect</option><option>Wrong item or size</option><option>Never arrived</option></select></label>
+        <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Photos of the item &amp; packaging</span>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px">
+            <div style="aspect-ratio:4/3;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px dashed rgba(23,25,28,0.24);border-radius:2px;display:flex;align-items:center;justify-content:center"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6">+ item photo</span></div>
+            <div style="aspect-ratio:4/3;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px dashed rgba(23,25,28,0.24);border-radius:2px;display:flex;align-items:center;justify-content:center"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6">+ packaging photo</span></div>
+          </div>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#71767C">Details</span><textarea rows="3" placeholder="Anything that helps us understand the issue" style="font-size:15px;padding:13px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;background:#fff;outline:none;resize:vertical"></textarea></label>
+        <button onClick="{{ submitClaim }}" style="cursor:pointer;background:#17191C;color:#fff;padding:15px 28px;border:none;border-radius:2px;font-size:15px;font-weight:600;font-family:inherit;align-self:flex-start">Submit claim</button>
+        <p style="font-family:'Space Mono',monospace;font-size:11.5px;color:#9AA0A6;margin:0;line-height:1.5">Claims are covered within 14 days of delivery. See the <a onClick="{{ nav.returns }}" style="cursor:pointer;color:#345B6B">Return &amp; Replacement Policy</a>.</p>
+      </div>
+      </sc-if>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.agreement }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,104px)">
+    <div style="width:100%;max-width:760px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0A6;margin-bottom:14px">Last updated · July 2026 · Provided to approved creators</div>
+      <h1 style="font-size:clamp(30px,4.4vw,52px);font-weight:500;letter-spacing:-0.025em;margin:0 0 clamp(28px,4vw,44px)">Creator Agreement</h1>
+      <p style="font-size:16px;line-height:1.7;color:#565C62;margin:0 0 28px">This summarizes the agreement between CutOutStuff and approved creators. The signed version is provided during onboarding.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Revenue split &amp; payouts</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Creators receive an agreed percentage of net revenue from their campaign. Payouts are monthly, net-30, with reporting available in the creator dashboard.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Image rights &amp; license</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">You confirm you own or control the rights to submitted images and grant CutOutStuff a limited license to reproduce them solely to produce, promote, and fulfill your campaign.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Approval process</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">No design goes on sale without your written approval of the final proof. You may pause or end your campaign at any time; orders already paid will be fulfilled.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Refunds &amp; chargebacks</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">CutOutStuff handles customer refunds, replacements, and chargebacks. Refunded orders are deducted from the corresponding payout period.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Responsibilities &amp; prohibited content</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Creators are responsible for permissions covering people, artwork, and brands in their images. All content must comply with our <a onClick="{{ nav.rights }}" style="cursor:pointer;color:#345B6B;border-bottom:1px solid #345B6B">Content &amp; Image Rights Policy</a>.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Name &amp; likeness</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">With your consent, CutOutStuff may reference your campaign in private materials shown to prospective creators. Public promotion of your campaign always requires your approval.</p>
+      <h2 style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin:36px 0 12px">Termination</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:#71767C;margin:0">Either party may end the agreement with 30 days' notice. CutOutStuff may end it immediately for policy violations. Final payouts are settled in the normal cycle.</p>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ P.notfound }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeUp .5s ease both">
+  <section style="padding:clamp(80px,12vw,160px) 0;text-align:center">
+    <div style="width:100%;max-width:640px;margin:0 auto;padding:0 clamp(20px,5vw,40px)">
+      <div style="font-family:'Space Mono',monospace;font-size:clamp(56px,10vw,110px);font-weight:700;color:#E3E7E9;letter-spacing:0.04em;line-height:1">404</div>
+      <h1 style="font-size:clamp(24px,3.2vw,36px);font-weight:500;letter-spacing:-0.02em;margin:18px 0 10px">This page isn't standing here.</h1>
+      <p style="font-size:15.5px;color:#71767C;margin:0 0 28px;line-height:1.6">The link may be old, private, or mistyped. If it's a creator storefront, double-check the link they shared.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a onClick="{{ nav.home }}" style="cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:14px 26px;border-radius:2px;font-size:15px;font-weight:600">Back to home</a>
+        <a onClick="{{ nav.contact }}" style="cursor:pointer;text-decoration:none;background:transparent;color:#17191C;padding:14px 26px;border-radius:2px;font-size:15px;font-weight:500;border:1px solid rgba(23,25,28,0.18)">Contact us</a>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+</main>
+
+<footer style="background:#FBFCFC;border-top:1px solid rgba(23,25,28,0.09)">
+  <div style="width:100%;max-width:1200px;margin:0 auto;padding:clamp(48px,6vw,72px) clamp(20px,5vw,40px) clamp(28px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:clamp(28px,4vw,48px)">
+    <div style="grid-column:1/-1;max-width:320px">
+      <div style="font-weight:600;letter-spacing:-0.025em;font-size:20px;margin-bottom:12px">CutOutStuff<span style="color:#345B6B">.</span></div>
+      <p style="font-size:14px;line-height:1.6;color:#71767C;margin:0">Presence, printed. Premium life-size cutouts of anyone worth celebrating, shipped anywhere.</p>
+    </div>
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0A6;margin-bottom:16px">Explore</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <a onClick="{{ nav.how }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">How It Works</a>
+        <a onClick="{{ nav.quality }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Quality</a>
+        <a onClick="{{ nav.gallery }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Gallery</a>
+        <a onClick="{{ nav.faq }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">FAQ</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0A6;margin-bottom:16px">Support</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <a onClick="{{ nav.contact }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Contact</a>
+        <a onClick="{{ nav.shipping }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Shipping</a>
+        <a onClick="{{ nav.tracking }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Track an order</a>
+        <a onClick="{{ nav.returns }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Returns</a>
+        <a onClick="{{ nav.claim }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Report an issue</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#9AA0A6;margin-bottom:16px">Company</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <a onClick="{{ nav.program }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Creator Program</a>
+        <a onClick="{{ nav.privacy }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Privacy</a>
+        <a onClick="{{ nav.terms }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Terms</a>
+        <a onClick="{{ nav.rights }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Content &amp; Image Rights</a>
+        <a onClick="{{ nav.agreement }}" style="cursor:pointer;font-size:14px;color:#565C62;text-decoration:none">Creator Agreement</a>
+      </div>
+    </div>
+  </div>
+  <div style="width:100%;max-width:1200px;margin:0 auto;padding:20px clamp(20px,5vw,40px);border-top:1px solid rgba(23,25,28,0.08);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+    <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">© 2026 CutOutStuff</span>
+    <div style="display:flex;gap:18px;align-items:center">
+      <a href="CutOutStuff Dashboard.dc.html" style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;text-decoration:none">Creator sign in</a>
+      <a href="CutOutStuff Dashboard.dc.html" style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;text-decoration:none">Staff</a>
+      <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">Ships worldwide</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { page: 'home', qty: 1, discreet: true, size: 1, galleryCat: 'All', contactSent: false, applySent: false, placed: false, shipMethod: 'standard', reveal: {}, selProduct: null, cart: [], trackVerified: false, proofState: 'pending', claimSent: false, storeGateOk: false, lastOrder: null };
+  goTo(p, extra){
+    this.setState(Object.assign({ page: p, menuOpen: false }, extra || {}));
+    if (typeof window !== 'undefined') { try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch(e){ window.scrollTo(0,0); } }
+  }
+  componentDidMount(){
+    this._shaderTries = 0; this._initShader();
+    try {
+      const h = (window.location.hash || '').replace('#','');
+      const known = ['home','how','quality','gallery','faq','contact','program','apply','campaign','store','product','cart','checkout','confirm','tracking','proof','claim','privacy','terms','shipping','returns','rights','agreement'];
+      if (h) this.setState({ page: known.includes(h) ? h : 'notfound' });
+    } catch(e){}
+  }
+  componentWillUnmount(){
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._ro) { try { this._ro.disconnect(); } catch(e){} }
+  }
+  _initShader(){
+    const canvas = document.getElementById('how-shader');
+    if (!canvas){ if ((this._shaderTries = (this._shaderTries||0)+1) < 30) setTimeout(() => this._initShader(), 120); return; }
+    if (canvas._started) return; canvas._started = true;
+    let gl;
+    try { gl = canvas.getContext('webgl', { antialias:true, alpha:true, premultipliedAlpha:false }); } catch(e){ return; }
+    if (!gl) return; // CSS mesh-gradient fallback remains visible
+
+    const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
+    const fs = [
+      'precision mediump float;',
+      'uniform vec2 u_res;uniform float u_time;',
+      'float hash(vec2 p){return fract(sin(dot(p,vec2(41.3,289.1)))*43758.5453);}',
+      'float vnoise(vec2 p){vec2 i=floor(p),f=fract(p);float a=hash(i),b=hash(i+vec2(1.0,0.0)),c=hash(i+vec2(0.0,1.0)),d=hash(i+vec2(1.0,1.0));vec2 u=f*f*(3.0-2.0*f);return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);}',
+      'float fbm(vec2 p){float v=0.0,a=0.5;for(int i=0;i<5;i++){v+=a*vnoise(p);p*=2.0;a*=0.5;}return v;}',
+      'void main(){',
+      ' vec2 uv=gl_FragCoord.xy/u_res.xy;',
+      ' vec2 p=uv*vec2(u_res.x/u_res.y,1.0)*1.5;',
+      ' float t=u_time*0.035;',
+      ' float q=fbm(p*1.4-vec2(t*0.6));',
+      ' float n=fbm(p+vec2(t,-t*0.6)+q*0.7);',
+      ' vec3 c1=vec3(0.929,0.945,0.953);',
+      ' vec3 c2=vec3(0.851,0.890,0.902);',
+      ' vec3 pet=vec3(0.776,0.843,0.863);',
+      ' vec3 col=mix(c1,c2,smoothstep(0.25,0.85,n));',
+      ' col=mix(col,pet,smoothstep(0.62,0.98,q)*0.5);',
+      ' float vig=smoothstep(1.15,0.35,length(uv-0.5));',
+      ' col=mix(c1,col,0.55+0.45*vig);',
+      ' gl_FragColor=vec4(col,1.0);',
+      '}'
+    ].join('\n');
+
+    const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+    const prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'p');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const uRes = gl.getUniformLocation(prog, 'u_res');
+    const uTime = gl.getUniformLocation(prog, 'u_time');
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(1, Math.round(canvas.clientWidth * dpr));
+      const h = Math.max(1, Math.round(canvas.clientHeight * dpr));
+      if (canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; gl.viewport(0,0,w,h); }
+    };
+    try { this._ro = new ResizeObserver(resize); this._ro.observe(canvas); } catch(e){}
+    resize();
+
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const startT = performance.now();
+    const frame = (now) => {
+      resize();
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, reduce ? 8.0 : (now - startT) / 1000);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (!reduce) this._raf = requestAnimationFrame(frame);
+    };
+    if (reduce) frame(startT); else this._raf = requestAnimationFrame(frame);
+  }
+  _getTypewriter(){
+    if (this._Typewriter) return this._Typewriter;
+    const R = React;
+    const PHRASES = [
+      'Bring them into the room.',
+      'Make your dog the guest of honor.',
+      'Surprise someone with themselves.',
+      'Bring someone who can\u2019t be there.',
+      'Your favorite creator, in the room.',
+      'Make them larger than life.'
+    ];
+    function Typewriter(){
+      const [txt, setTxt] = R.useState(PHRASES[0]);
+      R.useEffect(() => {
+        let reduce = false;
+        try { reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+        if (reduce) return undefined;
+        let cancelled = false, t = null;
+        const wait = ms => new Promise(res => { t = setTimeout(res, ms); });
+        (async () => {
+          let idx = 0;
+          await wait(2600);
+          while (!cancelled) {
+            const cur = PHRASES[idx];
+            for (let p = cur.length - 1; p >= 0 && !cancelled; p--) { setTxt(cur.slice(0, p)); await wait(24); }
+            if (cancelled) break;
+            await wait(380);
+            idx = (idx + 1) % PHRASES.length;
+            const nxt = PHRASES[idx];
+            for (let p = 1; p <= nxt.length && !cancelled; p++) { setTxt(nxt.slice(0, p)); await wait(46); }
+            await wait(2700);
+          }
+        })();
+        return () => { cancelled = true; if (t) clearTimeout(t); };
+      }, []);
+      return R.createElement('span', null,
+        txt,
+        R.createElement('span', { 'aria-hidden': 'true', style: { display:'inline-block', width:'3px', height:'0.78em', background:'#345B6B', marginLeft:'0.08em', verticalAlign:'-0.02em', animation:'cosBlink 1.1s steps(1) infinite' } })
+      );
+    }
+    this._Typewriter = Typewriter;
+    return Typewriter;
+  }
+  renderVals(){
+    const page = this.state.page || 'home';
+    const keys = ['home','how','quality','gallery','faq','contact','program','apply','campaign','store','product','cart','checkout','confirm','tracking','proof','claim','privacy','terms','shipping','returns','rights','agreement','notfound'];
+    const P = {}; keys.forEach(k => P[k] = (page === k));
+    const nav = {}; keys.forEach(k => nav[k] = () => this.goTo(k));
+    const mk = (label, key) => ({
+      label, key, onClick: nav[key],
+      style: {
+        cursor:'pointer', fontSize:'14px', textDecoration:'none', paddingBottom:'3px',
+        color: page===key ? '#17191C' : '#71767C',
+        borderBottom: page===key ? '1px solid #17191C' : '1px solid transparent',
+        transition:'color .2s'
+      }
+    });
+    const topnav = [ mk('How It Works','how'), mk('Quality','quality'), mk('Gallery','gallery'), mk('FAQ','faq'), mk('Contact','contact') ];
+    const mobileNav = [ ['How It Works','how'],['Quality','quality'],['Gallery','gallery'],['FAQ','faq'],['Contact','contact'] ].map(([label,key]) => ({ label, onClick: nav[key] }));
+    const menuOpen = !!this.state.menuOpen;
+    const toggleMenu = () => this.setState(s => ({ menuOpen: !s.menuOpen }));
+    const closeAndContact = () => this.goTo('contact');
+
+    // ---- Gallery ----
+    const cats = ['All','Pets','People','Creators','Events','Retail','Gifts','Characters'];
+    const galleryAll = [
+      {cat:'Pets', label:'golden retriever', tall:true},
+      {cat:'People', label:'grandmother portrait', tall:false},
+      {cat:'Creators', label:'fashion creator', tall:true},
+      {cat:'People', label:'stylish man, full length', tall:false},
+      {cat:'Events', label:'wedding couple', tall:true},
+      {cat:'Retail', label:'in-store display unit', tall:false},
+      {cat:'Gifts', label:'graduation portrait', tall:false},
+      {cat:'Characters', label:'team mascot', tall:true},
+      {cat:'Pets', label:'tabby cat', tall:false},
+      {cat:'Creators', label:'nightlife / fashion model', tall:true},
+      {cat:'Events', label:'birthday guest of honor', tall:false},
+      {cat:'Retail', label:'product hero standee', tall:true},
+    ];
+    const galleryCat = this.state.galleryCat || 'All';
+    const galleryItems = (galleryCat === 'All' ? galleryAll : galleryAll.filter(g => g.cat === galleryCat))
+      .map(g => ({ ...g, ratio: g.tall ? '3 / 4' : '1 / 1' }));
+    const chips = cats.map(c => ({
+      label: c, onClick: () => this.setState({ galleryCat: c }),
+      style: {
+        cursor:'pointer', fontFamily:"'Space Mono',monospace", fontSize:'12px', letterSpacing:'0.04em',
+        padding:'8px 15px', borderRadius:'2px', whiteSpace:'nowrap', userSelect:'none',
+        border: galleryCat===c ? '1px solid #17191C' : '1px solid rgba(23,25,28,0.16)',
+        background: galleryCat===c ? '#17191C' : 'transparent',
+        color: galleryCat===c ? '#fff' : '#565C62'
+      }
+    }));
+
+    // ---- Creator storefront (collection) ----
+    const reveal = this.state.reveal || {};
+    const storeRaw = [
+      { id:'red-dress', title:'Red Dress', sub:'Life-size · up to 6 ft', price:149, nsfw:false, label:'red dress, full length' },
+      { id:'runway', title:'Runway Look', sub:'Life-size · up to 6 ft', price:149, nsfw:false, label:'runway look' },
+      { id:'neon-nights', title:'Neon Nights', sub:'Life-size · up to 6 ft', price:159, nsfw:true, label:'neon nights shoot' },
+      { id:'backstage', title:'Backstage', sub:'Tabletop · 24 in', price:59, nsfw:false, label:'backstage candid' },
+      { id:'after-hours', title:'After Hours', sub:'Life-size · up to 6 ft', price:159, nsfw:true, label:'after hours shoot' },
+      { id:'classic', title:'Classic Portrait', sub:'Grand · up to 7 ft', price:189, nsfw:false, label:'classic portrait' },
+    ];
+    const fmt0 = n => '$' + Number(n).toLocaleString('en-US');
+    const storeProducts = storeRaw.map(p => {
+      const revealed = !p.nsfw || !!reveal[p.id];
+      return {
+        ...p,
+        priceFmt: fmt0(p.price),
+        showOverlay: p.nsfw && !revealed,
+        showHide: p.nsfw && revealed,
+        thumbStyle: {
+          position:'absolute', inset:'0',
+          background:'repeating-linear-gradient(45deg,#E1E5E7 0 10px,#E9ECEE 10px 20px)',
+          display:'flex', alignItems:'flex-end', padding:'12px',
+          filter: revealed ? 'none' : 'blur(22px) saturate(0.85)',
+          transform: revealed ? 'none' : 'scale(1.12)',
+          transition:'filter .35s ease, transform .35s ease'
+        },
+        onCard: () => {
+          if (revealed) this.goTo('product', { selProduct: p });
+          else this.setState(s => ({ reveal: { ...(s.reveal||{}), [p.id]: true } }));
+        },
+        onHide: (e) => { if(e&&e.stopPropagation)e.stopPropagation(); this.setState(s => { const r={...(s.reveal||{})}; delete r[p.id]; return { reveal:r }; }); }
+      };
+    });
+    const selProduct = this.state.selProduct;
+    const prodTitle = selProduct ? ('Ava Mercer · ' + selProduct.title) : 'Ava Mercer · Life-Size Cutout';
+
+    // ---- Product / pricing ----
+    const sizes = [
+      { label:'Tabletop', sub:'24 in', price:59 },
+      { label:'Life-size', sub:'up to 6 ft', price:149 },
+      { label:'Grand', sub:'up to 7 ft', price:189 },
+    ];
+    const sizeIdx = this.state.size ?? 1;
+    const unit = sizes[sizeIdx].price;
+    const qty = this.state.qty || 1;
+    const subtotal = unit * qty;
+    const shipCost = this.state.shipMethod === 'express' ? 39 : 19;
+    const total = subtotal + shipCost;
+    const fmt = n => '$' + Number(n).toLocaleString('en-US');
+    const sizeOptions = sizes.map((s, i) => ({
+      label: s.label, sub: s.sub, priceFmt: fmt(s.price),
+      onClick: () => this.setState({ size: i }),
+      style: {
+        cursor:'pointer', flex:'1', minWidth:'110px', textAlign:'left', padding:'14px 16px', borderRadius:'2px', fontFamily:'inherit',
+        border: sizeIdx===i ? '1px solid #17191C' : '1px solid rgba(23,25,28,0.16)',
+        background: sizeIdx===i ? '#F0F2F3' : 'transparent', transition:'all .15s'
+      }
+    }));
+    const shipOptions = [
+      { key:'standard', label:'Standard', sub:'5–8 business days', priceFmt:'$19' },
+      { key:'express', label:'Express', sub:'2–3 business days', priceFmt:'$39' },
+    ].map(o => ({ ...o, onClick:()=>this.setState({shipMethod:o.key}),
+      style:{ cursor:'pointer', display:'flex', justifyContent:'space-between', alignItems:'center', gap:'12px', padding:'14px 16px', borderRadius:'2px', fontFamily:'inherit', width:'100%',
+        border: this.state.shipMethod===o.key ? '1px solid #17191C' : '1px solid rgba(23,25,28,0.16)',
+        background: this.state.shipMethod===o.key ? '#F0F2F3' : 'transparent' } }));
+
+    const incQty = () => this.setState(s => ({ qty: Math.min(99, (s.qty||1)+1) }));
+    const decQty = () => this.setState(s => ({ qty: Math.max(1, (s.qty||1)-1) }));
+    const sizeLabel = sizes[sizeIdx].label + ' · ' + sizes[sizeIdx].sub;
+
+    // ---- Form handlers ----
+    const submitContact = () => this.setState({ contactSent: true });
+    const submitApply = () => this.setState({ applySent: true });
+    // ---- cart ----
+    const cart = this.state.cart || [];
+    const cartCount = cart.reduce((a,c)=>a+c.qty,0);
+    const cartItems = cart.map((c,i) => ({ ...c,
+      unitFmt: fmt0(c.unit), lineFmt: fmt0(c.unit*c.qty),
+      inc: () => this.setState(s => ({ cart: s.cart.map((x,j)=> j===i?{...x, qty: Math.min(99,x.qty+1)}:x) })),
+      dec: () => this.setState(s => ({ cart: s.cart.map((x,j)=> j===i?{...x, qty: Math.max(1,x.qty-1)}:x) })),
+      remove: () => this.setState(s => ({ cart: s.cart.filter((x,j)=> j!==i) }))
+    }));
+    const cartSubtotal = cart.reduce((a,c)=>a+c.unit*c.qty,0);
+    const cartTotal = cartSubtotal + (cart.length ? shipCost : 0);
+    const addToCart = () => {
+      const item = { key: (selProduct ? selProduct.id : 'ava') + '-' + sizeIdx, title: prodTitle, sizeLabel, unit, qty };
+      this.setState(s => {
+        const c = [...(s.cart||[])];
+        const ix = c.findIndex(x => x.key === item.key);
+        if (ix >= 0) c[ix] = { ...c[ix], qty: Math.min(99, c[ix].qty + item.qty) };
+        else c.push(item);
+        return { cart: c };
+      });
+    };
+    const addAndCart = () => { addToCart(); this.goTo('cart'); };
+    const addAndCheckout = () => { addToCart(); this.goTo('checkout'); };
+    const placeOrder = () => {
+      const first = cart[0];
+      const lastOrder = {
+        summary: first ? (first.title + (cart.length > 1 ? (' + ' + (cart.length - 1) + ' more') : '')) : prodTitle,
+        detail: first ? (first.sizeLabel + ' · ' + cartCount + (cartCount > 1 ? ' items' : ' item')) : sizeLabel,
+        totalFmt: fmt0(cartTotal || total)
+      };
+      this.setState({ lastOrder, cart: [] });
+      this.goTo('confirm');
+    };
+    const lo = this.state.lastOrder || {};
+
+    // ---- tracking gate / proof / claim / store gate ----
+    const trackVerified = !!this.state.trackVerified;
+    const onTrack = () => this.setState({ trackVerified: true });
+    const pf = this.state.proofState || 'pending';
+    const PR = { pending: pf==='pending', changesForm: pf==='changesForm', approved: pf==='approved', changes: pf==='changes', actionable: pf==='pending' || pf==='changesForm' };
+    const approveProof = () => this.setState({ proofState: 'approved' });
+    const openChanges = () => this.setState({ proofState: 'changesForm' });
+    const submitChanges = () => this.setState({ proofState: 'changes' });
+    const claimSent = !!this.state.claimSent;
+    const submitClaim = () => this.setState({ claimSent: true });
+    const storeGateOk = !!this.state.storeGateOk;
+    const acceptGate = () => this.setState({ storeGateOk: true });
+    const toggleDiscreet = () => this.setState(s => ({ discreet: !s.discreet }));
+
+    // ---- Tracking stepper ----
+    const trackSteps = ['Order received','Artwork approved','In production','Packed','Shipped','Delivered'];
+    const trackCurrent = 2; // "In production"
+    const track = trackSteps.map((label,i) => {
+      const done = i < trackCurrent, active = i === trackCurrent;
+      return {
+        label,
+        mark: done ? '✓' : String(i+1).padStart(2,'0'),
+        dotBg: done ? '#345B6B' : (active ? '#17191C' : 'transparent'),
+        dotColor: (done || active) ? '#fff' : '#9AA0A6',
+        textColor: (done || active) ? '#17191C' : '#9AA0A6',
+        weight: active ? '600' : '400'
+      };
+    });
+
+    return {
+      page, P, nav, topnav, mobileNav, menuOpen, toggleMenu, closeAndContact,
+      heroTypewriter: React.createElement(this._getTypewriter()),
+      storeProducts, prodTitle,
+      chips, galleryItems,
+      sizeOptions, shipOptions, qty, incQty, decQty, sizeLabel,
+      unitFmt: fmt(unit), subtotalFmt: fmt(subtotal), shipFmt: fmt(shipCost), totalFmt: fmt(total),
+      contactSent: this.state.contactSent, notContactSent: !this.state.contactSent, submitContact,
+      applySent: this.state.applySent, notApplySent: !this.state.applySent, submitApply,
+      placeOrder, discreet: this.state.discreet, toggleDiscreet,
+      cartCount, cartItems, cartHasItems: cart.length > 0, cartEmpty: cart.length === 0,
+      cartSubtotalFmt: fmt0(cartSubtotal), cartTotalFmt: fmt0(cartTotal),
+      addAndCart, addAndCheckout,
+      lastOrderSummary: lo.summary || prodTitle, lastOrderDetail: lo.detail || sizeLabel, lastOrderTotalFmt: lo.totalFmt || fmt0(total),
+      trackVerified, notTrackVerified: !trackVerified, onTrack,
+      PR, approveProof, openChanges, submitChanges,
+      claimSent, notClaimSent: !claimSent, submitClaim,
+      storeGateOk, showStoreGate: !storeGateOk, acceptGate,
+      track, trackCurrent
+    };
+  }
+}
+</script>
+</body>
+</html>

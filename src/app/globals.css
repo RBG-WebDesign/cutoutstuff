@@ -1,61 +1,88 @@
-/* Fontshare Cabinet Grotesk font loading */
-@font-face {
-  font-family: 'Cabinet Grotesk';
-  src: url('https://cdn.fontshare.com/wf/J6PPRPKWXDUIYA47IXLEQB4R4OPVYDQH/N2ZXAXWEHVMLISD2TIXJC7EF4GOY43L4/NXM4Z4TDCMYWBZ7AVI2N6DQ5VMWNENMU.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cabinet Grotesk';
-  src: url('https://cdn.fontshare.com/wf/XMXWOHABYLQDJ42L65EFRYNVRY37HQCB/B2O4O6V3JMFM2WDCYQI3A47L5U4THDUL/WN5274VQ3AUBDFP74GB4EC4XYJ3EKVNE.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cabinet Grotesk';
-  src: url('https://cdn.fontshare.com/wf/ZX6AQLSFYVDPN2URWO2MQFGTYYOHIS64/TPYPKOYWFQVNJHLLRXD4KFYX4LUOUW4Z/6QH2ALVTTK7IRVO5MYOQQ3OZNXW5SSS3.woff2') format('woff2');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
+/*
+ * CutOutStuff — design tokens (single source of truth)
+ * Ported verbatim from design_handoff/README.md §Design Tokens.
+ * The ONLY accent is petrol-slate (#345B6B). Flat + hairline aesthetic.
+ */
 
 :root {
-  --navy: #15243C;
-  --accent: #1D77F5;
-  --warm-white: #FBF8F3;
-  --success: #1FA971;
-  --warn: #F4B63F;
-  --error: #E5484D;
-  
-  --background: #FBF8F3;
-  --foreground: #15243C;
-  
-  --font-cabinet-grotesk: 'Cabinet Grotesk', sans-serif;
+  /* Surfaces */
+  --canvas: #F5F6F7;       /* page background */
+  --surface: #FBFCFC;      /* cards, panels, footer */
+  --panel: #EEF0F1;        /* alternating sections */
+  --panel-alt: #EEF1F2;
+
+  /* Ink */
+  --ink: #17191C;          /* primary text, primary buttons, dark sections */
+  --muted-ink: #565C62;    /* body copy */
+  --soft-ink: #71767C;     /* secondary text */
+  --faint-ink: #9AA0A6;    /* labels, metadata, placeholders */
+
+  /* Accent (petrol-slate) — the only accent */
+  --accent: #345B6B;       /* links, active states, chart series */
+  --accent-tint: #E7EFF2;  /* info panels, "in production" pill bg */
+  --accent-light: #8FB4C4; /* accent text on ink backgrounds */
+
+  /* Hairlines — varying strength */
+  --hairline: rgba(23, 25, 28, 0.09);
+  --hairline-08: rgba(23, 25, 28, 0.08);
+  --hairline-10: rgba(23, 25, 28, 0.10);
+  --hairline-12: rgba(23, 25, 28, 0.12);
+  --hairline-14: rgba(23, 25, 28, 0.14);
+
+  /* Status colors (pill = text on tinted bg) */
+  --status-success-text: #2E7D5B;
+  --status-success-bg: #EAF4EF;
+  --status-progress-text: #345B6B;
+  --status-progress-bg: #E7EFF2;
+  --status-waiting-text: #B0791F;
+  --status-waiting-bg: #F6EFE0;
+  --status-error-text: #B4442E;
+  --status-error-bg: #F6E4E0;
+  --status-neutral-text: #6B7076;
+  --status-neutral-bg: #EDEFF1;
+
+  /* Layout */
+  --container: 1200px;         /* marketing */
+  --container-dash: 1160px;    /* dashboard content */
+  --gutter: clamp(20px, 5vw, 40px);
+  --section-y: clamp(56px, 8vw, 110px);
+
+  /* Radii */
+  --radius-control: 2px;
+  --radius-card: 3px;
+  --radius-pill: 100px;
+
+  /* Type (bound to next/font CSS variables, with fallbacks) */
+  --font-display: var(--font-schibsted), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, "SF Mono", monospace;
+
+  /* App theme hooks */
+  --background: var(--canvas);
+  --foreground: var(--ink);
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
-html,
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  max-width: 100vw;
+  margin: 0;
   min-height: 100%;
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: #EAF3FF;
-  color: var(--navy);
+  background: var(--accent);
+  color: #fff;
 }
 
 a {
@@ -67,16 +94,62 @@ button {
   font-family: inherit;
 }
 
-/* Responsive visibility utilities */
-@media (min-width: 1024px) {
-  .mobile-only {
-    display: none !important;
+summary {
+  list-style: none;
+  cursor: pointer;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Focus ring (a11y) — README §Motion / focus */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Motion */
+@keyframes fadeUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes cosBlink {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
 
-@media (max-width: 1023px) {
-  .desktop-only {
+/* Responsive nav — hamburger below 760px */
+.cos-burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 760px) {
+  .cos-desktop-nav {
     display: none !important;
   }
+  .cos-burger {
+    display: flex !important;
+  }
 }
-

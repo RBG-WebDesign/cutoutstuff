@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+*{caret-color:transparent}
+input,textarea,select,[contenteditable="true"]{caret-color:#17191C}
+body{margin:0;background:#E9ECEE;color:#17191C;font-family:'Schibsted Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+</style>
+</helmet>
+<div style="padding:clamp(24px,4vw,56px) 20px;display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,40px);justify-content:center;align-items:flex-start">
+
+  <!-- ============ ORDER CONFIRMATION ============ -->
+  <div style="width:600px;max-width:100%">
+    <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#71767C;margin-bottom:10px;text-align:center">Email · Order confirmation</div>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:4px;overflow:hidden">
+      <div style="background:#17191C;padding:22px 32px"><span style="font-weight:600;letter-spacing:-0.025em;font-size:19px;color:#fff">CutOutStuff<span style="color:#8FB4C4">.</span></span></div>
+      <div style="padding:36px 32px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">Order confirmed</div>
+        <h1 style="font-size:26px;line-height:1.15;letter-spacing:-0.02em;font-weight:500;margin:0 0 12px">Your cutout is being prepared.</h1>
+        <p style="font-size:15px;line-height:1.6;color:#565C62;margin:0 0 26px">Thanks for your order, Jordan. We've received it and our team is getting your made-to-order cutout ready. Here are the details.</p>
+        <div style="border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden;margin-bottom:24px">
+          <div style="display:flex;justify-content:space-between;padding:14px 18px;background:#FBFCFC;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#71767C">Order</span><span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">#COS-40213</span></div>
+          <div style="display:flex;gap:14px;padding:18px">
+            <div style="width:60px;aspect-ratio:3/4;flex:none;background:repeating-linear-gradient(45deg,#E9ECEE 0 7px,#F1F3F4 7px 14px);border:1px solid rgba(23,25,28,0.09)"></div>
+            <div><div style="font-size:15px;font-weight:600">Ava Mercer · Life-Size Cutout</div><div style="font-size:13.5px;color:#71767C;margin-top:4px">Life-size · up to 6 ft · Qty 1</div><div style="font-size:14px;font-weight:700;margin-top:8px">$168.00</div></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1px;background:rgba(23,25,28,0.09);border:1px solid rgba(23,25,28,0.09);border-radius:3px;overflow:hidden;margin-bottom:28px">
+          <div style="flex:1;background:#fff;padding:16px 18px"><div style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:#9AA0A6;margin-bottom:6px">Est. production</div><div style="font-size:15px;font-weight:600">4–7 days</div></div>
+          <div style="flex:1;background:#fff;padding:16px 18px"><div style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:#9AA0A6;margin-bottom:6px">Est. shipping</div><div style="font-size:15px;font-weight:600">3–5 days after</div></div>
+        </div>
+        <a href="#" style="display:block;text-align:center;text-decoration:none;background:#17191C;color:#fff;padding:15px;border-radius:2px;font-size:15px;font-weight:600;margin-bottom:16px">Track your order</a>
+        <p style="font-size:13px;line-height:1.6;color:#9AA0A6;margin:0;text-align:center">Ships in plain, protective packaging. Questions? Reply to this email.</p>
+      </div>
+      <div style="padding:22px 32px;border-top:1px solid rgba(23,25,28,0.08);background:#FBFCFC"><p style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;margin:0;line-height:1.6">CutOutStuff · Premium life-size cutouts<br>You're receiving this because you placed an order.</p></div>
+    </div>
+  </div>
+
+  <!-- ============ SHIPPING NOTIFICATION ============ -->
+  <div style="width:600px;max-width:100%">
+    <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#71767C;margin-bottom:10px;text-align:center">Email · Shipping notification</div>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:4px;overflow:hidden">
+      <div style="background:#17191C;padding:22px 32px"><span style="font-weight:600;letter-spacing:-0.025em;font-size:19px;color:#fff">CutOutStuff<span style="color:#8FB4C4">.</span></span></div>
+      <div style="padding:36px 32px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">On its way</div>
+        <h1 style="font-size:26px;line-height:1.15;letter-spacing:-0.02em;font-weight:500;margin:0 0 12px">Your cutout has shipped.</h1>
+        <p style="font-size:15px;line-height:1.6;color:#565C62;margin:0 0 26px">Good news, Jordan: order <strong>#COS-40213</strong> is on its way. Use the tracking number below to follow its journey.</p>
+        <div style="border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px;text-align:center;margin-bottom:24px">
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Tracking number</div>
+          <div style="font-family:'Space Mono',monospace;font-size:20px;font-weight:700;letter-spacing:0.02em">1Z 8842 47 913</div>
+          <div style="font-size:13.5px;color:#71767C;margin-top:8px">Carrier: Nationwide Freight · Est. delivery Jul 9</div>
+        </div>
+        <a href="#" style="display:block;text-align:center;text-decoration:none;background:#17191C;color:#fff;padding:15px;border-radius:2px;font-size:15px;font-weight:600;margin-bottom:16px">Track shipment</a>
+        <p style="font-size:13px;line-height:1.6;color:#9AA0A6;margin:0;text-align:center">Large-format package, a signature may be required on delivery.</p>
+      </div>
+      <div style="padding:22px 32px;border-top:1px solid rgba(23,25,28,0.08);background:#FBFCFC"><p style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;margin:0;line-height:1.6">CutOutStuff · Premium life-size cutouts<br>Shipping update for order #COS-40213.</p></div>
+    </div>
+  </div>
+
+  <!-- ============ PAYOUT NOTICE (CREATOR) ============ -->
+  <div style="width:600px;max-width:100%">
+    <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#71767C;margin-bottom:10px;text-align:center">Email · Creator payout notice</div>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:4px;overflow:hidden">
+      <div style="background:#17191C;padding:22px 32px"><span style="font-weight:600;letter-spacing:-0.025em;font-size:19px;color:#fff">CutOutStuff<span style="color:#8FB4C4">.</span></span></div>
+      <div style="padding:36px 32px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">Payout sent</div>
+        <h1 style="font-size:26px;line-height:1.15;letter-spacing:-0.02em;font-weight:500;margin:0 0 12px">Your payout is on the way.</h1>
+        <p style="font-size:15px;line-height:1.6;color:#565C62;margin:0 0 26px">Hi Ava, your campaign payout for June has been sent to your account on file. Here's the summary.</p>
+        <div style="background:#17191C;border-radius:3px;padding:26px;text-align:center;margin-bottom:22px">
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#8FB4C4;margin-bottom:10px">Payout amount</div>
+          <div style="font-size:38px;font-weight:600;letter-spacing:-0.02em;color:#fff">$3,120.00</div>
+        </div>
+        <div style="border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden;margin-bottom:28px">
+          <div style="display:flex;justify-content:space-between;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Period</span><span style="font-size:13.5px;font-weight:600">June 2026</span></div>
+          <div style="display:flex;justify-content:space-between;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Units sold</span><span style="font-size:13.5px;font-weight:600">142</span></div>
+          <div style="display:flex;justify-content:space-between;padding:13px 18px"><span style="font-size:13.5px;color:#71767C">Arrives</span><span style="font-size:13.5px;font-weight:600">2–3 business days</span></div>
+        </div>
+        <a href="#" style="display:block;text-align:center;text-decoration:none;background:#17191C;color:#fff;padding:15px;border-radius:2px;font-size:15px;font-weight:600;margin-bottom:16px">View campaign dashboard</a>
+        <p style="font-size:13px;line-height:1.6;color:#9AA0A6;margin:0;text-align:center">A detailed statement is available in your dashboard under Payouts.</p>
+      </div>
+      <div style="padding:22px 32px;border-top:1px solid rgba(23,25,28,0.08);background:#FBFCFC"><p style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;margin:0;line-height:1.6">CutOutStuff · Creator Program<br>Payout confirmation for your active campaign.</p></div>
+    </div>
+  </div>
+
+  <!-- ============ FULFILLMENT ORDER PACKET (TO FACILITY) ============ -->
+  <div style="width:600px;max-width:100%">
+    <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#71767C;margin-bottom:10px;text-align:center">Email · Order packet → fulfillment facility (automated)</div>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:4px;overflow:hidden">
+      <div style="background:#17191C;padding:22px 32px;display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font-weight:600;letter-spacing:-0.025em;font-size:19px;color:#fff">CutOutStuff<span style="color:#8FB4C4">.</span></span><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#8FB4C4">OPS · AUTOMATED</span></div>
+      <div style="padding:36px 32px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">New production order</div>
+        <h1 style="font-size:26px;line-height:1.15;letter-spacing:-0.02em;font-weight:500;margin:0 0 12px">Print &amp; ship: order #COS-40213</h1>
+        <p style="font-size:15px;line-height:1.6;color:#565C62;margin:0 0 26px">To FlexPrint Co.: a new made-to-order cutout has been placed. Files and shipping details below. Reply CONFIRM to acknowledge.</p>
+        <div style="border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden;margin-bottom:22px">
+          <div style="display:flex;justify-content:space-between;padding:13px 18px;background:#FBFCFC;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#71767C">Production spec</span><span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">#COS-40213</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Item</span><span style="font-size:13.5px;font-weight:600">Ava Mercer · Red Dress · Life-size (6 ft)</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Quantity</span><span style="font-size:13.5px;font-weight:600">1</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Material / finish</span><span style="font-size:13.5px;font-weight:600">Rigid board · matte · contour cut · stand</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Packaging</span><span style="font-size:13.5px;font-weight:600">Plain / discreet · corner-protected</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 18px"><span style="font-size:13.5px;color:#71767C">Service level</span><span style="font-size:13.5px;font-weight:600">Standard · ship within 5 business days</span></div>
+        </div>
+        <div style="border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:16px 18px;margin-bottom:22px">
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Ship to</div>
+          <div style="font-size:14px;line-height:1.65;color:#3E444A">J. Rivera<br>418 Cedar Hollow Ln<br>Austin, TX 78704 · United States</div>
+        </div>
+        <a href="#" style="display:block;text-align:center;text-decoration:none;background:#17191C;color:#fff;padding:15px;border-radius:2px;font-size:15px;font-weight:600;margin-bottom:10px">Download print-ready file (CMYK PDF)</a>
+        <a href="#" style="display:block;text-align:center;text-decoration:none;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:14px;border-radius:2px;font-size:14px;font-weight:500">Upload tracking number</a>
+        <p style="font-size:13px;line-height:1.6;color:#9AA0A6;margin:16px 0 0;text-align:center">Issues with this order? Reply to this email, it routes to ops@cutoutstuff.com.</p>
+      </div>
+      <div style="padding:22px 32px;border-top:1px solid rgba(23,25,28,0.08);background:#FBFCFC"><p style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;margin:0;line-height:1.6">CutOutStuff · Fulfillment operations<br>Sent automatically when a customer order is paid.</p></div>
+    </div>
+  </div>
+
+  <!-- ============ PROOF READY ============ -->
+  <div style="width:600px;max-width:100%">
+    <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#71767C;margin-bottom:10px;text-align:center">Email · Proof ready for approval</div>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:4px;overflow:hidden">
+      <div style="background:#17191C;padding:22px 32px"><span style="font-weight:600;letter-spacing:-0.025em;font-size:19px;color:#fff">CutOutStuff<span style="color:#8FB4C4">.</span></span></div>
+      <div style="padding:36px 32px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">Action needed</div>
+        <h1 style="font-size:26px;line-height:1.15;letter-spacing:-0.02em;font-weight:500;margin:0 0 12px">Your proof is ready.</h1>
+        <p style="font-size:15px;line-height:1.6;color:#565C62;margin:0 0 22px">Take a look at exactly what we'll print for order <strong>#COS-40213</strong>. Production starts as soon as you approve, and approval is final.</p>
+        <div style="aspect-ratio:16/9;background:repeating-linear-gradient(45deg,#E9ECEE 0 10px,#F1F3F4 10px 20px);border:1px solid rgba(23,25,28,0.09);border-radius:3px;display:flex;align-items:flex-end;padding:12px;margin-bottom:22px"><span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// proof thumbnail</span></div>
+        <a href="#" style="display:block;text-align:center;text-decoration:none;background:#17191C;color:#fff;padding:15px;border-radius:2px;font-size:15px;font-weight:600;margin-bottom:10px">Review &amp; approve proof</a>
+        <p style="font-size:13px;line-height:1.6;color:#9AA0A6;margin:0;text-align:center">Want something adjusted? Request changes from the same page, revisions are free.</p>
+      </div>
+      <div style="padding:22px 32px;border-top:1px solid rgba(23,25,28,0.08);background:#FBFCFC"><p style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;margin:0;line-height:1.6">CutOutStuff · Proof approval for order #COS-40213</p></div>
+    </div>
+  </div>
+
+  <!-- ============ CLAIM RECEIVED ============ -->
+  <div style="width:600px;max-width:100%">
+    <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#71767C;margin-bottom:10px;text-align:center">Email · Damage claim received</div>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:4px;overflow:hidden">
+      <div style="background:#17191C;padding:22px 32px"><span style="font-weight:600;letter-spacing:-0.025em;font-size:19px;color:#fff">CutOutStuff<span style="color:#8FB4C4">.</span></span></div>
+      <div style="padding:36px 32px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">We're on it</div>
+        <h1 style="font-size:26px;line-height:1.15;letter-spacing:-0.02em;font-weight:500;margin:0 0 12px">We got your claim.</h1>
+        <p style="font-size:15px;line-height:1.6;color:#565C62;margin:0 0 22px">Sorry your cutout didn't arrive the way it should have. Our team reviews every claim within 1 business day, and if approved, a free replacement goes straight into production. No return shipping needed.</p>
+        <div style="border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden;margin-bottom:22px">
+          <div style="display:flex;justify-content:space-between;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Claim</span><span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">#CLM-1042</span></div>
+          <div style="display:flex;justify-content:space-between;padding:13px 18px"><span style="font-size:13.5px;color:#71767C">Order</span><span style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">#COS-40188</span></div>
+        </div>
+        <p style="font-size:13px;line-height:1.6;color:#9AA0A6;margin:0;text-align:center">We'll email you the decision and, if approved, a new production timeline.</p>
+      </div>
+      <div style="padding:22px 32px;border-top:1px solid rgba(23,25,28,0.08);background:#FBFCFC"><p style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;margin:0;line-height:1.6">CutOutStuff · Support</p></div>
+    </div>
+  </div>
+
+  <!-- ============ APPLICATION APPROVED ============ -->
+  <div style="width:600px;max-width:100%">
+    <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#71767C;margin-bottom:10px;text-align:center">Email · Creator application approved</div>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:4px;overflow:hidden">
+      <div style="background:#17191C;padding:22px 32px"><span style="font-weight:600;letter-spacing:-0.025em;font-size:19px;color:#fff">CutOutStuff<span style="color:#8FB4C4">.</span></span></div>
+      <div style="padding:36px 32px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">You're in</div>
+        <h1 style="font-size:26px;line-height:1.15;letter-spacing:-0.02em;font-weight:500;margin:0 0 12px">Let's build your storefront.</h1>
+        <p style="font-size:15px;line-height:1.6;color:#565C62;margin:0 0 22px">Hi Luna, your application was approved. Next up is a 5-minute onboarding: pick your image, set your price, confirm rights, and we handle everything else. Your private storefront link stays yours to share.</p>
+        <a href="#" style="display:block;text-align:center;text-decoration:none;background:#17191C;color:#fff;padding:15px;border-radius:2px;font-size:15px;font-weight:600;margin-bottom:10px">Start onboarding</a>
+        <p style="font-size:13px;line-height:1.6;color:#9AA0A6;margin:0;text-align:center">Questions first? Just reply, a real person reads these.</p>
+      </div>
+      <div style="padding:22px 32px;border-top:1px solid rgba(23,25,28,0.08);background:#FBFCFC"><p style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;margin:0;line-height:1.6">CutOutStuff · Creator Program</p></div>
+    </div>
+  </div>
+
+  <!-- ============ PASSWORD RESET ============ -->
+  <div style="width:600px;max-width:100%">
+    <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#71767C;margin-bottom:10px;text-align:center">Email · Password reset</div>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:4px;overflow:hidden">
+      <div style="background:#17191C;padding:22px 32px"><span style="font-weight:600;letter-spacing:-0.025em;font-size:19px;color:#fff">CutOutStuff<span style="color:#8FB4C4">.</span></span></div>
+      <div style="padding:36px 32px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">Password reset</div>
+        <h1 style="font-size:26px;line-height:1.15;letter-spacing:-0.02em;font-weight:500;margin:0 0 12px">Reset your password.</h1>
+        <p style="font-size:15px;line-height:1.6;color:#565C62;margin:0 0 22px">We received a request to reset the password for your account. This link expires in 30 minutes and can be used once.</p>
+        <a href="#" style="display:block;text-align:center;text-decoration:none;background:#17191C;color:#fff;padding:15px;border-radius:2px;font-size:15px;font-weight:600;margin-bottom:10px">Choose a new password</a>
+        <p style="font-size:13px;line-height:1.6;color:#9AA0A6;margin:0;text-align:center">Didn't request this? You can safely ignore this email, your password won't change.</p>
+      </div>
+      <div style="padding:22px 32px;border-top:1px solid rgba(23,25,28,0.08);background:#FBFCFC"><p style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;margin:0;line-height:1.6">CutOutStuff · Account security</p></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

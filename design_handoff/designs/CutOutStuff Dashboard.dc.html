@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta name="ext-resource-dependency" content="https://unpkg.com/prop-types@15.8.1/prop-types.min.js">
+<meta name="ext-resource-dependency" content="https://unpkg.com/react-is@18.3.1/umd/react-is.production.min.js">
+<meta name="ext-resource-dependency" content="https://unpkg.com/recharts@3.9.1/umd/Recharts.js">
+<style>
+*{box-sizing:border-box}
+*{caret-color:transparent}
+input,textarea,select,[contenteditable="true"]{caret-color:#17191C}
+body{margin:0;background:#F5F6F7;color:#17191C;font-family:'Schibsted Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+::selection{background:#345B6B;color:#fff}
+input,select,textarea,button{font-family:inherit}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid #345B6B;outline-offset:2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.45}}
+@media (max-width:860px){
+  .dash-shell{flex-direction:column}
+  .dash-aside{position:static !important;height:auto !important;flex:none !important;width:100%;border-right:none !important;border-bottom:1px solid rgba(23,25,28,0.09);padding:14px 16px !important}
+  .dash-nav{flex-direction:row !important;overflow-x:auto;gap:6px !important;padding-bottom:4px}
+  .dash-nav>button{white-space:nowrap}
+  .dash-account{display:none !important}
+}
+</style>
+</helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#17191C"/><rect x="24" y="30" width="22" height="40" rx="2" fill="#345B6B"/><rect x="52" y="30" width="24" height="10" rx="2" fill="#EEF1F2"/><rect x="52" y="46" width="24" height="6" rx="2" fill="#565C62"/><rect x="52" y="56" width="16" height="6" rx="2" fill="#565C62"/></svg></template>
+<sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:200;background:#F5F6F7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px">
+  <div style="width:38px;height:38px;border:3px solid rgba(23,25,28,0.14);border-top-color:#345B6B;border-radius:50%;animation:spin .8s linear infinite"></div>
+  <div style="font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.04em;color:#71767C">Signing you in…</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ notAuthed }}" hint-placeholder-val="{{ true }}">
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <div style="padding:22px clamp(20px,5vw,40px);display:flex;justify-content:space-between;align-items:center">
+    <div style="font-weight:600;letter-spacing:-0.025em;font-size:20px">CutOutStuff<span style="color:#345B6B">.</span></div>
+    <a href="CutOutStuff.dc.html" style="font-family:'Space Mono',monospace;font-size:12.5px;color:#71767C;text-decoration:none">← Back to site</a>
+  </div>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:24px 24px 64px">
+    <div style="width:100%;max-width:420px">
+
+      <sc-if value="{{ AU.chooser }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <h1 style="font-size:clamp(26px,4vw,34px);font-weight:500;letter-spacing:-0.025em;margin:0 0 8px;text-align:center">Sign in</h1>
+        <p style="font-size:15px;color:#71767C;text-align:center;margin:0 0 32px">Choose how you'd like to continue.</p>
+        <button onClick="{{ goCreatorLogin }}" style="cursor:pointer;width:100%;text-align:left;background:#fff;border:1px solid rgba(23,25,28,0.14);border-radius:3px;padding:20px 22px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:12px" style-hover="border-color:#345B6B">
+          <span><span style="display:block;font-size:16px;font-weight:600;color:#17191C">I'm a creator</span><span style="display:block;font-size:13.5px;color:#71767C;margin-top:3px">Manage your campaign, orders &amp; payouts</span></span>
+          <span style="font-size:18px;color:#345B6B">→</span>
+        </button>
+        <button onClick="{{ goStaffLogin }}" style="cursor:pointer;width:100%;text-align:left;background:#fff;border:1px solid rgba(23,25,28,0.14);border-radius:3px;padding:20px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px" style-hover="border-color:#345B6B">
+          <span><span style="display:block;font-size:16px;font-weight:600;color:#17191C">Staff login</span><span style="display:block;font-size:13.5px;color:#71767C;margin-top:3px">CutOutStuff team &amp; operations</span></span>
+          <span style="font-size:18px;color:#345B6B">→</span>
+        </button>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ AU.creator }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.12);border-radius:3px;padding:clamp(28px,4vw,40px)">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">Creator sign in</div>
+        <h1 style="font-size:24px;font-weight:500;letter-spacing:-0.02em;margin:0 0 24px">Welcome back</h1>
+        <label style="display:flex;flex-direction:column;gap:7px;margin-bottom:16px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Email</span><input type="email" placeholder="you@email.com" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+        <label style="display:flex;flex-direction:column;gap:7px;margin-bottom:10px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Password</span><input type="password" placeholder="••••••••" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+        <div style="text-align:right;margin-bottom:22px"><span onClick="{{ goReset }}" style="cursor:pointer;font-size:13px;color:#345B6B">Forgot password?</span></div>
+        <button onClick="{{ signInCreator }}" style="cursor:pointer;width:100%;background:#17191C;color:#fff;border:none;padding:14px;border-radius:2px;font-size:15px;font-weight:600">Sign in</button>
+        <div style="text-align:center;margin-top:18px"><span onClick="{{ goChooser }}" style="cursor:pointer;font-size:13px;color:#71767C">← All sign-in options</span></div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ AU.staff }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.12);border-radius:3px;padding:clamp(28px,4vw,40px)">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">Staff login</div>
+        <h1 style="font-size:24px;font-weight:500;letter-spacing:-0.02em;margin:0 0 24px">Team access</h1>
+        <label style="display:flex;flex-direction:column;gap:7px;margin-bottom:16px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Work email</span><input type="email" placeholder="you@cutoutstuff.com" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+        <label style="display:flex;flex-direction:column;gap:7px;margin-bottom:10px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Password</span><input type="password" placeholder="••••••••" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+        <div style="text-align:right;margin-bottom:22px"><span onClick="{{ goReset }}" style="cursor:pointer;font-size:13px;color:#345B6B">Forgot password?</span></div>
+        <button onClick="{{ signInStaff }}" style="cursor:pointer;width:100%;background:#17191C;color:#fff;border:none;padding:14px;border-radius:2px;font-size:15px;font-weight:600">Sign in</button>
+        <div style="text-align:center;margin-top:18px"><span onClick="{{ goChooser }}" style="cursor:pointer;font-size:13px;color:#71767C">← All sign-in options</span></div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ AU.reset }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.12);border-radius:3px;padding:clamp(28px,4vw,40px)">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#345B6B;margin-bottom:14px">Reset password</div>
+        <h1 style="font-size:24px;font-weight:500;letter-spacing:-0.02em;margin:0 0 10px">Forgot your password?</h1>
+        <p style="font-size:14.5px;line-height:1.6;color:#71767C;margin:0 0 22px">Enter your email and we'll send a link to reset it.</p>
+        <label style="display:flex;flex-direction:column;gap:7px;margin-bottom:22px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Email</span><input type="email" placeholder="you@email.com" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+        <button onClick="{{ submitReset }}" style="cursor:pointer;width:100%;background:#17191C;color:#fff;border:none;padding:14px;border-radius:2px;font-size:15px;font-weight:600">Send reset link</button>
+        <div style="text-align:center;margin-top:18px"><span onClick="{{ goChooser }}" style="cursor:pointer;font-size:13px;color:#71767C">← Back to sign in</span></div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ AU.resetSent }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.12);border-radius:3px;padding:clamp(28px,4vw,40px);text-align:center">
+        <div style="width:52px;height:52px;border-radius:50%;background:#345B6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 20px">✓</div>
+        <h1 style="font-size:22px;font-weight:500;letter-spacing:-0.02em;margin:0 0 10px">Check your email</h1>
+        <p style="font-size:14.5px;line-height:1.6;color:#71767C;margin:0 0 24px">If an account exists for that address, a reset link is on its way. It expires in 30 minutes.</p>
+        <button onClick="{{ goChooser }}" style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:12px 24px;border-radius:2px;font-size:14px;font-weight:500">Back to sign in</button>
+      </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ authed }}" hint-placeholder-val="{{ false }}">
+<div class="dash-shell" style="display:flex;min-height:100vh;background:#F5F6F7">
+
+  <aside class="dash-aside" style="flex:0 0 250px;background:#fff;border-right:1px solid rgba(23,25,28,0.09);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:22px 16px">
+    <div style="padding:6px 8px 20px">
+      <div style="font-weight:600;letter-spacing:-0.025em;font-size:19px">CutOutStuff<span style="color:#345B6B">.</span></div>
+      <div style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;margin-top:3px">{{ roleLabel }}</div>
+    </div>
+    <div style="display:flex;gap:4px;background:#F0F2F3;padding:4px;border-radius:3px;margin-bottom:22px">
+      <button onClick="{{ toCreator }}" style="{{ creatorTabStyle }}">Creator</button>
+      <button onClick="{{ toAdmin }}" style="{{ adminTabStyle }}">Admin</button>
+    </div>
+    <nav class="dash-nav" aria-label="Dashboard" style="display:flex;flex-direction:column;gap:3px">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+        <button onClick="{{ item.onClick }}" style="{{ item.style }}"><span style="{{ item.dotStyle }}"></span>{{ item.label }}</button>
+      </sc-for>
+    </nav>
+    <div class="dash-account" style="margin-top:auto;padding-top:16px;border-top:1px solid rgba(23,25,28,0.08);display:flex;flex-direction:column;gap:2px">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 8px 12px"><div style="width:30px;height:30px;border-radius:50%;background:#345B6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none">{{ avatar }}</div><div style="min-width:0"><div style="font-size:13px;font-weight:600;line-height:1.2">{{ accountName }}</div><div style="font-size:11px;color:#9AA0A6;line-height:1.3">{{ accountEmail }}</div></div></div>
+      <button onClick="{{ signOut }}" style="cursor:pointer;text-align:left;background:transparent;border:none;font-size:13px;color:#71767C;padding:8px;border-radius:2px" style-hover="background:#F0F2F3">Sign out</button>
+      <a href="CutOutStuff.dc.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;font-size:13px;color:#71767C;padding:8px;border-radius:2px">← Back to site</a>
+    </div>
+  </aside>
+
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+    <header style="position:sticky;top:0;z-index:20;background:rgba(245,246,247,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(23,25,28,0.09);padding:0 clamp(20px,3vw,40px);height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <h1 style="font-size:18px;font-weight:600;letter-spacing:-0.015em;margin:0">{{ screenTitle }}</h1>
+      <div style="display:flex;align-items:center;gap:14px">
+        <input type="text" placeholder="Search orders…" value="{{ topSearchVal }}" onInput="{{ onTopSearch }}" aria-label="Search orders" style="font-size:13.5px;padding:9px 13px;border:1px solid rgba(23,25,28,0.14);border-radius:2px;background:#fff;outline:none;width:clamp(120px,20vw,220px)" />
+        <div style="width:34px;height:34px;border-radius:50%;background:#345B6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex:none">{{ avatar }}</div>
+      </div>
+    </header>
+    <div style="padding:clamp(22px,3vw,36px);max-width:1160px;width:100%">
+
+      <!-- CREATOR: OVERVIEW -->
+      <sc-if value="{{ SC.overview }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-start;margin-bottom:26px">
+          <div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+              <h2 style="font-size:clamp(20px,2.4vw,26px);font-weight:600;letter-spacing:-0.02em;margin:0">Ava Mercer · Life-Size Cutout</h2>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;color:#2E7D5B;background:#EAF4EF">● LIVE</span>
+            </div>
+            <a href="CutOutStuff.dc.html" style="font-family:'Space Mono',monospace;font-size:13px;color:#345B6B;text-decoration:none">cutoutstuff.com/c/ava-mercer ↗</a>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px">
+            <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">Launched Jun 4, 2026</span>
+            <button onClick="{{ toggleEmpty }}" style="cursor:pointer;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.04em;background:transparent;border:1px solid rgba(23,25,28,0.16);color:#71767C;padding:6px 12px;border-radius:2px">{{ emptyToggleLabel }}</button>
+          </div>
+        </div>
+        <sc-if value="{{ emptyDemo }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:clamp(40px,6vw,72px);text-align:center">
+            <div style="width:60px;height:60px;border-radius:50%;background:#F0F2F3;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px;color:#9AA0A6">◴</div>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 8px">No orders yet</h3>
+            <p style="font-size:15px;color:#71767C;margin:0 auto 22px;max-width:42ch;line-height:1.6">Once your campaign is live and you share your link, orders appear here in real time with revenue and performance.</p>
+            <button style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:12px 22px;border-radius:2px;font-size:14px;font-weight:600">Copy your campaign link</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ notEmpty }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px">
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Orders</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">142</div><div style="font-size:13px;color:#2E7D5B;margin-top:4px">▲ 18% vs last month</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Revenue</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">$21,340</div><div style="font-size:13px;color:#2E7D5B;margin-top:4px">▲ 22% vs last month</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Units sold</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">156</div><div style="font-size:13px;color:#71767C;margin-top:4px">1.1 avg / order</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Conversion</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">4.8%</div><div style="font-size:13px;color:#71767C;margin-top:4px">of page visits</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px"><h3 style="font-size:15px;font-weight:600;margin:0">Orders · last 8 weeks</h3><span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">weekly</span></div>
+            <x-import component-from-global-scope="cos-chart" from="./cos-charts.js" type="bar" xkey="wk" ykey="orders" height="150" data="{{ creatorChartJson }}" hint-size="100%,150px"></x-import>
+          </div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px">
+            <h3 style="font-size:15px;font-weight:600;margin:0 0 6px">Recent orders</h3>
+            <div style="display:flex;flex-direction:column">
+              <sc-for list="{{ creatorOrdersShort }}" as="o" hint-placeholder-count="5">
+                <div onClick="{{ o.onOpen }}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid rgba(23,25,28,0.08)">
+                  <div style="min-width:0"><div style="font-family:'Space Mono',monospace;font-size:12.5px;font-weight:700">{{ o.id }}</div><div style="font-size:12.5px;color:#9AA0A6;margin-top:2px">{{ o.date }} · {{ o.total }}</div></div>
+                <span style="{{ o.pill }}">{{ o.status }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <!-- CREATOR: ORDERS -->
+      <sc-if value="{{ SC.orders }}" hint-placeholder-val="{{ false }}">
+      <div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <input type="text" placeholder="Search order or item…" value="{{ cSearchVal }}" onInput="{{ onCSearch }}" style="font-size:13.5px;padding:9px 13px;border:1px solid rgba(23,25,28,0.16);border-radius:2px;outline:none;width:clamp(180px,26vw,280px)" />
+          <select onChange="{{ onCFilter }}" style="font-size:13.5px;padding:9px 13px;border:1px solid rgba(23,25,28,0.16);border-radius:2px;outline:none;background:#fff;appearance:none"><option>All</option><option>In production</option><option>Packed</option><option>Shipped</option><option>Delivered</option><option>Review</option></select>
+        </div>
+        <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">{{ cInfo }}</span>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+        <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;min-width:720px">
+          <thead><tr style="background:#FBFCFC">
+            <th style="{{ th }}">Order</th><th style="{{ th }}">Date</th><th style="{{ th }}">Item</th><th style="{{ th }}">Qty</th><th style="{{ th }}">Fulfillment</th><th style="{{ th }}">Tracking</th><th style="{{ thR }}">Total</th>
+          </tr></thead>
+          <tbody>
+            <sc-for list="{{ creatorOrders }}" as="o" hint-placeholder-count="6">
+              <tr onClick="{{ o.onOpen }}" style="cursor:pointer;border-top:1px solid rgba(23,25,28,0.08)">
+                <td style="{{ td }}"><span style="font-family:'Space Mono',monospace;font-weight:700">{{ o.id }}</span></td>
+                <td style="{{ tdM }}">{{ o.date }}</td>
+                <td style="{{ tdM }}">{{ o.item }}</td>
+                <td style="{{ tdM }}">{{ o.qty }}</td>
+                <td style="{{ td }}"><span style="{{ o.pill }}">{{ o.status }}</span></td>
+                <td style="{{ tdMono }}">{{ o.track }}</td>
+                <td style="{{ tdR }}">{{ o.total }}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-top:1px solid rgba(23,25,28,0.08)">
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">{{ cPageLabel }}</span>
+          <div style="display:flex;gap:8px">
+            <button onClick="{{ cPrev }}" style="{{ cPrevStyle }}">← Prev</button>
+            <button onClick="{{ cNext }}" style="{{ cNextStyle }}">Next →</button>
+          </div>
+        </div>
+      </div>
+      </div>
+      </sc-if>
+
+      <!-- CREATOR: ASSETS -->
+      <sc-if value="{{ SC.assets }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h3 style="font-size:14px;font-weight:600;margin:0">Uploaded image</h3><span style="font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;color:#2E7D5B;background:#EAF4EF">RECEIVED</span></div>
+          <div style="aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px"><span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// ava-original.jpg</span></div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h3 style="font-size:14px;font-weight:600;margin:0">Approved proof</h3><span style="font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;color:#2E7D5B;background:#EAF4EF">APPROVED</span></div>
+          <div style="aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E1E5E7 0 9px,#E9ECEE 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px"><span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// ava-proof-v2.pdf</span></div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h3 style="font-size:14px;font-weight:600;margin:0">Print-ready file</h3><span style="font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;color:#345B6B;background:#E7EFF2">READY</span></div>
+          <div style="aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px"><span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// ava-print-cmyk.pdf</span></div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- CREATOR: PAYOUTS -->
+      <sc-if value="{{ SC.payouts }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:24px">
+          <div style="background:#17191C;color:#fff;border-radius:3px;padding:22px 24px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#8FB4C4;margin-bottom:12px">Available balance</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">$4,820</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Paid to date</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">$12,400</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Pending</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">$1,240</div></div>
+        </div>
+        <div style="background:#EEF0F1;border-radius:3px;padding:16px 20px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:24px">
+          <span style="font-size:14px;color:#565C62">Next payout scheduled <strong style="color:#17191C">Jul 15, 2026</strong> · monthly, net-30 · tax info on file (W-9)</span>
+          <button style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:10px 18px;border-radius:2px;font-size:13.5px;font-weight:500">Update tax info</button>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+          <div style="padding:16px 20px;border-bottom:1px solid rgba(23,25,28,0.08)"><h3 style="font-size:14px;font-weight:600;margin:0">Payout history</h3></div>
+          <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:480px">
+            <thead><tr style="background:#FBFCFC"><th style="{{ th }}">Date</th><th style="{{ th }}">Period</th><th style="{{ th }}">Status</th><th style="{{ thR }}">Amount</th></tr></thead>
+            <tbody><sc-for list="{{ payouts }}" as="p" hint-placeholder-count="4">
+              <tr style="border-top:1px solid rgba(23,25,28,0.08)"><td style="{{ td }}">{{ p.date }}</td><td style="{{ tdM }}">{{ p.period }}</td><td style="{{ td }}"><span style="{{ p.pill }}">{{ p.status }}</span></td><td style="{{ tdR }}">{{ p.amount }}</td></tr>
+            </sc-for></tbody>
+          </table></div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- CREATOR: SETTINGS -->
+      <sc-if value="{{ SC.settings }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:620px;display:flex;flex-direction:column;gap:22px">
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:24px">
+          <h3 style="font-size:15px;font-weight:600;margin:0 0 18px">Campaign details</h3>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Display name</span><input type="text" value="Ava Mercer" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none" /></label>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Campaign description</span><textarea rows="3" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;resize:vertical">Official life-size cutout, made to order, shipped worldwide.</textarea></label>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Support contact</span><input type="email" value="support@cutoutstuff.com" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none" /></label>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:24px">
+          <h3 style="font-size:15px;font-weight:600;margin:0 0 18px">Notifications</h3>
+          <label style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:14.5px">New order alerts</span><input type="checkbox" checked="checked" style="width:17px;height:17px;accent-color:#345B6B" /></label>
+          <label style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:14.5px">Weekly performance summary</span><input type="checkbox" checked="checked" style="width:17px;height:17px;accent-color:#345B6B" /></label>
+          <label style="display:flex;justify-content:space-between;align-items:center;padding:12px 0"><span style="font-size:14.5px">Payout confirmations</span><input type="checkbox" checked="checked" style="width:17px;height:17px;accent-color:#345B6B" /></label>
+        </div>
+        <button style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:14px 26px;border-radius:2px;font-size:15px;font-weight:500;align-self:flex-start">Save changes</button>
+      </div>
+      </sc-if>
+
+      <!-- ADMIN: DASHBOARD -->
+      <sc-if value="{{ SC.dashboard }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px">
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Active campaigns</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">18</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Orders · 30d</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">612</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Revenue · 30d</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">$98,420</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:12px">Open support</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.02em">7</div></div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px;margin-bottom:24px">
+          <h3 style="font-size:15px;font-weight:600;margin:0 0 18px">Production pipeline</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:rgba(23,25,28,0.09);border:1px solid rgba(23,25,28,0.09)">
+            <sc-for list="{{ pipeline }}" as="s" hint-placeholder-count="5">
+              <div style="background:#fff;padding:16px 18px"><div style="font-size:26px;font-weight:600">{{ s.count }}</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:#71767C;margin-top:4px">{{ s.label }}</div></div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px;margin-bottom:24px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px"><h3 style="font-size:15px;font-weight:600;margin:0">Revenue · last 8 weeks</h3><span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">weekly · USD</span></div>
+          <x-import component-from-global-scope="cos-chart" from="./cos-charts.js" type="area" xkey="wk" ykey="revenue" prefix="$" showy="true" height="200" data="{{ adminRevenueJson }}" hint-size="100%,200px"></x-import>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px">
+            <h3 style="font-size:15px;font-weight:600;margin:0 0 8px">Top campaigns</h3>
+            <sc-for list="{{ campaignsShort }}" as="c" hint-placeholder-count="4">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(23,25,28,0.08)"><div><div style="font-size:14px;font-weight:500">{{ c.name }}</div><div style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;margin-top:2px">{{ c.orders }} orders</div></div><span style="font-size:14px;font-weight:600">{{ c.revenue }}</span></div>
+            </sc-for>
+          </div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px">
+            <h3 style="font-size:15px;font-weight:600;margin:0 0 8px">Support issues</h3>
+            <sc-for list="{{ supportShort }}" as="t" hint-placeholder-count="4">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(23,25,28,0.08)"><div style="min-width:0"><div style="font-size:14px;font-weight:500">{{ t.subject }}</div><div style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;margin-top:2px">{{ t.customer }}</div></div><span style="{{ t.pill }}">{{ t.status }}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ADMIN: CAMPAIGNS -->
+      <sc-if value="{{ SC.campaigns }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:11px 20px;border-radius:2px;font-size:14px;font-weight:500">+ New campaign</button></div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+          <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:680px">
+            <thead><tr style="background:#FBFCFC"><th style="{{ th }}">Campaign</th><th style="{{ th }}">URL</th><th style="{{ th }}">Orders</th><th style="{{ th }}">Status</th><th style="{{ thR }}">Revenue</th></tr></thead>
+            <tbody><sc-for list="{{ campaigns }}" as="c" hint-placeholder-count="6">
+              <tr onClick="{{ c.onOpen }}" style="cursor:pointer;border-top:1px solid rgba(23,25,28,0.08)"><td style="{{ td }}"><span style="font-weight:600">{{ c.name }}</span></td><td style="{{ tdMono }}">{{ c.url }}</td><td style="{{ tdM }}">{{ c.orders }}</td><td style="{{ td }}"><span style="{{ c.pill }}">{{ c.status }}</span></td><td style="{{ tdR }}">{{ c.revenue }}</td></tr>
+            </sc-for></tbody>
+          </table></div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ADMIN: CAMPAIGN BUILDER -->
+      <sc-if value="{{ SC.builder }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:760px">
+
+        <sc-if value="{{ bLaunched }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.12);border-radius:3px;padding:clamp(36px,5vw,56px);text-align:center">
+          <div style="width:52px;height:52px;border-radius:50%;background:#345B6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 20px">✓</div>
+          <h3 style="font-size:22px;font-weight:600;letter-spacing:-0.02em;margin:0 0 8px">Storefront is live.</h3>
+          <p style="font-size:14.5px;line-height:1.6;color:#71767C;margin:0 auto 8px;max-width:46ch">{{ bCreatorVal }}'s private storefront is published. New orders will be routed to {{ bPartnerSel.name }} automatically.</p>
+          <div style="font-family:'Space Mono',monospace;font-size:13px;color:#345B6B;margin-bottom:26px">{{ bUrlPreview }}</div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <a href="CutOutStuff.dc.html#store" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;text-decoration:none;background:#17191C;color:#fff;padding:13px 24px;border-radius:2px;font-size:14px;font-weight:600">Open storefront ↗</a>
+            <button onClick="{{ bReset }}" style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:13px 24px;border-radius:2px;font-size:14px;font-weight:500">Create another</button>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ notBLaunched }}" hint-placeholder-val="{{ true }}">
+        <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px;flex-wrap:wrap">
+          <sc-for list="{{ bSteps }}" as="s" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="{{ s.markStyle }}">{{ s.mark }}</div>
+              <span style="{{ s.labelStyle }}">{{ s.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:clamp(24px,3vw,32px)">
+
+          <sc-if value="{{ B.s1 }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <h3 style="font-size:17px;font-weight:600;margin:0">Creator &amp; URL</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Creator name</span><input type="text" value="{{ bCreatorVal }}" onInput="{{ onBCreator }}" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff" /></label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Private URL slug</span><div style="display:flex;align-items:center;border:1px solid rgba(23,25,28,0.18);border-radius:2px;overflow:hidden;background:#fff"><span style="font-family:'Space Mono',monospace;font-size:13px;color:#9AA0A6;padding:0 0 0 12px">/c/</span><input type="text" value="{{ bSlugVal }}" onInput="{{ onBSlug }}" style="flex:1;min-width:0;font-size:15px;padding:12px 12px 12px 4px;border:none;outline:none" /></div></label>
+            </div>
+            <div style="background:#EEF0F1;border-radius:2px;padding:12px 16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><span style="font-size:13px;color:#71767C">Storefront will publish at</span><span style="font-family:'Space Mono',monospace;font-size:13px;color:#345B6B">{{ bUrlPreview }}</span></div>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Storefront description</span><textarea rows="2" placeholder="Shown under the creator's name" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff;resize:vertical">Creator-approved collectibles, made to order. Bring Ava into your space. Plain packaging, tracked worldwide.</textarea></label>
+            <p style="font-size:13px;color:#9AA0A6;margin:0;line-height:1.5">The page is public to anyone with the link, but never listed in the main site navigation.</p>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ B.s2 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h3 style="font-size:17px;font-weight:600;margin:0">Cutouts in this storefront</h3><span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">{{ bProductCount }} products</span></div>
+            <sc-for list="{{ bProducts }}" as="p" hint-placeholder-count="2">
+              <div style="border:1px solid rgba(23,25,28,0.12);border-radius:3px;padding:16px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
+                <div style="width:64px;aspect-ratio:3/4;flex:none;background:repeating-linear-gradient(45deg,#E9ECEE 0 8px,#F1F3F4 8px 16px);border:1px dashed rgba(23,25,28,0.22);display:flex;align-items:center;justify-content:center"><span style="font-family:'Space Mono',monospace;font-size:10px;color:#9AA0A6">+ img</span></div>
+                <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:10px">
+                  <div style="display:grid;grid-template-columns:1fr 110px;gap:10px">
+                    <input type="text" value="{{ p.title }}" onInput="{{ p.onTitle }}" placeholder="Cutout title" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff" />
+                    <div style="display:flex;align-items:center;border:1px solid rgba(23,25,28,0.18);border-radius:2px;overflow:hidden;background:#fff"><span style="font-size:14px;color:#9AA0A6;padding-left:12px">$</span><input type="text" value="{{ p.price }}" onInput="{{ p.onPrice }}" placeholder="149" style="flex:1;min-width:0;font-size:15px;padding:12px 12px 12px 4px;border:none;outline:none" /></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+                    <button onClick="{{ p.onNsfw }}" style="{{ p.nsfwStyle }}">{{ p.nsfwLabel }}</button>
+                    <button onClick="{{ p.onRemove }}" style="cursor:pointer;background:transparent;border:none;font-size:12.5px;color:#B4442E;padding:4px">Remove</button>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+            <button onClick="{{ bAddProduct }}" style="cursor:pointer;background:transparent;border:1px dashed rgba(23,25,28,0.28);color:#565C62;padding:14px;border-radius:2px;font-size:14px;font-weight:500">+ Add another cutout</button>
+            <p style="font-size:13px;color:#9AA0A6;margin:0;line-height:1.5">Cutouts marked <strong style="color:#B0791F">sensitive</strong> appear blurred on the storefront until a visitor clicks to reveal them.</p>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ B.s3 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <h3 style="font-size:17px;font-weight:600;margin:0">Fulfillment routing</h3>
+            <p style="font-size:14px;color:#71767C;margin:-6px 0 0;line-height:1.55">Choose which partner facility produces and ships this storefront's orders. Every new order is emailed to them automatically with the print file and shipping details.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ bPartnerOptions }}" as="f" hint-placeholder-count="4">
+                <button onClick="{{ f.onSelect }}" style="{{ f.optStyle }}">
+                  <span><span style="display:block;font-size:15px;font-weight:600;color:#17191C">{{ f.name }}</span><span style="display:block;font-size:12.5px;color:#71767C;margin-top:2px">{{ f.city }} · {{ f.cap }}</span></span>
+                  <span style="font-family:'Space Mono',monospace;font-size:11.5px;color:#9AA0A6;white-space:nowrap">{{ f.turn }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="border-top:1px solid rgba(23,25,28,0.08);padding-top:16px">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C;margin-bottom:12px">Order packet · pre-filled</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+                <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Routing email</span><input type="text" value="{{ bPartnerSel.email }}" readOnly="readOnly" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff;color:#71767C;background:#F5F6F7" /></label>
+                <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Service level</span><select style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff;appearance:none"><option>Standard production (default)</option><option>Rush production</option></select></label>
+                <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Packaging</span><select style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff;appearance:none"><option>Plain / discreet (default)</option><option>Standard</option></select></label>
+                <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Reply-to for issues</span><input type="text" value="ops@cutoutstuff.com" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff" /></label>
+              </div>
+              <label style="display:flex;flex-direction:column;gap:6px;margin-top:12px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Standing notes to facility</span><textarea rows="2" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff;resize:vertical">Color-check against approved proof before cutting. Corner-protect all edges.</textarea></label>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ B.s4 }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Review &amp; launch</h3>
+            <p style="font-size:14px;color:#71767C;margin:0 0 18px;line-height:1.55">Launching publishes the storefront at its private URL and activates automatic order routing.</p>
+            <div style="border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Creator</span><span style="font-size:13.5px;font-weight:600">{{ bCreatorVal }}</span></div>
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Storefront URL</span><span style="font-family:'Space Mono',monospace;font-size:12.5px;color:#345B6B">{{ bUrlPreview }}</span></div>
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Cutouts</span><span style="font-size:13.5px;font-weight:600">{{ bProductCount }} products · {{ bNsfwCount }} blurred as sensitive</span></div>
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Fulfillment</span><span style="font-size:13.5px;font-weight:600">{{ bPartnerSel.name }} · {{ bPartnerSel.city }}</span></div>
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:13px 18px"><span style="font-size:13.5px;color:#71767C">Order routing</span><span style="font-family:'Space Mono',monospace;font-size:12.5px;color:#2E7D5B">AUTO-EMAIL → {{ bPartnerSel.email }}</span></div>
+            </div>
+          </div>
+          </sc-if>
+
+          <div style="display:flex;justify-content:space-between;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(23,25,28,0.08)">
+            <sc-if value="{{ B.notFirst }}" hint-placeholder-val="{{ false }}"><button onClick="{{ bPrev }}" style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:12px 24px;border-radius:2px;font-size:14px;font-weight:500">← Back</button></sc-if>
+            <div style="flex:1"></div>
+            <sc-if value="{{ B.notLast }}" hint-placeholder-val="{{ true }}"><button onClick="{{ bNext }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:12px 26px;border-radius:2px;font-size:14px;font-weight:600">Continue →</button></sc-if>
+            <sc-if value="{{ B.s4 }}" hint-placeholder-val="{{ false }}"><button onClick="{{ bLaunch }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:12px 26px;border-radius:2px;font-size:14px;font-weight:600">Launch storefront</button></sc-if>
+          </div>
+        </div>
+        </div>
+        </sc-if>
+
+      </div>
+      </sc-if>
+
+      <!-- ADMIN: ORDER MANAGEMENT -->
+      <sc-if value="{{ SC.orders_admin }}" hint-placeholder-val="{{ false }}">
+      <div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <input type="text" placeholder="Search order, customer, campaign…" value="{{ adminSearchVal }}" onInput="{{ onAdminSearch }}" style="font-size:13.5px;padding:9px 13px;border:1px solid rgba(23,25,28,0.16);border-radius:2px;outline:none;width:clamp(200px,28vw,320px)" />
+          <select onChange="{{ onAdminFilter }}" style="font-size:13.5px;padding:9px 13px;border:1px solid rgba(23,25,28,0.16);border-radius:2px;outline:none;background:#fff;appearance:none"><option>All</option><option>In production</option><option>Packed</option><option>Shipped</option><option>Delivered</option><option>Review</option><option>Error</option></select>
+        </div>
+        <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">{{ adminInfo }}</span>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+        <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:880px">
+          <thead><tr style="background:#FBFCFC"><th style="{{ th }}">Order</th><th style="{{ th }}">Campaign</th><th style="{{ th }}">Customer</th><th style="{{ th }}">Payment</th><th style="{{ th }}">Print status</th><th style="{{ th }}">Partner</th><th style="{{ th }}">Tracking</th><th style="{{ thR }}"></th></tr></thead>
+          <tbody><sc-for list="{{ adminOrders }}" as="o" hint-placeholder-count="6">
+            <tr onClick="{{ o.onOpen }}" style="cursor:pointer;border-top:1px solid rgba(23,25,28,0.08)">
+              <td style="{{ td }}"><span style="font-family:'Space Mono',monospace;font-weight:700">{{ o.id }}</span></td>
+              <td style="{{ tdM }}">{{ o.campaign }}</td>
+              <td style="{{ tdM }}">{{ o.customer }}</td>
+              <td style="{{ td }}"><span style="{{ o.payPill }}">{{ o.payment }}</span></td>
+              <td style="{{ td }}"><span style="{{ o.printPill }}">{{ o.print }}</span></td>
+              <td style="{{ tdM }}">{{ o.vendor }}</td>
+              <td style="{{ tdMono }}">{{ o.track }}</td>
+              <td style="{{ tdR }}"><span onClick="{{ o.onOpen }}" style="font-size:13px;color:#345B6B;cursor:pointer">Manage</span></td>
+            </tr>
+          </sc-for></tbody>
+        </table></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-top:1px solid rgba(23,25,28,0.08)">
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">{{ adminPageLabel }}</span>
+          <div style="display:flex;gap:8px">
+            <button onClick="{{ adminPrev }}" style="{{ adminPrevStyle }}">← Prev</button>
+            <button onClick="{{ adminNext }}" style="{{ adminNextStyle }}">Next →</button>
+          </div>
+        </div>
+      </div>
+      </div>
+      </sc-if>
+
+      <!-- ADMIN: FILE MANAGEMENT -->
+      <sc-if value="{{ SC.files }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+        <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:820px">
+          <thead><tr style="background:#FBFCFC"><th style="{{ th }}">Order</th><th style="{{ th }}">Original</th><th style="{{ th }}">Edited</th><th style="{{ th }}">Proof</th><th style="{{ th }}">Print-ready</th><th style="{{ th }}">Fabrication</th><th style="{{ th }}">Approval</th></tr></thead>
+          <tbody><sc-for list="{{ files }}" as="f" hint-placeholder-count="5">
+            <tr onClick="{{ f.onOpen }}" style="cursor:pointer;border-top:1px solid rgba(23,25,28,0.08)">
+              <td style="{{ td }}"><span style="font-family:'Space Mono',monospace;font-weight:700">{{ f.order }}</span></td>
+              <sc-for list="{{ f.cells }}" as="c" hint-placeholder-count="6">
+                <td style="{{ td }}"><span style="{{ c.style }}">{{ c.label }}</span></td>
+              </sc-for>
+            </tr>
+          </sc-for></tbody>
+        </table></div>
+      </div>
+      </sc-if>
+
+      <!-- ADMIN: FABRICATION -->
+      <sc-if value="{{ SC.fabrication }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+        <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:860px">
+          <thead><tr style="background:#FBFCFC"><th style="{{ th }}">Vendor</th><th style="{{ th }}">Order</th><th style="{{ th }}">File sent</th><th style="{{ th }}">Production</th><th style="{{ th }}">Shipping label</th><th style="{{ th }}">Tracking</th><th style="{{ th }}">Errors</th></tr></thead>
+          <tbody><sc-for list="{{ fabrication }}" as="r" hint-placeholder-count="4">
+            <tr style="border-top:1px solid rgba(23,25,28,0.08)">
+              <td style="{{ td }}"><span style="font-weight:600">{{ r.vendor }}</span></td>
+              <td style="{{ tdMono }}">{{ r.order }}</td>
+              <td style="{{ tdM }}">{{ r.sent }}</td>
+              <td style="{{ td }}"><span style="{{ r.pill }}">{{ r.status }}</span></td>
+              <td style="{{ td }}"><span style="{{ r.labelPill }}">{{ r.label }}</span></td>
+              <td style="{{ tdMono }}">{{ r.track }}</td>
+              <td style="{{ tdM }}">{{ r.error }}</td>
+            </tr>
+          </sc-for></tbody>
+        </table></div>
+      </div>
+      </sc-if>
+
+      <!-- ADMIN: CREATOR APPLICATIONS -->
+      <sc-if value="{{ SC.applications }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="background:#E7EFF2;border-radius:3px;padding:16px 20px;margin-bottom:22px;font-size:14px;color:#2C4A57;line-height:1.55"><strong>{{ appsNewCount }} new applications</strong> waiting for review. Approving sends the creator an invite to onboarding automatically.</div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+          <sc-for list="{{ appsList }}" as="a" hint-placeholder-count="5">
+            <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid rgba(23,25,28,0.08)">
+              <div style="min-width:220px;flex:1">
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-size:15.5px;font-weight:600">{{ a.name }}</span><span style="{{ a.pill }}">{{ a.statusLabel }}</span></div>
+                <div style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;margin-top:5px">{{ a.handle }} · applied {{ a.date }}</div>
+                <div style="font-size:13.5px;color:#565C62;margin-top:6px">Concept: {{ a.concept }}</div>
+              </div>
+              <sc-if value="{{ a.isNew }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:10px">
+                <button onClick="{{ a.decline }}" style="cursor:pointer;background:transparent;color:#71767C;border:1px solid rgba(23,25,28,0.16);padding:10px 18px;border-radius:2px;font-size:13.5px;font-weight:500">Decline</button>
+                <button onClick="{{ a.approve }}" style="cursor:pointer;background:#17191C;color:#fff;border:none;padding:10px 20px;border-radius:2px;font-size:13.5px;font-weight:600">Approve</button>
+              </div>
+              </sc-if>
+              <sc-if value="{{ a.isApproved }}" hint-placeholder-val="{{ false }}">
+              <span style="font-family:'Space Mono',monospace;font-size:11.5px;color:#2E7D5B">✓ Onboarding invite sent</span>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ADMIN: FULFILLMENT PARTNERS -->
+      <sc-if value="{{ SC.partners }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="background:#E7EFF2;border-radius:3px;padding:16px 20px;margin-bottom:22px;font-size:14px;color:#2C4A57;line-height:1.55">Every new order is <strong>automatically emailed</strong> to its storefront's assigned partner with the print-ready file, quantities, and the customer's shipping details, no manual handoff.</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:24px">
+          <sc-for list="{{ partnersList }}" as="p" hint-placeholder-count="4">
+            <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px"><h3 style="font-size:16px;font-weight:600;margin:0">{{ p.name }}</h3><span style="{{ p.pill }}">{{ p.statusLabel }}</span></div>
+              <div style="font-size:13.5px;color:#71767C;line-height:1.6">{{ p.city }}<br>{{ p.cap }}</div>
+              <div style="display:flex;justify-content:space-between;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(23,25,28,0.08)">
+                <span style="font-family:'Space Mono',monospace;font-size:12px;color:#345B6B">{{ p.email }}</span>
+                <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;white-space:nowrap">{{ p.turn }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:clamp(22px,3vw,28px)">
+          <h3 style="font-size:15px;font-weight:600;margin:0 0 6px">Add a fulfillment partner</h3>
+          <p style="font-size:13.5px;color:#71767C;margin:0 0 18px;line-height:1.5">Made a new printing partnership? Add the facility here and it becomes selectable when building storefronts.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:16px">
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Facility name</span><input type="text" value="{{ pNameVal }}" onInput="{{ onPName }}" placeholder="e.g. LakePrint Ltd." style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff" /></label>
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Order routing email</span><input type="email" value="{{ pEmailVal }}" onInput="{{ onPEmail }}" placeholder="orders@facility.com" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff" /></label>
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Location</span><input type="text" value="{{ pCityVal }}" onInput="{{ onPCity }}" placeholder="City, State" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff" /></label>
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Turnaround</span><input type="text" value="{{ pTurnVal }}" onInput="{{ onPTurn }}" placeholder="e.g. 3–5 days" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.18);border-radius:2px;outline:none;background:#fff" /></label>
+          </div>
+          <button onClick="{{ addPartner }}" style="{{ addPartnerStyle }}">Add partner</button>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ADMIN: SUPPORT -->
+      <sc-if value="{{ SC.support }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+        <sc-for list="{{ support }}" as="t" hint-placeholder-count="5">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid rgba(23,25,28,0.08)">
+            <div style="min-width:0">
+              <div style="display:flex;align-items:center;gap:10px"><span style="font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;border:1px solid rgba(23,25,28,0.12);padding:2px 8px;border-radius:100px">{{ t.type }}</span><span style="font-size:15px;font-weight:500">{{ t.subject }}</span></div>
+              <div style="font-size:13px;color:#9AA0A6;margin-top:5px">{{ t.customer }}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px"><span style="{{ t.pill }}">{{ t.status }}</span><span onClick="{{ t.onOpen }}" style="font-size:13px;color:#345B6B;cursor:pointer">Open →</span></div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <!-- CREATOR: ONBOARDING WIZARD -->
+      <sc-if value="{{ SC.onboarding }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:720px">
+        <div style="background:#E7EFF2;border-radius:3px;padding:16px 20px;margin-bottom:24px;font-size:14px;color:#2C4A57;line-height:1.5">Welcome aboard. Let's set up your campaign. This takes about 5 minutes, and you can come back to finish later.</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;flex-wrap:wrap">
+          <sc-for list="{{ onbSteps }}" as="s" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="{{ s.markStyle }}">{{ s.mark }}</div>
+              <span style="{{ s.labelStyle }}">{{ s.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:clamp(24px,3vw,34px)">
+          <sc-if value="{{ OB.s1 }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <h3 style="font-size:17px;font-weight:600;margin:0">Campaign basics</h3>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Campaign name</span><input type="text" placeholder="e.g. Ava Mercer · Summer Drop" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Creator display name</span><input type="text" placeholder="Shown to buyers" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Product title</span><input type="text" placeholder="Official Life-Size Cutout" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Product description</span><textarea rows="3" placeholder="A short description shown on your campaign page" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none;resize:vertical"></textarea></label>
+          </div>
+          </sc-if>
+          <sc-if value="{{ OB.s2 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <h3 style="font-size:17px;font-weight:600;margin:0">Upload your image</h3>
+            <div style="aspect-ratio:16/7;background:repeating-linear-gradient(45deg,#E9ECEE 0 10px,#F1F3F4 10px 20px);border:1px dashed rgba(23,25,28,0.24);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font-size:15px;font-weight:600;color:#565C62">Drag an image here</span><span style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6">JPG or PNG · 300&nbsp;dpi recommended</span></div>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Pose / crop notes</span><textarea rows="2" placeholder="Anything we should know about framing or crop" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none;resize:vertical"></textarea></label>
+            <label style="display:flex;align-items:flex-start;gap:11px;cursor:pointer"><input type="checkbox" style="margin-top:3px;width:16px;height:16px;accent-color:#345B6B" /><span style="font-size:14px;line-height:1.5;color:#565C62">I confirm I own or control the rights to this image and approve its use on merchandise.</span></label>
+          </div>
+          </sc-if>
+          <sc-if value="{{ OB.s3 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <h3 style="font-size:17px;font-weight:600;margin:0">Pricing &amp; launch</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px">
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Price preference</span><input type="text" placeholder="$149" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Launch date</span><input type="text" placeholder="MM / DD / YYYY" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Expiration (optional)</span><input type="text" placeholder="MM / DD / YYYY" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Packaging</span><select style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none;background:#fff;appearance:none"><option>Plain / discreet</option><option>Standard</option></select></label>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Support email</span><input type="email" placeholder="Where buyer questions are routed" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#71767C">Payout details</span><input type="text" placeholder="Bank / payment account" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" /></label>
+          </div>
+          </sc-if>
+          <sc-if value="{{ OB.s4 }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Review &amp; submit</h3>
+            <p style="font-size:14.5px;color:#71767C;margin:0 0 20px;line-height:1.6">Once you submit, our team prepares a proof and gets your private campaign page ready. You'll be notified the moment it's live.</p>
+            <div style="border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+              <div style="display:flex;justify-content:space-between;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Campaign</span><span style="font-size:13.5px;font-weight:600">Ava Mercer · Summer Drop</span></div>
+              <div style="display:flex;justify-content:space-between;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Price</span><span style="font-size:13.5px;font-weight:600">$149</span></div>
+              <div style="display:flex;justify-content:space-between;padding:13px 18px;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:13.5px;color:#71767C">Launch</span><span style="font-size:13.5px;font-weight:600">Aug 1, 2026</span></div>
+              <div style="display:flex;justify-content:space-between;padding:13px 18px"><span style="font-size:13.5px;color:#71767C">Rights confirmed</span><span style="font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px;color:#2E7D5B;background:#EAF4EF">YES</span></div>
+            </div>
+          </div>
+          </sc-if>
+          <div style="display:flex;justify-content:space-between;gap:12px;margin-top:26px;padding-top:22px;border-top:1px solid rgba(23,25,28,0.08)">
+            <sc-if value="{{ onbLastPrev }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onbPrev }}" style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:12px 24px;border-radius:2px;font-size:14px;font-weight:500">← Back</button></sc-if>
+            <div style="flex:1"></div>
+            <sc-if value="{{ OB.s4 }}" hint-placeholder-val="{{ false }}"><button onClick="{{ finishOnboarding }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:12px 26px;border-radius:2px;font-size:14px;font-weight:600">Submit campaign</button></sc-if>
+            <sc-if value="{{ OB.notLast }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onbNext }}" style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:12px 26px;border-radius:2px;font-size:14px;font-weight:600">Continue →</button></sc-if>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- DETAIL: ORDER -->
+      <sc-if value="{{ DT.order }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:860px">
+        <button onClick="{{ closeDetail }}" style="cursor:pointer;background:transparent;border:none;font-size:13.5px;color:#71767C;padding:0;margin-bottom:20px">← Back</button>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;margin-bottom:24px">
+          <div style="display:flex;align-items:center;gap:14px"><h2 style="font-family:'Space Mono',monospace;font-size:22px;font-weight:700;margin:0">{{ dOrder.id }}</h2><span style="{{ dOrder.statusPill }}">{{ dOrder.status }}</span></div>
+          <div style="display:flex;gap:10px"><button style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:10px 18px;border-radius:2px;font-size:13.5px;font-weight:500">Replace / refund</button><button style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:10px 18px;border-radius:2px;font-size:13.5px;font-weight:600">Update status</button></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px">
+            <h3 style="font-size:14px;font-weight:600;margin:0 0 16px">Fulfillment timeline</h3>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <sc-for list="{{ orderTimeline }}" as="t" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:9px 0"><div style="{{ t.dotStyle }}">{{ t.mark }}</div><div style="{{ t.labelStyle }}">{{ t.label }}</div></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px">
+              <h3 style="font-size:14px;font-weight:600;margin:0 0 16px">Order</h3>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:#71767C">Product</span><span style="font-weight:500">{{ dOrder.title }}</span></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:#71767C">Quantity</span><span style="font-weight:500">{{ dOrder.qty }}</span></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:#71767C">Placed</span><span style="font-weight:500">{{ dOrder.date }}</span></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px;border-top:1px solid rgba(23,25,28,0.08);margin-top:4px"><span style="color:#71767C">Total</span><span style="font-weight:700">{{ dOrder.total }}</span></div>
+            </div>
+            <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px">
+              <h3 style="font-size:14px;font-weight:600;margin:0 0 16px">Customer &amp; campaign</h3>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:#71767C">Customer</span><span style="font-weight:500">{{ dOrder.customer }}</span></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:#71767C">Campaign</span><span style="font-weight:500">{{ dOrder.campaign }}</span></div>
+              <sc-if value="{{ dOrder.track }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:#71767C">Tracking</span><span style="font-family:'Space Mono',monospace;font-size:13px">{{ dOrder.track }}</span></div></sc-if>
+            </div>
+            <sc-if value="{{ dOrder.routing }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px"><h3 style="font-size:14px;font-weight:600;margin:0">Fulfillment routing</h3><span style="{{ dOrder.routing.sentPill }}">Sent</span></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:#71767C">Facility</span><span style="font-weight:500">{{ dOrder.routing.vendor }}</span></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px"><span style="color:#71767C">Routed to</span><span style="font-family:'Space Mono',monospace;font-size:12.5px;color:#345B6B">{{ dOrder.routing.email }}</span></div>
+              <div style="font-family:'Space Mono',monospace;font-size:11.5px;color:#9AA0A6;margin-top:8px">{{ dOrder.routing.when }} · order packet with print file &amp; ship-to</div>
+              <button style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:9px 16px;border-radius:2px;font-size:13px;font-weight:500;margin-top:14px">Resend order packet</button>
+            </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- DETAIL: CAMPAIGN -->
+      <sc-if value="{{ DT.campaign }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:860px">
+        <button onClick="{{ closeDetail }}" style="cursor:pointer;background:transparent;border:none;font-size:13.5px;color:#71767C;padding:0;margin-bottom:20px">← Back to campaigns</button>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;margin-bottom:24px">
+          <div style="display:flex;align-items:center;gap:14px"><h2 style="font-size:24px;font-weight:600;letter-spacing:-0.02em;margin:0">{{ dCampaign.name }}</h2><span style="{{ dCampaign.statusPill }}">{{ dCampaign.status }}</span></div>
+          <span style="font-family:'Space Mono',monospace;font-size:13px;color:#345B6B">cutoutstuff.com{{ dCampaign.url }} ↗</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:16px">
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:10px">Orders</div><div style="font-size:28px;font-weight:600">{{ dCampaign.orders }}</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:10px">Revenue</div><div style="font-size:28px;font-weight:600">{{ dCampaign.revenue }}</div></div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px 22px"><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:10px">Status</div><div style="font-size:20px;font-weight:600">{{ dCampaign.status }}</div></div>
+        </div>
+        <div style="display:flex;gap:10px"><button style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:11px 20px;border-radius:2px;font-size:14px;font-weight:600">Edit campaign</button><button style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:11px 20px;border-radius:2px;font-size:14px;font-weight:500">View orders</button></div>
+      </div>
+      </sc-if>
+
+      <!-- DETAIL: TICKET -->
+      <sc-if value="{{ DT.ticket }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:720px">
+        <button onClick="{{ closeDetail }}" style="cursor:pointer;background:transparent;border:none;font-size:13.5px;color:#71767C;padding:0;margin-bottom:20px">← Back to support</button>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <h2 style="font-size:22px;font-weight:600;letter-spacing:-0.02em;margin:0">{{ dTicket.subject }}</h2>
+          <span style="{{ dTicket.statusPill }}">{{ dTicket.status }}</span>
+        </div>
+        <div style="font-size:13.5px;color:#9AA0A6;margin-bottom:24px">{{ dTicket.customer }} · {{ dTicket.type }}</div>
+        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:22px">
+          <sc-for list="{{ ticketThread }}" as="m" hint-placeholder-count="2">
+            <div style="{{ m.bubbleStyle }}">
+              <div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px"><span style="font-size:13px;font-weight:600">{{ m.who }}</span><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6">{{ m.when }}</span></div>
+              <div style="font-size:14px;line-height:1.55;color:#3E444A">{{ m.text }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.12);border-radius:3px;padding:16px">
+          <textarea rows="3" placeholder="Write a reply…" style="width:100%;font-size:14.5px;padding:10px 12px;border:1px solid rgba(23,25,28,0.16);border-radius:2px;outline:none;resize:vertical;margin-bottom:12px"></textarea>
+          <div style="display:flex;justify-content:space-between;gap:10px"><button style-hover="background:#EDEFF0;border-color:rgba(23,25,28,0.4)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:10px 18px;border-radius:2px;font-size:13.5px;font-weight:500">Mark resolved</button><button style-hover="background:#2F3338;transform:translateY(-1px);box-shadow:0 10px 22px rgba(23,25,28,0.16)" style="transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;cursor:pointer;background:#17191C;color:#fff;border:none;padding:10px 20px;border-radius:2px;font-size:13.5px;font-weight:600">Send reply</button></div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- DETAIL: FILE -->
+      <sc-if value="{{ DT.file }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:860px">
+        <button onClick="{{ closeDetail }}" style="cursor:pointer;background:transparent;border:none;font-size:13.5px;color:#71767C;padding:0;margin-bottom:20px">← Back to files</button>
+        <h2 style="font-size:22px;font-weight:600;letter-spacing:-0.02em;margin:0 0 24px">Files · <span style="font-family:'Space Mono',monospace">{{ dFile.order }}</span></h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px">
+            <h3 style="font-size:14px;font-weight:600;margin:0 0 14px">Preview</h3>
+            <div style="aspect-ratio:3/4;background:repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px);border:1px solid rgba(23,25,28,0.09);display:flex;align-items:flex-end;padding:12px"><span style="font-family:'Space Mono',monospace;font-size:10.5px;color:#7C838A;background:#F5F6F7;padding:4px 7px;border:1px solid rgba(23,25,28,0.08)">// print-ready proof</span></div>
+          </div>
+          <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:20px">
+            <h3 style="font-size:14px;font-weight:600;margin:0 0 6px">Pipeline status</h3>
+            <sc-for list="{{ fileStages }}" as="f" hint-placeholder-count="6">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid rgba(23,25,28,0.08)"><span style="font-size:14px">{{ f.label }}</span><span style="{{ f.pill }}">{{ f.status }}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { authed: false, authScreen: 'chooser', loading: false, role: 'creator', screen: 'overview', adminPage: 1, adminSearch: '', adminFilter: 'All', cPage: 1, cSearch: '', cFilter: 'All', onbStep: 1, emptyDemo: false, detail: null,
+    bStep: 1, bLaunched: false, bPartner: 0, bCreator: 'Ava Mercer', bSlug: 'ava-mercer',
+    bProducts: [ { title:'Red Dress', price:'149', nsfw:false }, { title:'Neon Nights', price:'159', nsfw:true } ],
+    partners: [
+      { name:'FlexPrint Co.', email:'orders@flexprint.co', city:'Austin, TX', cap:'Large-format UV · contour cut', turn:'3–5 days', status:'Active' },
+      { name:'BigBoard LLC', email:'intake@bigboard.com', city:'Reno, NV', cap:'Rigid board · die cut', turn:'4–6 days', status:'Active' },
+      { name:'NorthCut Studio', email:'print@northcut.io', city:'Columbus, OH', cap:'Premium matte · EU shipping', turn:'5–7 days', status:'Active' },
+      { name:'PolyForm Print', email:'hello@polyform.co', city:'Portland, OR', cap:'Eco board · West coast', turn:'3–4 days', status:'Pending' },
+    ],
+    pName:'', pEmail:'', pCity:'', pTurn:'', topSearch:'',
+    apps: [
+      { name:'Luna Vex', handle:'@lunavex · 210k followers', concept:'Tour finale look, life-size', date:'Jun 29', status:'New' },
+      { name:'The Kavanagh Twins', handle:'@kavanaghtwins · 88k followers', concept:'Duo standee set', date:'Jun 28', status:'New' },
+      { name:'Coach Diaz', handle:'@coachdiaz · 45k followers', concept:'Championship pose', date:'Jun 27', status:'New' },
+      { name:'Pixel Pop', handle:'@pixelpop · 132k followers', concept:'Mascot character (owned IP)', date:'Jun 26', status:'Approved' },
+      { name:'DJ Meridian', handle:'@djmeridian · 61k followers', concept:'Festival set silhouette', date:'Jun 24', status:'Declined' }
+    ] };
+  go(screen){ this.setState({ screen, detail: null }); try{ window.scrollTo({top:0}); }catch(e){} }
+  setRole(role){ this.setState({ role, screen: role === 'creator' ? 'overview' : 'dashboard', detail: null }); try{ window.scrollTo({top:0}); }catch(e){} }
+  goAuth(authScreen){ this.setState({ authScreen }); try{ window.scrollTo({top:0}); }catch(e){} }
+  signIn(role){
+    this.setState({ loading: true });
+    if (this._loadT) clearTimeout(this._loadT);
+    this._loadT = setTimeout(() => this.setState({ authed: true, loading: false, role, screen: role === 'creator' ? 'overview' : 'dashboard' }), 850);
+  }
+  signOut(){ this.setState({ authed: false, authScreen: 'chooser', emptyDemo: false, detail: null }); try{ window.scrollTo({top:0}); }catch(e){} }
+  openDetail(kind, item){ this.setState({ detail: { kind, item } }); try{ window.scrollTo({top:0}); }catch(e){} }
+  closeDetail(){ this.setState({ detail: null }); try{ window.scrollTo({top:0}); }catch(e){} }
+  onbNext(){ this.setState(s => ({ onbStep: Math.min(4, (s.onbStep||1)+1) })); try{ window.scrollTo({top:0}); }catch(e){} }
+  onbPrev(){ this.setState(s => ({ onbStep: Math.max(1, (s.onbStep||1)-1) })); try{ window.scrollTo({top:0}); }catch(e){} }
+  toggleEmpty(){ this.setState(s => ({ emptyDemo: !s.emptyDemo })); }
+  renderVals(){
+    const { role, screen } = this.state;
+    const isCreator = role === 'creator', isAdmin = role === 'admin';
+    const detail = this.state.detail;
+    const emptyDemo = !!this.state.emptyDemo;
+    const keys = ['overview','orders','assets','payouts','settings','onboarding','dashboard','applications','campaigns','builder','orders_admin','files','fabrication','partners','support'];
+    const SC = {}; keys.forEach(k => SC[k] = (screen === k && !detail));
+    // detail overlays (take over the content area when set)
+    const DT = { order: detail && detail.kind==='order', campaign: detail && detail.kind==='campaign', ticket: detail && detail.kind==='ticket', file: detail && detail.kind==='file' };
+    const anyDetail = !!detail;
+
+    // status pill palette
+    const PAL = {
+      'Live':['#2E7D5B','#EAF4EF'], 'Delivered':['#2E7D5B','#EAF4EF'], 'Paid':['#2E7D5B','#EAF4EF'], 'Approved':['#2E7D5B','#EAF4EF'], 'Done':['#2E7D5B','#EAF4EF'], 'Resolved':['#2E7D5B','#EAF4EF'],
+      'In production':['#345B6B','#E7EFF2'], 'Packed':['#345B6B','#E7EFF2'], 'Shipped':['#345B6B','#E7EFF2'], 'Ready':['#345B6B','#E7EFF2'], 'Sent':['#345B6B','#E7EFF2'], 'New':['#345B6B','#E7EFF2'], 'Open':['#345B6B','#E7EFF2'],
+      'Pending':['#B0791F','#F6EFE0'], 'Queued':['#B0791F','#F6EFE0'], 'Review':['#B0791F','#F6EFE0'], 'Waiting':['#B0791F','#F6EFE0'], 'Refund req.':['#B0791F','#F6EFE0'],
+      'Error':['#B4442E','#F6E4E0'], 'Failed':['#B4442E','#F6E4E0'],
+      'Draft':['#6B7076','#EDEFF1'], 'Paused':['#6B7076','#EDEFF1'], '—':['#9AA0A6','#F0F2F3']
+    };
+    const pill = (st) => {
+      const [c,bg] = PAL[st] || ['#6B7076','#EDEFF1'];
+      return { display:'inline-flex', alignItems:'center', fontFamily:"'Space Mono',monospace", fontSize:'11px', fontWeight:'700', letterSpacing:'0.02em', padding:'4px 10px', borderRadius:'100px', color:c, background:bg, whiteSpace:'nowrap' };
+    };
+
+    // table cell styles
+    const thBase = { textAlign:'left', fontFamily:"'Space Mono',monospace", fontSize:'11px', fontWeight:'700', letterSpacing:'0.06em', textTransform:'uppercase', color:'#9AA0A6', padding:'13px 18px', whiteSpace:'nowrap' };
+    const th = thBase, thR = { ...thBase, textAlign:'right' };
+    const tdBase = { fontSize:'14px', padding:'14px 18px', color:'#17191C', whiteSpace:'nowrap' };
+    const td = tdBase, tdM = { ...tdBase, color:'#565C62' }, tdMono = { ...tdBase, fontFamily:"'Space Mono',monospace", color:'#71767C', fontSize:'13px' }, tdR = { ...tdBase, textAlign:'right', fontWeight:'600' };
+
+    // nav
+    const defs = isCreator
+      ? [['overview','Overview'],['orders','Orders'],['assets','Assets'],['payouts','Payouts'],['onboarding','Onboarding'],['settings','Settings']]
+      : [['dashboard','Dashboard'],['applications','Applications'],['campaigns','Campaigns'],['builder','Campaign Builder'],['orders_admin','Order Management'],['files','File Management'],['fabrication','Fabrication'],['partners','Fulfillment Partners'],['support','Support']];
+    const activeKey = detail ? ({order:isCreator?'orders':'orders_admin', campaign:'campaigns', ticket:'support', file:'files'})[detail.kind] : screen;
+    const navItems = defs.map(([k,label]) => ({
+      label, onClick: () => this.go(k),
+      style: { cursor:'pointer', display:'flex', alignItems:'center', gap:'11px', padding:'10px 12px', borderRadius:'2px', fontSize:'14px', userSelect:'none', border:'none', textAlign:'left', width:'100%', fontFamily:'inherit',
+        color: activeKey===k ? '#17191C' : '#565C62', background: activeKey===k ? '#F0F2F3' : 'transparent', fontWeight: activeKey===k ? '600' : '500' },
+      dotStyle: { width:'6px', height:'6px', borderRadius:'50%', flex:'none', background: activeKey===k ? '#345B6B' : 'rgba(23,25,28,0.2)' }
+    }));
+
+    const titles = { overview:'Campaign Overview', orders:'Orders', assets:'Assets', payouts:'Payouts', onboarding:'Onboarding', settings:'Settings', dashboard:'Admin Dashboard', campaigns:'Campaigns', builder:'Campaign Builder', orders_admin:'Order Management', files:'File Management', fabrication:'Fabrication Routing', partners:'Fulfillment Partners', support:'Support', applications:'Creator Applications' };
+    const detailTitles = { order:'Order detail', campaign:'Campaign detail', ticket:'Support ticket', file:'File detail' };
+    const screenTitle = detail ? detailTitles[detail.kind] : (titles[screen] || '');
+
+    const tabBase = { flex:'1', textAlign:'center', cursor:'pointer', fontSize:'13px', fontWeight:'600', padding:'8px 0', borderRadius:'2px', userSelect:'none', border:'none', fontFamily:'inherit' };
+    const creatorTabStyle = { ...tabBase, background: isCreator ? '#fff' : 'transparent', color: isCreator ? '#17191C' : '#9AA0A6', boxShadow: isCreator ? '0 1px 2px rgba(0,0,0,0.08)' : 'none' };
+    const adminTabStyle = { ...tabBase, background: isAdmin ? '#fff' : 'transparent', color: isAdmin ? '#17191C' : '#9AA0A6', boxShadow: isAdmin ? '0 1px 2px rgba(0,0,0,0.08)' : 'none' };
+
+    // chart data (consumed by Recharts via cos-chart web component)
+    const wk = [12,18,15,22,19,26,24,31];
+    const creatorChartJson = JSON.stringify(wk.map((v,i) => ({ wk: 'W'+(i+1), orders: v })));
+    const adminRev = [58,64,61,72,69,81,77,98];
+    const adminRevenueJson = JSON.stringify(adminRev.map((v,i) => ({ wk: 'W'+(i+1), revenue: v*1000 })));
+
+    // ---- helpers for scale ----
+    const fmtN = n => Number(n).toLocaleString('en-US');
+    const pgBtn = (on) => ({ cursor:on?'pointer':'default', fontSize:'13.5px', fontWeight:'500', padding:'9px 16px', borderRadius:'2px', border:'1px solid rgba(23,25,28,0.16)', background:'#fff', color:on?'#17191C':'#C2C7CC', fontFamily:'inherit' });
+    const paginate = (all, page, size, q, f, fields) => {
+      const ql = (q||'').toLowerCase();
+      const filtered = all.filter(o => (f==='All' || o.status===f || o.print===f) && (!ql || fields.some(k => String(o[k]).toLowerCase().includes(ql))));
+      const total = filtered.length;
+      const pages = Math.max(1, Math.ceil(total/size));
+      const p = Math.min(Math.max(1, page||1), pages);
+      const start = (p-1)*size;
+      return { rows: filtered.slice(start, start+size), total, pages, p, start, end: Math.min(start+size, total) };
+    };
+    const mkRnd = (seed) => { let s = seed; return () => { s = (s*1103515245 + 12345) & 0x7fffffff; return s/0x7fffffff; }; };
+
+    // creator orders (this campaign), generated at scale
+    if (!this._creatorAll) {
+      const R = mkRnd(7); const pick = a => a[Math.floor(R()*a.length)];
+      const items = ['Life-size · up to 6 ft','Grand · up to 7 ft','Tabletop · 24 in'];
+      const price = { 'Life-size · up to 6 ft':168, 'Grand · up to 7 ft':208, 'Tabletop · 24 in':78 };
+      const st = ['In production','Packed','Shipped','Delivered','Delivered','Review'];
+      const base = new Date(2026,6,1); const out = [];
+      for (let i=0;i<142;i++){ const it=pick(items); const status=pick(st); const d=new Date(base); d.setDate(base.getDate()-Math.floor(i*0.6)); const shipped=(status==='Shipped'||status==='Delivered'); const qy=1+Math.floor(R()*3);
+        out.push({ id:'COS-'+(41300-i), date:d.toLocaleDateString('en-US',{month:'short',day:'numeric'}), item:it, qty:qy, status, track:shipped?('1Z·'+(4000+Math.floor(R()*5900))):'—', total:'$'+fmtN(price[it]*qy) }); }
+      this._creatorAll = out;
+    }
+    const creatorOrdersShort = this._creatorAll.slice(0,5).map(o => ({ ...o, pill:pill(o.status), onOpen: () => this.openDetail('order', o) }));
+    const CO = paginate(this._creatorAll, this.state.cPage, 25, this.state.cSearch, this.state.cFilter||'All', ['id','item','status']);
+    const creatorRows = CO.rows.map(o => ({ ...o, pill:pill(o.status), onOpen: () => this.openDetail('order', o) }));
+    const cInfo = CO.total ? ('Showing '+fmtN(CO.start+1)+'–'+fmtN(CO.end)+' of '+fmtN(CO.total)) : 'No matching orders';
+    const cPageLabel = 'Page '+fmtN(CO.p)+' of '+fmtN(CO.pages);
+    const cPrevOn = CO.p>1, cNextOn = CO.p<CO.pages;
+
+    // payouts
+    const payouts = [
+      ['Jun 15, 2026','May 2026','Paid','$3,120'],
+      ['May 15, 2026','Apr 2026','Paid','$2,880'],
+      ['Apr 15, 2026','Mar 2026','Paid','$3,400'],
+      ['Jul 15, 2026','Jun 2026','Pending','$1,240'],
+    ].map(a => ({ date:a[0], period:a[1], status:a[2], amount:a[3], pill:pill(a[2]) }));
+
+    // admin pipeline
+    const pipeline = [ {count:9,label:'Artwork review'}, {count:14,label:'In production'}, {count:6,label:'Packed'}, {count:22,label:'Shipped'}, {count:3,label:'Issues'} ];
+
+    // campaigns
+    const campaignsRaw = [
+      ['Ava Mercer','/c/ava-mercer',142,'$21,340','Live'],
+      ['Studio Noir','/c/studio-noir',98,'$14,700','Live'],
+      ['Rex the Bulldog','/c/rex',76,'$9,120','Live'],
+      ['Marcus Vale','/c/marcus-vale',54,'$8,910','Live'],
+      ['Neon Nights','/c/neon-nights',41,'$6,150','Paused'],
+      ['Holiday Drop','/c/holiday-drop',0,'$0','Draft'],
+    ];
+    const campaigns = campaignsRaw.map(a => { const o = { name:a[0], url:a[1], orders:a[2], revenue:a[3], status:a[4], pill:pill(a[4]) }; o.onOpen = () => this.openDetail('campaign', o); return o; });
+    const campaignsShort = campaigns.slice(0,4);
+
+    // admin orders, generated at scale (all campaigns)
+    if (!this._adminAll) {
+      const R = mkRnd(99); const pick = a => a[Math.floor(R()*a.length)];
+      const camps=['Ava Mercer','Studio Noir','Rex the Bulldog','Marcus Vale','Neon Nights','Holiday Drop','Luna Vex','The Kavanaghs','Coach Diaz','Pixel Pop'];
+      const fn=['J','K','M','T','S','D','R','A','L','C','P','N','E','O'], ln=['Rivera','Osei','Lin','Brooks','Kaur','Fox','Vega','Cole','Ng','Bauer','Reed','Diaz','Shah','Park'];
+      const prints=['In production','Packed','Shipped','Delivered','Delivered','Review','Error'];
+      const pays=['Paid','Paid','Paid','Paid','Paid','Pending','Refund req.'];
+      const vendors=['FlexPrint Co.','BigBoard LLC','NorthCut Studio'];
+      const totals=[78,168,168,189,208,317,486];
+      const out=[];
+      for (let i=0;i<2437;i++){ const print=pick(prints); const pay=pick(pays); const shipped=(print==='Shipped'||print==='Delivered');
+        out.push({ id:'COS-'+(42650-i), campaign:pick(camps), customer:pick(fn)+'. '+pick(ln), payment:pay, print, vendor: print==='Review'?'—':pick(vendors), track: shipped?('1Z·'+(4000+Math.floor(R()*5900))):'—', total:'$'+fmtN(pick(totals)) }); }
+      this._adminAll = out;
+    }
+    const AO = paginate(this._adminAll, this.state.adminPage, 25, this.state.adminSearch, this.state.adminFilter||'All', ['id','customer','campaign']);
+    const adminRows = AO.rows.map(o => ({ ...o, payPill:pill(o.payment), printPill:pill(o.print), onOpen: () => this.openDetail('order', o) }));
+    const adminInfo = AO.total ? ('Showing '+fmtN(AO.start+1)+'–'+fmtN(AO.end)+' of '+fmtN(AO.total)) : 'No matching orders';
+    const adminPageLabel = 'Page '+fmtN(AO.p)+' of '+fmtN(AO.pages);
+    const aPrevOn = AO.p>1, aNextOn = AO.p<AO.pages;
+
+    // file management
+    const mkCell = (s) => ({ label:s, style:pill(s) });
+    const files = [
+      ['COS-40213','Done','Done','Approved','Ready','Queued','Approved'],
+      ['COS-40212','Done','Done','Approved','Ready','Sent','Approved'],
+      ['COS-40210','Done','Done','Approved','Done','Sent','Approved'],
+      ['COS-40205','Done','Review','Review','Queued','—','Review'],
+      ['COS-40201','Done','Done','Approved','Failed','Error','Review'],
+    ].map(a => { const o = { order:a[0], cells:[mkCell(a[1]),mkCell(a[2]),mkCell(a[3]),mkCell(a[4]),mkCell(a[5]),mkCell(a[6])], stages:{ original:a[1], edited:a[2], proof:a[3], print:a[4], fab:a[5], approval:a[6] } }; o.onOpen = () => this.openDetail('file', o); return o; });
+
+    // fabrication
+    const fabrication = [
+      ['BigBoard LLC','COS-40210','Jun 29','Shipped','Generated','1Z·8842','—'],
+      ['FlexPrint Co.','COS-40212','Jun 30','In production','Pending','—','—'],
+      ['FlexPrint Co.','COS-40213','Jul 1','Queued','Pending','—','—'],
+      ['BigBoard LLC','COS-40201','Jun 27','Error','Failed','—','Print head fault'],
+    ].map(a => ({ vendor:a[0], order:a[1], sent:a[2], status:a[3], label:a[4], track:a[5], error:a[6], pill:pill(a[3]), labelPill:pill(a[4]) }));
+
+    // support
+    const supportRaw = [
+      ['Damaged on arrival','J. Rivera · COS-40188','Open','Damage'],
+      ['Change shipping address','S. Kaur · COS-40205','Waiting','Address'],
+      ['Refund request','T. Brooks · COS-40209','Refund req.','Refund'],
+      ['When will my order ship?','D. Fox · COS-40201','Open','Question'],
+      ['Creator: payout timing','Studio Noir','Resolved','Creator'],
+    ];
+    const support = supportRaw.map(a => { const o = { subject:a[0], customer:a[1], status:a[2], type:a[3], pill:pill(a[2]) }; o.onOpen = () => this.openDetail('ticket', o); return o; });
+    const supportShort = support.slice(0,4);
+
+    // ---- fulfillment partners ----
+    const partnersList = (this.state.partners || []).map((p,i) => ({ ...p, pill: pill(p.status==='Active'?'Live':'Pending'), statusLabel: p.status.toUpperCase() }));
+    const canAddPartner = !!(this.state.pName && this.state.pEmail);
+    const addPartner = () => {
+      if (!this.state.pName || !this.state.pEmail) return;
+      this.setState(s => ({ partners: [...s.partners, { name:s.pName, email:s.pEmail, city:s.pCity||'—', cap:'—', turn:s.pTurn||'—', status:'Pending' }], pName:'', pEmail:'', pCity:'', pTurn:'' }));
+    };
+    const onPName = e => this.setState({ pName: e.target.value });
+    const onPEmail = e => this.setState({ pEmail: e.target.value });
+    const onPCity = e => this.setState({ pCity: e.target.value });
+    const onPTurn = e => this.setState({ pTurn: e.target.value });
+    const pNameVal = this.state.pName, pEmailVal = this.state.pEmail, pCityVal = this.state.pCity, pTurnVal = this.state.pTurn;
+    const addPartnerStyle = { cursor: canAddPartner?'pointer':'default', background: canAddPartner?'#17191C':'#C9CDD1', color:'#fff', border:'none', padding:'12px 22px', borderRadius:'2px', fontSize:'14px', fontWeight:'600', fontFamily:'inherit', alignSelf:'flex-start' };
+
+    // ---- campaign builder wizard ----
+    const bStep = this.state.bStep || 1;
+    const B = { s1:bStep===1, s2:bStep===2, s3:bStep===3, s4:bStep===4, notLast:bStep<4, notFirst:bStep>1 };
+    const bLaunched = !!this.state.bLaunched;
+    const bSteps = ['Creator & URL','Products','Fulfillment','Review & launch'].map((label,i) => {
+      const n=i+1, done=n<bStep, active=n===bStep;
+      return { n, label, mark: done?'✓':String(n),
+        markStyle: { width:'28px', height:'28px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', flex:'none', fontFamily:"'Space Mono',monospace", fontSize:'12px', fontWeight:'700', border:'1px solid '+(done||active?'#345B6B':'rgba(23,25,28,0.2)'), background: done?'#345B6B':(active?'#17191C':'transparent'), color:(done||active)?'#fff':'#9AA0A6' },
+        labelStyle: { fontSize:'13px', fontWeight: active?'600':'500', color:(done||active)?'#17191C':'#9AA0A6', whiteSpace:'nowrap' } };
+    });
+    const bNext = () => this.setState(s => ({ bStep: Math.min(4,(s.bStep||1)+1) }));
+    const bPrev = () => this.setState(s => ({ bStep: Math.max(1,(s.bStep||1)-1) }));
+    const bLaunch = () => this.setState({ bLaunched: true });
+    const bReset = () => this.setState({ bLaunched: false, bStep: 1 });
+    const onBCreator = e => this.setState({ bCreator: e.target.value });
+    const onBSlug = e => this.setState({ bSlug: (e.target.value||'').toLowerCase().replace(/[^a-z0-9-]/g,'-') });
+    const bCreatorVal = this.state.bCreator, bSlugVal = this.state.bSlug;
+    const bAddProduct = () => this.setState(s => ({ bProducts: [...s.bProducts, { title:'', price:'', nsfw:false }] }));
+    const bProducts = (this.state.bProducts || []).map((p,i) => ({
+      ...p, idx: i+1,
+      onTitle: e => this.setState(s => ({ bProducts: s.bProducts.map((x,j)=> j===i?{...x,title:e.target.value}:x) })),
+      onPrice: e => this.setState(s => ({ bProducts: s.bProducts.map((x,j)=> j===i?{...x,price:e.target.value}:x) })),
+      onNsfw: () => this.setState(s => ({ bProducts: s.bProducts.map((x,j)=> j===i?{...x,nsfw:!x.nsfw}:x) })),
+      onRemove: () => this.setState(s => ({ bProducts: s.bProducts.filter((x,j)=> j!==i) })),
+      nsfwStyle: { cursor:'pointer', fontFamily:"'Space Mono',monospace", fontSize:'10.5px', fontWeight:'700', letterSpacing:'0.05em', padding:'6px 11px', borderRadius:'100px', border:'none',
+        background: p.nsfw ? '#F6EFE0' : '#F0F2F3', color: p.nsfw ? '#B0791F' : '#9AA0A6' },
+      nsfwLabel: p.nsfw ? 'SENSITIVE · BLURRED' : 'MARK SENSITIVE'
+    }));
+    const bPartnerIdx = this.state.bPartner || 0;
+    const bPartnerOptions = (this.state.partners || []).map((p,i) => ({
+      ...p, onSelect: () => this.setState({ bPartner: i }),
+      optStyle: { cursor:'pointer', textAlign:'left', width:'100%', fontFamily:'inherit', display:'flex', justifyContent:'space-between', alignItems:'center', gap:'12px', padding:'14px 16px', borderRadius:'2px',
+        border: bPartnerIdx===i ? '1px solid #17191C' : '1px solid rgba(23,25,28,0.16)',
+        background: bPartnerIdx===i ? '#F0F2F3' : '#fff' }
+    }));
+    const bPartnerSel = (this.state.partners || [])[bPartnerIdx] || {};
+    const bProductCount = (this.state.bProducts || []).length;
+    const bNsfwCount = (this.state.bProducts || []).filter(p=>p.nsfw).length;
+    const bUrlPreview = 'cutoutstuff.com/c/' + (this.state.bSlug || 'creator-name');
+
+    // ---- creator applications ----
+    const appsList = (this.state.apps || []).map((a,i) => ({
+      ...a,
+      pill: pill(a.status === 'Approved' ? 'Approved' : (a.status === 'New' ? 'New' : 'Paused')),
+      statusLabel: a.status.toUpperCase(),
+      isNew: a.status === 'New', isApproved: a.status === 'Approved',
+      approve: () => this.setState(s => ({ apps: s.apps.map((x,j)=> j===i?{...x,status:'Approved'}:x) })),
+      decline: () => this.setState(s => ({ apps: s.apps.map((x,j)=> j===i?{...x,status:'Declined'}:x) }))
+    }));
+    const appsNewCount = (this.state.apps || []).filter(a=>a.status==='New').length;
+
+    // ---- global topbar search ----
+    const topSearchVal = this.state.topSearch || '';
+    const onTopSearch = e => {
+      const v = e.target.value;
+      if (isAdmin) this.setState({ topSearch: v, adminSearch: v, adminPage: 1, screen: 'orders_admin', detail: null });
+      else this.setState({ topSearch: v, cSearch: v, cPage: 1, screen: 'orders', detail: null });
+    };
+    const adminSearchVal = this.state.adminSearch || '';
+    const cSearchVal = this.state.cSearch || '';
+
+    const roleLabel = isCreator ? 'Creator workspace' : 'Admin console';
+    const avatar = isCreator ? 'AM' : 'OP';
+    const accountName = isCreator ? 'Ava Mercer' : 'Ops Team';
+    const accountEmail = isCreator ? 'ava@studio.co' : 'ops@cutoutstuff.com';
+
+    // ---- auth ----
+    const authed = !!this.state.authed;
+    const loading = !!this.state.loading;
+    const as = this.state.authScreen;
+    const AU = { chooser: as==='chooser', creator: as==='creator-login', staff: as==='staff-login', reset: as==='reset', resetSent: as==='reset-sent' };
+
+    // ---- onboarding ----
+    const onbStep = this.state.onbStep || 1;
+    const OB = { s1:onbStep===1, s2:onbStep===2, s3:onbStep===3, s4:onbStep===4, notLast: onbStep<4 };
+    const onbSteps = ['Basics','Assets','Pricing & rights','Review'].map((label,i) => {
+      const n=i+1, done=n<onbStep, active=n===onbStep;
+      return { n, label, mark: done?'✓':String(n),
+        markStyle: { width:'28px', height:'28px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', flex:'none', fontFamily:"'Space Mono',monospace", fontSize:'12px', fontWeight:'700', border:'1px solid '+(done||active?'#345B6B':'rgba(23,25,28,0.2)'), background: done?'#345B6B':(active?'#17191C':'transparent'), color:(done||active)?'#fff':'#9AA0A6' },
+        labelStyle: { fontSize:'13px', fontWeight: active?'600':'500', color:(done||active)?'#17191C':'#9AA0A6', whiteSpace:'nowrap' } };
+    });
+    const onbLastPrev = onbStep>1;
+
+    // ---- detail views ----
+    let dOrder=null, dCampaign=null, dTicket=null, dFile=null, orderTimeline=[], fileStages=[], ticketThread=[];
+    if (detail){
+      const it = detail.item || {};
+      if (detail.kind==='order'){
+        const st = it.status || it.print || 'In production';
+        const vendorEmails = { 'FlexPrint Co.':'orders@flexprint.co', 'BigBoard LLC':'intake@bigboard.com', 'NorthCut Studio':'print@northcut.io' };
+        const hasVendor = it.vendor && it.vendor !== '—';
+        dOrder = { id:it.id, title: it.item || 'Life-Size Cutout', campaign: it.campaign || 'Ava Mercer', customer: it.customer || 'A. Customer', date: it.date || '—', total: it.total || '—', qty: it.qty || 1, track: it.track && it.track!=='—' ? it.track : null, status: st, statusPill: pill(st),
+          routing: hasVendor ? { vendor: it.vendor, email: vendorEmails[it.vendor] || 'orders@partner.com', sentPill: pill('Sent'), when: 'Auto-emailed ' + (it.date || 'today') + ' · 2:14 PM' } : null };
+        const stages = ['Order received','Artwork approved','In production','Packed','Shipped','Delivered'];
+        let cur = stages.indexOf(st); if (st==='Review') cur = 1; if (cur < 0) cur = 2;
+        orderTimeline = stages.map((label,i) => ({ label, mark: i<cur?'✓':String(i+1).padStart(2,'0'),
+          dotStyle: { width:'30px', height:'30px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', flex:'none', fontFamily:"'Space Mono',monospace", fontSize:'11px', fontWeight:'700', border:'1px solid rgba(23,25,28,0.18)', background: i<cur?'#345B6B':(i===cur?'#17191C':'transparent'), color:(i<=cur)?'#fff':'#9AA0A6' },
+          labelStyle: { fontSize:'15px', fontWeight:i===cur?'600':'400', color:(i<=cur)?'#17191C':'#9AA0A6' } }));
+      } else if (detail.kind==='campaign'){
+        dCampaign = { name:it.name, url:it.url, orders:it.orders, revenue:it.revenue, status:it.status, statusPill:pill(it.status) };
+      } else if (detail.kind==='ticket'){
+        dTicket = { subject:it.subject, customer:it.customer, status:it.status, statusPill:pill(it.status), type:it.type };
+        const bubble = (mine) => ({ background: mine?'#E7EFF2':'#fff', border:'1px solid '+(mine?'rgba(52,91,107,0.18)':'rgba(23,25,28,0.1)'), borderRadius:'3px', padding:'14px 16px', alignSelf: mine?'flex-end':'flex-start', maxWidth:'85%' });
+        ticketThread = [
+          { who:'Customer', when:'2 days ago', text:'Hi, I wanted to check on the status of my order and when I can expect it to arrive.', bubbleStyle: bubble(false) },
+          { who:'CutOutStuff Support', when:'1 day ago', text:'Thanks for reaching out! Your cutout is in production and on track to ship this week. You\u2019ll get a tracking link by email.', bubbleStyle: bubble(true) }
+        ];
+      } else if (detail.kind==='file'){
+        dFile = { order:it.order };
+        const s = it.stages || {};
+        fileStages = [ ['Original upload',s.original],['Edited image',s.edited],['Proof',s.proof],['Print-ready file',s.print],['Fabrication file',s.fab],['Final approval',s.approval] ].map(x => ({ label:x[0], status:x[1]||'—', pill:pill(x[1]||'—') }));
+      }
+    }
+
+    return {
+      role, isCreator, isAdmin, roleLabel, avatar, accountName, accountEmail,
+      authed, notAuthed: !authed, loading, AU,
+      goChooser: () => this.goAuth('chooser'), goCreatorLogin: () => this.goAuth('creator-login'), goStaffLogin: () => this.goAuth('staff-login'), goReset: () => this.goAuth('reset'), submitReset: () => this.goAuth('reset-sent'),
+      signInCreator: () => this.signIn('creator'), signInStaff: () => this.signIn('admin'), signOut: () => this.signOut(),
+      OB, onbSteps, onbNext: () => this.onbNext(), onbPrev: () => this.onbPrev(), onbLastPrev,
+      finishOnboarding: () => this.go('overview'),
+      anyDetail, DT, dOrder, dCampaign, dTicket, dFile, orderTimeline, fileStages, ticketThread,
+      closeDetail: () => this.closeDetail(),
+      partnersList, addPartner, canAddPartner, addPartnerStyle, onPName, onPEmail, onPCity, onPTurn, pNameVal, pEmailVal, pCityVal, pTurnVal,
+      appsList, appsNewCount, topSearchVal, onTopSearch, adminSearchVal, cSearchVal,
+      B, bSteps, bNext, bPrev, bLaunch, bReset, bLaunched, notBLaunched: !bLaunched,
+      onBCreator, onBSlug, bCreatorVal, bSlugVal, bAddProduct, bProducts, bPartnerOptions, bPartnerSel, bProductCount, bNsfwCount, bUrlPreview,
+      emptyDemo, notEmpty: !emptyDemo, toggleEmpty: () => this.toggleEmpty(),
+      emptyToggleLabel: emptyDemo ? 'Show sample data' : 'Preview empty state',
+      toCreator: () => this.setRole('creator'), toAdmin: () => this.setRole('admin'),
+      creatorTabStyle, adminTabStyle,
+      navItems, SC, screenTitle,
+      th, thR, td, tdM, tdMono, tdR,
+      creatorChartJson, adminRevenueJson,
+      creatorOrders: creatorRows, creatorOrdersShort, payouts,
+      cInfo, cPageLabel, cPrevStyle: pgBtn(cPrevOn), cNextStyle: pgBtn(cNextOn),
+      cPrev: () => { if (cPrevOn) this.setState(s => ({ cPage: Math.max(1,(s.cPage||1)-1) })); },
+      cNext: () => { if (cNextOn) this.setState(s => ({ cPage: Math.min(CO.pages,(s.cPage||1)+1) })); },
+      onCSearch: (e) => this.setState({ cSearch: e.target.value, cPage: 1 }),
+      onCFilter: (e) => this.setState({ cFilter: e.target.value, cPage: 1 }),
+      pipeline, campaigns, campaignsShort,
+      adminOrders: adminRows, adminInfo, adminPageLabel,
+      adminPrevStyle: pgBtn(aPrevOn), adminNextStyle: pgBtn(aNextOn),
+      adminPrev: () => { if (aPrevOn) this.setState(s => ({ adminPage: Math.max(1,(s.adminPage||1)-1) })); },
+      adminNext: () => { if (aNextOn) this.setState(s => ({ adminPage: Math.min(AO.pages,(s.adminPage||1)+1) })); },
+      onAdminSearch: (e) => this.setState({ adminSearch: e.target.value, adminPage: 1 }),
+      onAdminFilter: (e) => this.setState({ adminFilter: e.target.value, adminPage: 1 }),
+      files, fabrication, support, supportShort
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+*{caret-color:transparent}
+input,textarea,select,[contenteditable="true"]{caret-color:#17191C}
+body{margin:0;background:#F5F6F7;color:#17191C;font-family:'Schibsted Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+</style>
+</helmet>
+<div style="max-width:1000px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(20px,5vw,40px)">
+
+  <header style="margin-bottom:clamp(48px,7vw,80px)">
+    <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B;margin-bottom:18px">Brand &amp; Style Guide</div>
+    <h1 style="font-size:clamp(36px,6vw,64px);line-height:1.0;letter-spacing:-0.03em;font-weight:500;margin:0;max-width:16ch">CutOutStuff<span style="color:#345B6B">.</span> design system</h1>
+    <p style="font-size:clamp(16px,1.5vw,19px);line-height:1.6;color:#71767C;max-width:60ch;margin:22px 0 0">A single reference so every new page, marketing, dashboard, email, stays consistent. Premium, minimal, gallery-like: lots of white space, restrained color, and quiet confidence.</p>
+  </header>
+
+  <section style="margin-bottom:clamp(44px,6vw,72px)">
+    <h2 style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;margin:0 0 22px;padding-bottom:12px;border-bottom:1px solid rgba(23,25,28,0.1)">01 · Color</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px">
+      <sc-for list="{{ colors }}" as="c" hint-placeholder-count="8">
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;overflow:hidden">
+          <div style="height:88px;background:{{ c.hex }};border-bottom:1px solid rgba(23,25,28,0.06)"></div>
+          <div style="padding:12px 14px">
+            <div style="font-size:14px;font-weight:600">{{ c.name }}</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;color:#9AA0A6;margin-top:3px">{{ c.hex }}</div>
+            <div style="font-size:12px;color:#71767C;margin-top:6px;line-height:1.4">{{ c.use }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="background:#E7EFF2;border-radius:3px;padding:16px 20px;margin-top:16px;font-size:14px;color:#2C4A57;line-height:1.55">One accent only: petrol-slate <strong>#345B6B</strong>. Use it for links, active states, and small emphasis. Never fill large areas with accent; the brand reads through restraint.</div>
+  </section>
+
+  <section style="margin-bottom:clamp(44px,6vw,72px)">
+    <h2 style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;margin:0 0 22px;padding-bottom:12px;border-bottom:1px solid rgba(23,25,28,0.1)">02 · Typography</h2>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:clamp(24px,3vw,36px)">
+      <div style="display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid rgba(23,25,28,0.08)">
+        <div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Display / UI</div><div style="font-size:28px;font-weight:500;letter-spacing:-0.02em">Schibsted Grotesk</div><div style="font-size:13px;color:#71767C;margin-top:4px">400 / 500 / 600 / 700</div></div>
+        <div><div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA0A6;margin-bottom:8px">Mono / labels</div><div style="font-family:'Space Mono',monospace;font-size:24px;font-weight:700">Space Mono</div><div style="font-size:13px;color:#71767C;margin-top:4px">Labels, metadata, code</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;width:120px;flex:none">H1 · 500 · -3%</span><span style="font-size:44px;font-weight:500;letter-spacing:-0.03em;line-height:1">Life-size cutouts</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;width:120px;flex:none">H2 · 500 · -2%</span><span style="font-size:32px;font-weight:500;letter-spacing:-0.02em;line-height:1.05">Section heading</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;width:120px;flex:none">H3 · 600</span><span style="font-size:20px;font-weight:600;letter-spacing:-0.01em">Card title</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;width:120px;flex:none">Body · 400</span><span style="font-size:16px;line-height:1.6;color:#565C62;max-width:52ch">Body copy sits at 15–17px with generous line-height. Muted ink (#565C62 / #71767C) keeps paragraphs calm against headings.</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:#9AA0A6;width:120px;flex:none">Label · mono</span><span style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#345B6B">How It Works</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-bottom:clamp(44px,6vw,72px)">
+    <h2 style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;margin:0 0 22px;padding-bottom:12px;border-bottom:1px solid rgba(23,25,28,0.1)">03 · Buttons &amp; controls</h2>
+    <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:clamp(24px,3vw,36px);display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+      <button style="cursor:pointer;background:#17191C;color:#fff;border:none;padding:14px 26px;border-radius:2px;font-size:15px;font-weight:600;font-family:inherit">Primary</button>
+      <button style="cursor:pointer;background:transparent;color:#17191C;border:1px solid rgba(23,25,28,0.18);padding:14px 26px;border-radius:2px;font-size:15px;font-weight:500;font-family:inherit">Secondary</button>
+      <a style="cursor:pointer;font-size:14px;color:#17191C;border-bottom:1px solid #17191C;padding-bottom:3px;text-decoration:none">Text link →</a>
+      <span style="display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;color:#2E7D5B;background:#EAF4EF">STATUS PILL</span>
+      <input type="text" placeholder="Input field" style="font-size:15px;padding:12px 14px;border:1px solid rgba(23,25,28,0.2);border-radius:2px;outline:none" />
+    </div>
+    <div style="background:#E7EFF2;border-radius:3px;padding:16px 20px;margin-top:16px;font-size:14px;color:#2C4A57;line-height:1.55">Radius stays tight: 2px on controls, 3px on cards. Primary action is near-black ink, not the accent. Corners never exceed 4px; nothing is pill-shaped except status chips.</div>
+  </section>
+
+  <section style="margin-bottom:clamp(44px,6vw,72px)">
+    <h2 style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;margin:0 0 22px;padding-bottom:12px;border-bottom:1px solid rgba(23,25,28,0.1)">04 · Status colors</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px">
+      <sc-for list="{{ statuses }}" as="s" hint-placeholder-count="4">
+        <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:18px 20px">
+          <span style="display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;color:{{ s.color }};background:{{ s.bg }}">{{ s.label }}</span>
+          <div style="font-size:13px;color:#71767C;margin-top:12px;line-height:1.45">{{ s.use }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="margin-bottom:clamp(44px,6vw,72px)">
+    <h2 style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;margin:0 0 22px;padding-bottom:12px;border-bottom:1px solid rgba(23,25,28,0.1)">05 · Spacing &amp; layout</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px"><div style="font-size:15px;font-weight:600;margin-bottom:6px">Container</div><div style="font-size:14px;color:#71767C;line-height:1.5">Max-width 1200px (marketing), 1160px (dashboard). Gutter clamp(20px, 5vw, 40px).</div></div>
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px"><div style="font-size:15px;font-weight:600;margin-bottom:6px">Section rhythm</div><div style="font-size:14px;color:#71767C;line-height:1.5">Vertical padding clamp(56px, 8vw, 110px). Generous whitespace over dense packing.</div></div>
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:22px 24px"><div style="font-size:15px;font-weight:600;margin-bottom:6px">Grid seams</div><div style="font-size:14px;color:#71767C;line-height:1.5">Card grids use 1px gaps over a hairline rgba(23,25,28,0.09) to form crisp seams.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;margin:0 0 22px;padding-bottom:12px;border-bottom:1px solid rgba(23,25,28,0.1)">06 · Voice</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:24px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#2E7D5B;margin-bottom:14px">Do</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14.5px;color:#3E444A;line-height:1.5">
+          <div>“Bring them into the room.”</div>
+          <div>“Built to be displayed, not thrown away.”</div>
+          <div>Lead with the occasion and the emotion (the person, pet, or moment), not the fabrication. Calm, premium, celebratory.</div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(23,25,28,0.1);border-radius:3px;padding:24px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#B4442E;margin-bottom:14px">Avoid</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14.5px;color:#3E444A;line-height:1.5">
+          <div>“Monetize your super-fans.”</div>
+          <div>Hype, pressure, or anything that makes a buyer feel judged.</div>
+          <div>Exclamation-heavy marketing speak and emoji.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const colors = [
+      { name:'Canvas', hex:'#F5F6F7', use:'Page background' },
+      { name:'Surface', hex:'#FBFCFC', use:'Cards, panels' },
+      { name:'Panel', hex:'#EEF0F1', use:'Alt sections' },
+      { name:'Ink', hex:'#17191C', use:'Primary text, buttons' },
+      { name:'Muted ink', hex:'#565C62', use:'Body copy' },
+      { name:'Soft ink', hex:'#9AA0A6', use:'Labels, meta' },
+      { name:'Petrol-slate', hex:'#345B6B', use:'Accent, links, active' },
+      { name:'Hairline', hex:'#E3E7E9', use:'Borders, seams' },
+    ];
+    const statuses = [
+      { label:'LIVE', color:'#2E7D5B', bg:'#EAF4EF', use:'Success: live, paid, delivered, approved' },
+      { label:'IN PRODUCTION', color:'#345B6B', bg:'#E7EFF2', use:'In progress: production, shipped, ready' },
+      { label:'PENDING', color:'#B0791F', bg:'#F6EFE0', use:'Waiting: review, pending, refund requested' },
+      { label:'ERROR', color:'#B4442E', bg:'#F6E4E0', use:'Problem: failed, error' },
+    ];
+    return { colors, statuses };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,24 +1,36 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Schibsted_Grotesk, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+// Display / UI — README §Typography
+const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-plus-jakarta-sans",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-schibsted",
+  display: "swap",
+});
+
+// Mono / labels — eyebrows, metadata, IDs, table headers, chart ticks
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "CutoutStuff — Life-Size Custom Foam-Board Cutouts",
+  title: {
+    default: "CutOutStuff — Premium life-size cutouts",
+    template: "%s — CutOutStuff",
+  },
   description:
-    "Turn any photo into a premium life-size foam-board cutout. Upload, approve your preview, and checkout securely. Real stands included, printed in the USA.",
+    "CutOutStuff turns pets, people, creators, mascots, and characters into premium life-size cutouts, so anyone worth celebrating can actually be in the room.",
   keywords: [
-    "custom cutouts",
     "life-size cutout",
-    "cardboard cutout",
-    "foam-board cutout",
-    "party props",
-    "custom standee",
+    "custom cutout",
+    "standee",
+    "premium cutout",
+    "creator collectible",
   ],
 };
 
@@ -28,10 +40,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable}`}>
-      <body className="font-sans antialiased">
-        {children}
-      </body>
+    <html lang="en" className={`${schibsted.variable} ${spaceMono.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
