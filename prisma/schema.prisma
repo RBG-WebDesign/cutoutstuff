@@ -1,0 +1,45 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Order {
+  id                 String     @id // e.g. CS-1001
+  customerName       String
+  customerEmail      String
+  shippingAddress    String     // JSON serialized: street, city, state, zip, country
+  size               String     // "3ft" | "5ft" | "6ft"
+  quantity           Int
+  options            String     // JSON serialized: touchUp, customMessage, rushOrder, proofRequest
+  originalImageUrl   String
+  previewImageUrl    String
+  previewApproved    Boolean    @default(false)
+  subtotal           Float
+  total              Float
+  stripeSessionId    String?
+  paymentStatus      String     // "pending" | "paid" | "refunded"
+  orderStatus        String     // "paid" | "in_production" | "shipped" | "delivered" | "issue" | "canceled"
+  productionStatus   String     // "needs_package" | "package_ready" | "package_uploaded" | "sent_to_factory" | "cutline_failed"
+  driveFolderUrl     String?
+  factoryNotifiedAt  DateTime?
+  trackingNumber     String?
+  internalNotes      String     @default("[]") // JSON string list of notes
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  issues             Issue[]
+}
+
+model Issue {
+  id                 String     @id // e.g. IS-1001
+  orderId            String
+  type               String     // "photo_rejected" | "ai_preview_failed" | "payment_failed" | "cutline_failed" | "drive_upload_failed" | "factory_email_failed" | "factory_rejected" | "support_needed"
+  status             String     // "open" | "resolved"
+  priority           String     // "low" | "normal" | "high"
+  note               String
+  createdAt          DateTime   @default(now())
+  order              Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
