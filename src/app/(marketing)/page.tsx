@@ -2,10 +2,8 @@ import { routes } from "@/lib/nav";
 import { Container, Eyebrow, ButtonLink } from "@/components/ui/primitives";
 import HeroHeadline from "@/components/home/HeroHeadline";
 import HowShader from "@/components/home/HowShader";
+import { heroCutouts } from "@/lib/cutout-assets";
 
-const STRIPE = "repeating-linear-gradient(45deg,#E9ECEE 0 9px,#F1F3F4 9px 18px)";
-
-const heroTiles = ["dog", "grandmother", "stylish man", "fashion creator", "mascot"];
 const trust = [
   "Life-size printing",
   "Precision cutting",
@@ -30,7 +28,7 @@ const occasions = [
   { h: "Characters", p: "Make the mascot real." },
 ];
 
-function PlaceholderLabel({ children }: { children: React.ReactNode }) {
+function MonoLabel({ children }: { children: React.ReactNode }) {
   return (
     <span
       style={{
@@ -44,6 +42,54 @@ function PlaceholderLabel({ children }: { children: React.ReactNode }) {
     >
       // {children}
     </span>
+  );
+}
+
+function HeroCutoutTile({
+  cutout,
+  index,
+}: {
+  cutout: (typeof heroCutouts)[number];
+  index: number;
+}) {
+  return (
+    <figure
+      style={{
+        position: "relative",
+        aspectRatio: "3/4",
+        border: "1px solid var(--hairline)",
+        margin: 0,
+        minWidth: 0,
+        overflow: "hidden",
+        background: "var(--panel)",
+        transform: index % 2 === 1 ? "translateY(clamp(-24px,-3vw,-8px))" : undefined,
+      }}
+    >
+      <img
+        src={cutout.src}
+        alt={cutout.description}
+        loading={index === 0 ? "eager" : "lazy"}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition:
+            cutout.label === "mascot" ? "38% 50%" : cutout.tall ? "50% 42%" : "50% 50%",
+          display: "block",
+          filter: "saturate(.96) contrast(.98)",
+        }}
+      />
+      <figcaption
+        style={{
+          position: "absolute",
+          left: 12,
+          bottom: 12,
+          zIndex: 1,
+        }}
+      >
+        <MonoLabel>{cutout.label}</MonoLabel>
+      </figcaption>
+    </figure>
   );
 }
 
@@ -88,29 +134,15 @@ export default function HomePage() {
       <section style={{ padding: "0 0 clamp(48px,6vw,80px)" }}>
         <Container>
           <div
+            className="cos-hero-cutout-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(5,1fr)",
               gap: "clamp(8px,1vw,14px)",
             }}
           >
-            {heroTiles.map((label, i) => (
-              <div
-                key={label}
-                style={{
-                  position: "relative",
-                  aspectRatio: "3/4",
-                  background: STRIPE,
-                  border: "1px solid var(--hairline)",
-                  display: "flex",
-                  alignItems: "flex-end",
-                  padding: 12,
-                  minWidth: 0,
-                  transform: i % 2 === 1 ? "translateY(clamp(-24px,-3vw,-8px))" : undefined,
-                }}
-              >
-                <PlaceholderLabel>{label}</PlaceholderLabel>
-              </div>
+            {heroCutouts.map((cutout, i) => (
+              <HeroCutoutTile key={cutout.src} cutout={cutout} index={i} />
             ))}
           </div>
         </Container>
@@ -254,7 +286,7 @@ export default function HomePage() {
               padding: 16,
             }}
           >
-            <PlaceholderLabel>detail shot, material edge / contour cut</PlaceholderLabel>
+            <MonoLabel>detail shot, material edge / contour cut</MonoLabel>
           </div>
         </Container>
       </section>

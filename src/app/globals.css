@@ -153,3 +153,31 @@ select:focus-visible {
     display: flex !important;
   }
 }
+
+.cos-hero-cutout-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.cos-gallery-grid {
+  column-count: 3;
+}
+
+@media (max-width: 900px) {
+  .cos-hero-cutout-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .cos-gallery-grid {
+    column-count: 2 !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .cos-hero-cutout-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .cos-gallery-grid {
+    column-count: 1 !important;
+  }
+}
